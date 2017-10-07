@@ -23,5 +23,9 @@ public enum ImageTarget {
     /**
      * <a href ="https://firstinspiresst01.blob.core.windows.net/ftc/gears.pdf">Click here for image</a>
      */
-    GEARS
+    GEARS,
+    /**
+     * <a href ="https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/pictograph-us.pdf">Click here for images</a>
+     */
+    CRYPTO_KEY
 }

@@ -82,10 +82,14 @@ public class Navigator {
         VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(vuforiaSettings);
 
         targets = vuforia.loadTrackablesFromAsset("FTC_2016-17");
+        VuforiaTrackables relicRecoveryTarget = vuforia.loadTrackablesFromAsset("RelicVuMark");
+
         targets.get(0).setName("Wheels");
         targets.get(1).setName("Tools");
         targets.get(2).setName("Legos");
         targets.get(3).setName("Gears");
+        targets.add(4, relicRecoveryTarget.get(0));
+        targets.get(4).setName("CryptoKey");
 
         targets.activate();
     }
