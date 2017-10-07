@@ -5,6 +5,7 @@ import com.vuforia.HINT;
 import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -55,13 +56,11 @@ public class Navigator {
                 break;
         }
 
-        vuforiaSettings.vuforiaLicenseKey = "AYrzM+7/////AAAAGflN33oLXURIiZiOHPt5MZA2iv50tePz4bz21" +
-                "btpbPci5G9i+R0v4r0iNxOOPL5mkqRO/EjcBv4TYHnKqEahIIt35JZdsc" +
-                "PxAp0uHcpSONmWqRcFNglob05nEiqNkTAQKG7Ux9AhjJqZp6R+lAiCKB1" +
-                "/Ht9pNZ+qK+xNE1iEtL9g708JbjmdsqT+KYCA7Rup0dqdeMGieexgSQUK" +
-                "fWKIk3w/Sap1W83He60GW0UGnSUzM81fBu05Oqkl1QiAWbb9TpWff9/Yf" +
-                "OJZPSCfdfErIMBuYtYgsJl5xZEtv57u6EwrqsrlwvudD1GciBrIIMmnqM" +
-                "eIQu9EM5PD0dI9Oi+3jn8RPEfKauoAGDRIpUlfoI+2";
+        vuforiaSettings.vuforiaLicenseKey = "ASU2cg3/////AAAAGYArDGApBECDnvDwNsNVdUF5XiuP6asjWN/argJfJV" +
+                "3dEjrsSSvxA5HAzoxQw7DCzN0gPgjDvxhK3d1ZCMByl/OfzHcgkKyWXCAgRGSiMuWv+PwW/2OFTmML3kovXOaF" +
+                "du44I98dxwhs8r3W+iy46mQ/YuwHjJAdeXFSM94T4YY1wWNzhjeaWPYpcolE6CY39PH6uLNItuAMLvVrHLb5zn" +
+                "DP6yw3L1Wp+4a+WgJNsacG5S5vO06W9IlWpbIQac64fzjeCHcpKahQ94G2zNOG/ScR6ixGZMxj2D9UkUHh1uPk" +
+                "N2WLnAX6d7B5/C1RNuaZWVjkWIACtudE6QnNPW0+oHJA47r3RB7/2ifPnMEDpk5m";
         vuforiaSettings.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
 
         Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, maxSimultaneousImageTargets);
@@ -81,15 +80,9 @@ public class Navigator {
     public void init() {
         VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(vuforiaSettings);
 
-        targets = vuforia.loadTrackablesFromAsset("FTC_2016-17");
-        VuforiaTrackables relicRecoveryTarget = vuforia.loadTrackablesFromAsset("RelicVuMark");
+        targets = vuforia.loadTrackablesFromAsset("RelicVuMark");
 
-        targets.get(0).setName("Wheels");
-        targets.get(1).setName("Tools");
-        targets.get(2).setName("Legos");
-        targets.get(3).setName("Gears");
-        targets.add(4, relicRecoveryTarget.get(0));
-        targets.get(4).setName("CryptoKey");
+        targets.get(0).setName("Crypto Key");
 
         targets.activate();
     }
@@ -132,7 +125,7 @@ public class Navigator {
                     result.x = -translation.get(0);
                     result.y = -translation.get(1);
                     break;
-                case CHARGER_SIDE_UP:
+                case VOLUME_SIDE_DOWN:
                     result.x = translation.get(1);
                     result.y = -translation.get(0);
                     break;
@@ -187,7 +180,7 @@ public class Navigator {
                             break;
                         case UPSIDE_DOWN:
                             break;
-                        case CHARGER_SIDE_UP:
+                        case VOLUME_SIDE_DOWN:
                             if(thetaX >= 0) {
                                 result.x = -(thetaX - 180);
                             } else {
@@ -214,7 +207,7 @@ public class Navigator {
                             break;
                         case UPSIDE_DOWN:
                             break;
-                        case CHARGER_SIDE_UP:
+                        case VOLUME_SIDE_DOWN:
                             if(thetaX >= 0) {
                                 result.x = -(thetaX - 180);
                             } else {

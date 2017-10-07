@@ -20,7 +20,7 @@ public enum PhoneOrientation {
      * The phone is on its side, with the charger port
      * facing upwards
      */
-    CHARGER_SIDE_UP,
+    VOLUME_SIDE_DOWN,
     /**
      * The phone is on its side, with the volume buttons
      * facing upwards
