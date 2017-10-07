@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme.tests;
+package org.firstinspires.ftc.team9202hme.opmode.test;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
