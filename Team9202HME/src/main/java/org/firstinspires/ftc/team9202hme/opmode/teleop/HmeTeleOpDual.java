@@ -11,9 +11,9 @@ import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.program.teleop.HmeTeleOpProgram;
 import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 
-@TeleOp(name = "HME TeleOp", group = "HME")
-public class HmeTeleOp extends OpMode {
-    private HmeTeleOpProgram robot = new HmeTeleOpProgram(this);
+@TeleOp(name = "HME TeleOp - Dual Driver", group = "HME")
+public class HmeTeleOpDual extends OpMode {
+    private HmeTeleOpProgram robot = new HmeTeleOpProgram(this, true);
 
     @Override
     public void init() {

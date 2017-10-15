@@ -7,7 +7,9 @@ public class HardwareMapConstants {
 
     public static final String CLAW_LEFT_CRSERVO = "claw-left";
     public static final String CLAW_RIGHT_CRSERVO = "claw-right";
-    public static final String CLAW_ARM_DCMOTOR = "claw-arm";
+    public static final String PULLEY_SPOOL_DCMOTOR = "pulley-spool";
+
+    public static final String JEWEL_WHACKER_CRSERVO = "jewel-whacker";
 
     public static final String DRIVE_FRONT_LEFT = "front-left";
     public static final String DRIVE_FRONT_RIGHT = "front-right";
