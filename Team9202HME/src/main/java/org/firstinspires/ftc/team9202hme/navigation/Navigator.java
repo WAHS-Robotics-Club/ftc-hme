@@ -8,6 +8,10 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -34,6 +38,7 @@ public class Navigator {
     private VuforiaTrackables targets;
     private CameraSide cameraSide;
     private PhoneOrientation orientation;
+    private VuforiaTrackableDefaultListener listener;
 
     /**
      * Creates the Navigator with necessary parameters
@@ -73,12 +78,6 @@ public class Navigator {
         Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, maxSimultaneousImageTargets);
     }
 
-    private VuforiaTrackableDefaultListener getTargetListener() {
-        VuforiaTrackable target = targets.get(0);
-
-        return (VuforiaTrackableDefaultListener) target.getListener();
-    }
-
     /**
      * Initializes the Navigator. This should be called during either
      * {@link TeleOpProgram#init()} or {@link AutonomousProgram#run()} and
@@ -92,6 +91,8 @@ public class Navigator {
         targets.get(0).setName("Crypto Key");
 
         targets.activate();
+
+        listener = (VuforiaTrackableDefaultListener) targets.get(0).getListener();
     }
 
     /**
@@ -100,7 +101,7 @@ public class Navigator {
      * @return Whether or not it is visible
      */
     public boolean canSeeTarget() {
-        return getTargetListener().getPose() != null;
+        return listener.getPose() != null;
     }
 
     /**
@@ -131,7 +132,6 @@ public class Navigator {
      *         determine the meaning of positive and negative values
      */
     public Vector3 getRelativeTargetTranslation() {
-        VuforiaTrackableDefaultListener listener = getTargetListener();
         OpenGLMatrix pose = listener.getPose();
 
         Vector3 result = new Vector3();
@@ -169,47 +169,26 @@ public class Navigator {
      *
      * @return The rotation of the target in 3D space, relative to the phone, using
      *         Euler angles, where x is pitch, y is yaw, and z is roll, and all are
-     *         in degrees, where a clockwise rotation is positive
+     *         in degrees, where a counter-clockwise rotation is positive. For more
+     *         help, look into the right-hand rule, because this can get confusing
+     *         very quickly
      */
     public Vector3 getRelativeTargetRotation() { //TODO: Implement this function for ALL phone orientations
-        VuforiaTrackableDefaultListener listener = getTargetListener();
-
         OpenGLMatrix rawPose = listener.getRawPose();
+        AxesOrder axesOrder = AxesOrder.XYZ;
 
         if(rawPose != null) {
-            float[] data = rawPose.getData();
-            float[][] rotation = {{data[0], data[1]}, {data[4], data[5], data[6]}, {data[8], data[9], data[10]}};
-            double thetaX = Math.atan2(rotation[2][1], rotation[2][2]);
-            double thetaY = Math.atan2(-rotation[2][0], Math.sqrt(rotation[2][1] * rotation[2][1] + rotation[2][2] * rotation[2][2]));
-            double thetaZ = Math.atan2(rotation[1][0], rotation[0][0]);
-            thetaX = Math.toDegrees(thetaX);
-            thetaY = Math.toDegrees(thetaY);
-            thetaZ = Math.toDegrees(thetaZ);
-
-            Vector3 result = new Vector3();
-
             switch(cameraSide) {
                 case SCREEN:
                     switch(orientation) {
                         case UPRIGHT:
-                            //noinspection SuspiciousNameCombination
-                            result.x = -thetaY;
-                            if(thetaX >= 0) {
-                                result.y = thetaX - 180;
-                            } else {
-                                result.y = thetaX + 180;
-                            }
+                            axesOrder = AxesOrder.XYZ;
                             break;
                         case UPSIDE_DOWN:
+
                             break;
                         case VOLUME_SIDE_DOWN:
-                            if(thetaX >= 0) {
-                                result.x = -(thetaX - 180);
-                            } else {
-                                result.x = -(thetaX + 180);
-                            }
 
-                            result.y = -thetaY;
                             break;
                         case VOLUME_SIDE_UP:
                             break;
@@ -218,25 +197,13 @@ public class Navigator {
                 case BACK:
                     switch(orientation) {
                         case UPRIGHT:
-                            //noinspection SuspiciousNameCombination
-                            result.x = thetaY;
-
-                            if(thetaX >= 0) {
-                                result.y = -(thetaX - 180);
-                            } else {
-                                result.y = -(thetaX + 180);
-                            }
+                            axesOrder = AxesOrder.XYZ;
                             break;
                         case UPSIDE_DOWN:
+
                             break;
                         case VOLUME_SIDE_DOWN:
-                            if(thetaX >= 0) {
-                                result.x = -(thetaX - 180);
-                            } else {
-                                result.x = -(thetaX + 180);
-                            }
 
-                            result.y = -thetaY;
                             break;
                         case VOLUME_SIDE_UP:
                             break;
@@ -244,9 +211,9 @@ public class Navigator {
                     break;
             }
 
-            result.z = thetaZ;
+            Orientation rotation = Orientation.getOrientation(rawPose, AxesReference.EXTRINSIC, axesOrder, AngleUnit.DEGREES);
 
-            return result;
+            return new Vector3(rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
         } else return Vector3.ZERO;
     }
 

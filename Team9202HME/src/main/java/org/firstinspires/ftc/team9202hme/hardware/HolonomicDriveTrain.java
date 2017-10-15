@@ -33,6 +33,7 @@ import static java.lang.Math.toRadians;
  * @author John Eichelberger
  * @author Sage Wibberley
  */
+//TODO: Make rotations more mathematically consistent, such that positive angles correspond to counter-clockwise rotations
 public class HolonomicDriveTrain extends HardwareComponent {
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private GyroSensor gyroSensor;

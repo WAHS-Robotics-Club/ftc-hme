@@ -13,7 +13,7 @@ import static java.lang.Math.abs;
 @TeleOp(name = "Navigation Test", group = "Tests")
 //@Disabled
 public class NavigationTest extends OpMode {
-    private Navigator navigator = new Navigator(CameraSide.BACK, PhoneOrientation.UPSIDE_DOWN, 1, true);
+    private Navigator navigator = new Navigator(CameraSide.BACK, PhoneOrientation.UPRIGHT, 1, true);
 
     @Override
     public void init() {
