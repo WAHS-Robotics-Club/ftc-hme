@@ -24,6 +24,7 @@ public abstract class AutonomousProgram {
      * things like HardwareMap, Gamepad, and Telemetry
      */
     final protected LinearOpMode opMode;
+
     /**
      * The side of the field that the robot will be on when this program is run
      */
@@ -47,7 +48,9 @@ public abstract class AutonomousProgram {
      * This method is intended for use in {@link LinearOpMode#runOpMode()},
      * which will properly handle the InterruptedException should it occur.
      *
-     * @throws InterruptedException
+     * @throws InterruptedException Will be thrown if the robot is stopped while the thread is sleeping;
+     *                              a very common occurrence in autonomous mode, and {@link LinearOpMode#runOpMode()}
+     *                              should handle it properly
      */
     public abstract void run() throws InterruptedException;
 }

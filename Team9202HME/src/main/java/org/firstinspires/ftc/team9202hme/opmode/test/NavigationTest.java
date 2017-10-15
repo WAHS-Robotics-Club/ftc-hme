@@ -39,20 +39,7 @@ public class NavigationTest extends OpMode {
         telemetry.addData("Visible", navigator.canSeeTarget(target));
         telemetry.addData("Translation", translation);
         telemetry.addData("Rotation", rotation);
-
-        double hypotenuse = sqrt(pow(translation.x, 2) + pow(translation.z, 2));
-        @SuppressWarnings("SuspiciousNameCombination") //Math.atan2() doesn't like receiving a variable named "x" for parameter "y"
-                double alpha = toDegrees(atan2(translation.x, translation.z));
-        double phi = rotation.y - alpha;
-
-        /**
-         * If a line segment parallel to the image was drawn from the robot (assuming the
-         * robot is just a point) until it intersected a line perpendicular to the image,
-         * lateralDistanceFromImage would be the length of that line segment.
-         */
-        double lateralDistanceFromImage = -hypotenuse * sin(toRadians(phi));
-
-        telemetry.addData("Lateral Distance", lateralDistanceFromImage);
+        telemetry.addData("Crypto Column", navigator.decodeTarget().name());
 
         telemetry.update();
     }

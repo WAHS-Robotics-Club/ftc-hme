@@ -6,12 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
+import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
+
 @TeleOp(name = "Gyro Sensor Test", group = "Tests")
-@Disabled
+//@Disabled
 public class GyroTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        GyroSensor gyro = hardwareMap.gyroSensor.get("gyro");
+        GyroSensor gyro = hardwareMap.gyroSensor.get(HardwareMapConstants.GYRO_SENSOR);
 
         waitForStart();
 
