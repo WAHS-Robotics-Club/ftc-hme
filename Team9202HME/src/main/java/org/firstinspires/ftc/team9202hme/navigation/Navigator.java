@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
@@ -20,6 +21,11 @@ import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 /**
  * A collection of functions for locating images in
  * 3D space, using the robot controller phone's camera
+ *
+ * NOTE: For the 2017-18 First Tech Challenge, Relic Recovery, the only "target" that
+ * this class will be working with is the crypto key VuMark, so its functions will not
+ * have parameters for which target to track, since there is only one. This will be changed
+ * whenever there are more available targets
  *
  * @author Nathaniel Glover
  */
@@ -56,6 +62,7 @@ public class Navigator {
                 break;
         }
 
+        //Feel free to use this; it was free so we don't mind if teams viewing this want to copy and paste it into their program
         vuforiaSettings.vuforiaLicenseKey = "ASU2cg3/////AAAAGYArDGApBECDnvDwNsNVdUF5XiuP6asjWN/argJfJV" +
                 "3dEjrsSSvxA5HAzoxQw7DCzN0gPgjDvxhK3d1ZCMByl/OfzHcgkKyWXCAgRGSiMuWv+PwW/2OFTmML3kovXOaF" +
                 "du44I98dxwhs8r3W+iy46mQ/YuwHjJAdeXFSM94T4YY1wWNzhjeaWPYpcolE6CY39PH6uLNItuAMLvVrHLb5zn" +
@@ -66,8 +73,8 @@ public class Navigator {
         Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, maxSimultaneousImageTargets);
     }
 
-    private VuforiaTrackableDefaultListener getTargetListener(ImageTarget imageTarget) {
-        VuforiaTrackable target = targets.get(imageTarget.ordinal());
+    private VuforiaTrackableDefaultListener getTargetListener() {
+        VuforiaTrackable target = targets.get(0);
 
         return (VuforiaTrackableDefaultListener) target.getListener();
     }
@@ -88,27 +95,43 @@ public class Navigator {
     }
 
     /**
-     * Checks if an image is visible
+     * Checks if the target is visible
      *
-     * @param target The image to look for
      * @return Whether or not it is visible
      */
-    public boolean canSeeTarget(ImageTarget target) {
-        return getTargetListener(target).getPose() != null;
+    public boolean canSeeTarget() {
+        return getTargetListener().getPose() != null;
     }
 
     /**
-     * Returns the position, using right-hand rule, of the image in 3D space
+     * Only valid for FTC Relic Recovery (2017-2018) challenge, will be removed when the season ends
      *
-     * @param target The image to locate
-     * @return The translation of the image in 3D space, relative to the phone, where x
+     * @return Returns either LEFT, CENTER, or RIGHT, which correspond to the column which will award
+     *         bonus points if a cube is placed inside it during autonomous
+     */
+    public CryptoColumn decodeTarget() {
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(targets.get(4));
+
+        switch(vuMark) {
+            case UNKNOWN: return CryptoColumn.UNKNOWN;
+            case LEFT: return CryptoColumn.LEFT;
+            case CENTER: return CryptoColumn.CENTER;
+            case RIGHT: return CryptoColumn.RIGHT;
+            default: return CryptoColumn.UNKNOWN;
+        }
+    }
+
+    /**
+     * Returns the position, using right-hand rule, of the target in 3D space
+     *
+     * @return The translation of the target in 3D space, relative to the phone, where x
      *         is the distance from the origin on the x axis, y is the distance from the
      *         origin on the y axis, and z is the distance from the origin on the z axis.
      *         These values are all given in millimeters, and use the right-hand rule to
      *         determine the meaning of positive and negative values
      */
-    public Vector3 getRelativeTargetTranslation(ImageTarget target) {
-        VuforiaTrackableDefaultListener listener = getTargetListener(target);
+    public Vector3 getRelativeTargetTranslation() {
+        VuforiaTrackableDefaultListener listener = getTargetListener();
         OpenGLMatrix pose = listener.getPose();
 
         Vector3 result = new Vector3();
@@ -142,15 +165,14 @@ public class Navigator {
     }
 
     /**
-     * Returns the rotation, of the image in 3D space
+     * Returns the rotation, of the target in 3D space
      *
-     * @param target The image to locate
-     * @return The rotation of the image in 3D space, relative to the phone, using
+     * @return The rotation of the target in 3D space, relative to the phone, using
      *         Euler angles, where x is pitch, y is yaw, and z is roll, and all are
      *         in degrees, where a clockwise rotation is positive
      */
-    public Vector3 getRelativeTargetRotation(ImageTarget target) { //TODO: Implement this function for ALL phone orientations
-        VuforiaTrackableDefaultListener listener = getTargetListener(target);
+    public Vector3 getRelativeTargetRotation() { //TODO: Implement this function for ALL phone orientations
+        VuforiaTrackableDefaultListener listener = getTargetListener();
 
         OpenGLMatrix rawPose = listener.getRawPose();
 

@@ -8,7 +8,7 @@ import org.firstinspires.ftc.team9202hme.R;
 import org.firstinspires.ftc.team9202hme.audio.Sound;
 
 @TeleOp(name = "Audio Test", group = "Tests")
-@Disabled
+//@Disabled
 public class AudioTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
