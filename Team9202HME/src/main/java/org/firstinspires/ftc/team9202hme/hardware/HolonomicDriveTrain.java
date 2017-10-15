@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme.hardware.driving;
+package org.firstinspires.ftc.team9202hme.hardware;
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,6 +10,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.math.PowerScale;
 import org.firstinspires.ftc.team9202hme.math.Vector2;
+import org.firstinspires.ftc.team9202hme.program.AutonomousProgram;
+import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
@@ -31,11 +33,9 @@ import static java.lang.Math.toRadians;
  * @author John Eichelberger
  * @author Sage Wibberley
  */
-public class HolonomicDriveTrain extends DriveTrain {
+public class HolonomicDriveTrain extends HardwareComponent {
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private GyroSensor gyroSensor;
-
-    private PowerScale powerScale;
 
     private final double mmWheelDiameter;
     private final int encoderTicksPerRotation;
@@ -52,8 +52,6 @@ public class HolonomicDriveTrain extends DriveTrain {
      *                                Neverest 40's, then this value is 1120
      */
     public HolonomicDriveTrain(double mmWheelDiameter, int encoderTicksPerRotation) {
-        this.powerScale = new PowerScale();
-
         this.mmWheelDiameter = mmWheelDiameter;
         this.encoderTicksPerRotation = encoderTicksPerRotation;
     }
@@ -71,14 +69,12 @@ public class HolonomicDriveTrain extends DriveTrain {
      *                                Neverest 40's, then this value is 1120
      */
     public HolonomicDriveTrain(PowerScale powerScale, double mmWheelDiameter, int encoderTicksPerRotation) {
-        this.powerScale = powerScale;
-
         this.mmWheelDiameter = mmWheelDiameter;
         this.encoderTicksPerRotation = encoderTicksPerRotation;
     }
 
     /**
-     * Enumeration of the four possible motors that this DriveTrain will work with
+     * Enumeration of the four possible motors that this drive train will work with
      */
     private enum Motor {
         FRONT_LEFT, FRONT_RIGHT, BACK_LEFT, BACK_RIGHT
@@ -117,26 +113,53 @@ public class HolonomicDriveTrain extends DriveTrain {
         return power;
     }
 
+    /**
+     * Moves the robot in a direction, while also rotating at a given power (can be zero, of course)
+     *
+     * @param direction A vector specifying the direction, of which the magnitude can range from 0 to 1
+     * @param turnPower The power at which the robot will spin
+     */
     private void holonomicMove(Vector2 direction, double turnPower) {
         if(direction.x == 0.0 && direction.y == 0.0 && turnPower == 0.0) {
             stop();
         } else {
-            frontLeft.setPower(powerScale.scalePower(holonomicMath(direction, turnPower, Motor.FRONT_LEFT)));
-            frontRight.setPower(powerScale.scalePower(holonomicMath(direction, turnPower, Motor.FRONT_RIGHT)));
-            backLeft.setPower(powerScale.scalePower(holonomicMath(direction, turnPower, Motor.BACK_LEFT)));
-            backRight.setPower(powerScale.scalePower(holonomicMath(direction, turnPower, Motor.BACK_RIGHT)));
+            frontLeft.setPower(holonomicMath(direction, turnPower, Motor.FRONT_LEFT));
+            frontRight.setPower(holonomicMath(direction, turnPower, Motor.FRONT_RIGHT));
+            backLeft.setPower(holonomicMath(direction, turnPower, Motor.BACK_LEFT));
+            backRight.setPower(holonomicMath(direction, turnPower, Motor.BACK_RIGHT));
         }
     }
 
+    /**
+     * Converts a distance in millimeters to the amount of encoder ticks
+     * necessary for a wheel (with specified diameter and ticks per rotation)
+     * to reach that distance
+     *
+     * @param millimeters The desired distance, in millimeters
+     * @return The same desired distance, but in encoder ticks
+     */
     private int millimetersToEncoderTicks(double millimeters) {
         double rotations = millimeters / (mmWheelDiameter * PI);
         return (int) (rotations * encoderTicksPerRotation);
     }
 
+    /**
+     * While moving to a specified position (given in encoder ticks), the motors are put in "busy" mode,
+     * which is a convenient way of testing for when the motors have arrived at the target position
+     *
+     * @return Whether or not at least one motor is busy
+     */
     private boolean motorsBusy() {
-        return frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy();
+        return frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy();
     }
 
+    /**
+     * Due to physical imperfections, motors may slide past their target position
+     * during run to position mode. This method checks to see if the motors have exceeded
+     * position
+     *
+     * @return Whether or not the motors have passed their target position
+     */
     private boolean encodersExceedTargetPosition() {
         return frontLeft.getCurrentPosition() >= frontLeft.getTargetPosition() &&
                 frontRight.getCurrentPosition() >= frontRight.getTargetPosition() &&
@@ -144,6 +167,11 @@ public class HolonomicDriveTrain extends DriveTrain {
                 backRight.getCurrentPosition() >= backRight.getTargetPosition();
     }
 
+    /**
+     * Sets the run mode for all four motors
+     *
+     * @param runMode The run mode (reset encoders, run to position, etc.)
+     */
     private void setRunMode(DcMotor.RunMode runMode) {
         frontLeft.setMode(runMode);
         frontRight.setMode(runMode);
@@ -177,13 +205,24 @@ public class HolonomicDriveTrain extends DriveTrain {
     private double time = 0;
     private boolean toggle = false;
 
-    @Override
-    public void driveControlled(Gamepad controller) {
+    /**
+     * Sets motor powers to drive the robot based
+     * on input from a gamepad. This is meant to be
+     * used in {@link TeleOpProgram#loop()}
+     *
+     * @param gamepad The gamepad that will be used to control the robot.
+     *                   It should ideally come from the OpMode in the
+     *                   program that will be controlling the robot, as either
+     *                   gamepad1 or gamepad2
+     *
+     * @see TeleOpProgram
+     */
+    public void driveControlled(Gamepad gamepad) {
         final double COOLDOWN = 0.7f;
 
         setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        if(controller.y) {
+        if(gamepad.y) {
             if((System.nanoTime() - time) / 1e9f >= COOLDOWN) {
                 toggle = !toggle;
                 time = System.nanoTime();
@@ -191,13 +230,16 @@ public class HolonomicDriveTrain extends DriveTrain {
         }
 
         if(toggle) {
-            holonomicMove(new Vector2(controller.left_stick_x, controller.left_stick_y), controller.right_stick_x);
+            holonomicMove(new Vector2(gamepad.left_stick_x, gamepad.left_stick_y), gamepad.right_stick_x);
         } else {
-            holonomicMove(new Vector2(controller.left_stick_x, -controller.left_stick_y), controller.right_stick_x);
+            holonomicMove(new Vector2(gamepad.left_stick_x, -gamepad.left_stick_y), gamepad.right_stick_x);
         }
     }
 
-    @Override
+    /**
+     * Sets all motor powers to zero, effectively
+     * bring the robot to a complete stop
+     */
     public void stop() {
         frontLeft.setPower(0.0);
         frontRight.setPower(0.0);
@@ -205,14 +247,49 @@ public class HolonomicDriveTrain extends DriveTrain {
         backRight.setPower(0.0);
     }
 
-    @Override
+    /**
+     * Sets the motor powers so that the robot
+     * moves at the specified speed and angle
+     *
+     * @param power The power that will be applied
+     *              to the motors, ranging from 0.0
+     *              to 1.0
+     * @param angle The angle, in degrees, where
+     *              0 degrees is the front of the
+     *              robot, at which the robot will
+     *              move
+     */
     public void move(double power, double angle) {
         double theta = toRadians(angle - 90);
 
         holonomicMove(new Vector2(power * cos(theta), power * sin(theta)), 0.0);
     }
 
-    @Override
+    /**
+     * Sets the motor powers so that the robot
+     * moves at the specified speed and angle,
+     * until it has reached the specified
+     * distance
+     * <p>
+     * <b>NOTE:</b> Do not catch the InterruptedException.
+     * This method is intended for use in {@link AutonomousProgram#run()},
+     * which will properly handle the InterruptedException should it occur.
+     *
+     * @param power The power that will be applied
+     *              to the motors, ranging from 0.0
+     *              to 1.0
+     * @param angle The angle, in degrees, where
+     *              0 degrees is the front of the
+     *              robot, at which the robot will
+     *              move
+     * @param distance The distance, in millimeters,
+     *                 that the robot will move
+     *
+     * @throws InterruptedException This method will put the current thread to sleep while the motors are moving to the target distance,
+     *                              which will throw an InterruptedException if the thread is terminated
+     *
+     * @see AutonomousProgram
+     */
     public void move(double power, double angle, double distance) throws InterruptedException {
         double theta = toRadians(angle - 90);
 
@@ -226,10 +303,10 @@ public class HolonomicDriveTrain extends DriveTrain {
         setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        int frontLeftPos = (int) (millimetersToEncoderTicks(distance) / sqrt(PI));
-        int frontRightPos = (int) (millimetersToEncoderTicks(distance) / sqrt(PI));
-        int backLeftPos = (int) (millimetersToEncoderTicks(distance) / sqrt(PI));
-        int backRightPos = (int) (millimetersToEncoderTicks(distance) / sqrt(PI));
+        int frontLeftPos = (int) (millimetersToEncoderTicks(distance) * sin(theta));
+        int frontRightPos = (int) (millimetersToEncoderTicks(distance) * sin(theta) * sqrt(2));
+        int backLeftPos = (int) (millimetersToEncoderTicks(distance) * sin(theta));
+        int backRightPos = (int) (millimetersToEncoderTicks(distance) * sin(theta));
 
         frontLeft.setTargetPosition(frontLeftPower >= 0 ? frontLeftPos : -frontLeftPos);
         frontRight.setTargetPosition(frontRightPower >= 0 ? frontRightPos : -frontRightPos);
@@ -252,12 +329,44 @@ public class HolonomicDriveTrain extends DriveTrain {
         setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    @Override
+    /**
+     * Sets the motor powers so that the robot
+     * spins
+     *
+     * @param power The power that will be applied
+     *              to the motors, ranging from -1.0
+     *              to 1.0, where a negative power
+     *              will cause the robot to spin
+     *              counter-clockwise
+     */
     public void turn(double power) {
         holonomicMove(new Vector2(0, 0), power);
     }
 
-    @Override
+    /**
+     * Sets the motor powers so that the robot spins,
+     * until it reaches the desired angle
+     * <p>
+     * <b>NOTE:</b> Do not catch the InterruptedException.
+     * This method is intended for use in {@link AutonomousProgram#run()},
+     * which will properly handle the InterruptedException should it occur.
+     *
+     * @param power The power that will be applied
+     *              to the motors, ranging from -1.0
+     *              to 1.0, where a negative power
+     *              will cause the robot to spin
+     *              counter-clockwise
+     * @param angle The angle in degrees to
+     *              which the robot will turn,
+     *              ranging from -359 to 359, where
+     *              0 is the front of the robot
+     *              and negative values cause
+     *              a counter-clockwise turn
+     * @throws InterruptedException This method will put the current thread to sleep while the robot is turning to the target angle,
+     *                              which will throw an InterruptedException if the thread is terminated
+     *
+     * @see AutonomousProgram
+     */
     public void turn(double power, double angle) throws InterruptedException {
         setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -304,7 +413,24 @@ public class HolonomicDriveTrain extends DriveTrain {
         stop();
     }
 
-    @Override
+    /**
+     * Sets the motor powers so that the robot moves
+     * at the desired angle, while simultaneously
+     * spinning
+     *
+     * @param movePower The power that will be applied
+     *                  to the motors, ranging from 0.0
+     *                  to 1.0
+     * @param angle The angle, in degrees, where
+     *              0 degrees is the front of the
+     *              robot, at which the robot will
+     *              move
+     * @param turnPower The power that will be applied
+     *                  to the motors, ranging from -1.0
+     *                  to 1.0, where a negative power
+     *                  will cause the robot to spin
+     *                  counter-clockwise
+     */
     public void moveAndTurn(double movePower, double angle, double turnPower) {
         double theta = toRadians(angle - 90);
 
@@ -313,12 +439,22 @@ public class HolonomicDriveTrain extends DriveTrain {
         holonomicMove(direction, turnPower);
     }
 
-    @Override
+    /**
+     * Due to friction, most drive trains' motors will stall
+     * if given a sufficiently low power, which this method returns
+     *
+     * @return The lowest absolute power at which the drive train will be able to move
+     */
     public double getMinimumMovePower() {
-        return 0.2;
+        return 0.15;
     }
 
-    @Override
+    /**
+     * Due to friction, most drive trains' motors will stall
+     * if given a sufficiently low power, which this method returns
+     *
+     * @return The lowest absolute power at which the drive train will be able to turn
+     */
     public double getMinimumTurnPower() {
         return 0.1;
     }
