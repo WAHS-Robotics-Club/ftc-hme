@@ -2,6 +2,7 @@ package org.firstinspires.ftc.team9202hme.hardware;
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -29,14 +30,18 @@ import static java.lang.Math.toRadians;
  * corresponding motor has the same number of encoder
  * ticks per rotation
  *
- * @author Nathaniel Glover
  * @author John Eichelberger
+ * @author Nathaniel Glover
  * @author Sage Wibberley
  */
 //TODO: Make rotations more mathematically consistent, such that positive angles correspond to counter-clockwise rotations
+//TODO: Make minimum move/turn powers programmable
+//TODO: Add PowerScale for non-rotational movement
 public class HolonomicDriveTrain extends HardwareComponent {
-    private DcMotor frontLeft, frontRight, backLeft, backRight;
+    private DcMotorEx frontLeft, frontRight, backLeft, backRight;
     private GyroSensor gyroSensor;
+
+    private PowerScale turnPowerScale = new PowerScale(5, getMinimumTurnPower(), 1.0);
 
     private final double mmWheelDiameter;
     private final int encoderTicksPerRotation;
@@ -53,23 +58,6 @@ public class HolonomicDriveTrain extends HardwareComponent {
      *                                Neverest 40's, then this value is 1120
      */
     public HolonomicDriveTrain(double mmWheelDiameter, int encoderTicksPerRotation) {
-        this.mmWheelDiameter = mmWheelDiameter;
-        this.encoderTicksPerRotation = encoderTicksPerRotation;
-    }
-    /**
-     * Gives HolonomicDriveTrain the values it needs
-     * to calculate how to properly apply motor powers
-     * when moving and turning at set distances
-     *
-     * @param powerScale The user-defined function for transforming powers assigned to the
-     *                   motors
-     * @param mmWheelDiameter The diameter of the robot's
-     *                        wheels, in millimeters
-     * @param encoderTicksPerRotation The number of ticks given off by each motor's
-     *                                encoder each rotation. If you are using Andymark
-     *                                Neverest 40's, then this value is 1120
-     */
-    public HolonomicDriveTrain(PowerScale powerScale, double mmWheelDiameter, int encoderTicksPerRotation) {
         this.mmWheelDiameter = mmWheelDiameter;
         this.encoderTicksPerRotation = encoderTicksPerRotation;
     }
@@ -182,10 +170,15 @@ public class HolonomicDriveTrain extends HardwareComponent {
 
     @Override
     public void init(HardwareMap hardwareMap) {
-        frontLeft = hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_FRONT_LEFT);
-        frontRight = hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_FRONT_RIGHT);
-        backLeft = hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_BACK_LEFT);
-        backRight = hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_BACK_RIGHT);
+        frontLeft = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_FRONT_LEFT);
+        frontRight = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_FRONT_RIGHT);
+        backLeft = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_BACK_LEFT);
+        backRight = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_BACK_RIGHT);
+
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
@@ -204,7 +197,7 @@ public class HolonomicDriveTrain extends HardwareComponent {
     }
 
     private double time = 0;
-    private boolean toggle = false;
+    private boolean usePreciseControls = true;
 
     /**
      * Sets motor powers to drive the robot based
@@ -219,22 +212,39 @@ public class HolonomicDriveTrain extends HardwareComponent {
      * @see TeleOpProgram
      */
     public void driveControlled(Gamepad gamepad) {
-        final double COOLDOWN = 0.7f;
+        final double COOLDOWN = 1; //Have to wait one second before toggling control mode again
 
         setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        if(gamepad.y) {
-            if((System.nanoTime() - time) / 1e9f >= COOLDOWN) {
-                toggle = !toggle;
+        if(gamepad.y) { //Toggle control mode if y is pressed
+            if((System.nanoTime() - time) / 1e9 >= COOLDOWN) {
+                usePreciseControls = !usePreciseControls;
                 time = System.nanoTime();
             }
         }
 
-        if(toggle) {
-            holonomicMove(new Vector2(gamepad.left_stick_x, gamepad.left_stick_y), gamepad.right_stick_x);
+        double x = gamepad.left_stick_x;
+        double y = gamepad.left_stick_y;
+
+        Vector2 direction = new Vector2();
+        double turnPower;
+
+        if(usePreciseControls) { //Four directional movement only, rotation and movement sensitivity reduced considerably
+            if(abs(x) < abs(y)) {
+                direction.x = 0;
+                direction.y = y;
+            } else {
+                direction.x = x;
+                direction.y = 0;
+            }
+
+            turnPower = turnPowerScale.scale(gamepad.right_stick_x, 0.5); //Scale rotation power by 0.5
         } else {
-            holonomicMove(new Vector2(gamepad.left_stick_x, -gamepad.left_stick_y), gamepad.right_stick_x);
+            direction = new Vector2(gamepad.left_stick_x, gamepad.left_stick_y);
+            turnPower = turnPowerScale.scale(gamepad.right_stick_x);
         }
+
+        holonomicMove(direction, turnPower);
     }
 
     /**
@@ -291,6 +301,7 @@ public class HolonomicDriveTrain extends HardwareComponent {
      *
      * @see AutonomousProgram
      */
+    //TODO: Make this actually work
     public void move(double power, double angle, double distance) throws InterruptedException {
         double theta = toRadians(angle - 90);
 
@@ -304,10 +315,10 @@ public class HolonomicDriveTrain extends HardwareComponent {
         setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        int frontLeftPos = (int) (millimetersToEncoderTicks(distance) * sin(theta));
-        int frontRightPos = (int) (millimetersToEncoderTicks(distance) * sin(theta) * sqrt(2));
-        int backLeftPos = (int) (millimetersToEncoderTicks(distance) * sin(theta));
-        int backRightPos = (int) (millimetersToEncoderTicks(distance) * sin(theta));
+        int frontLeftPos = millimetersToEncoderTicks(distance * sin(theta) * sqrt(2));
+        int frontRightPos = millimetersToEncoderTicks(distance * sin(theta) * sqrt(2));
+        int backLeftPos = millimetersToEncoderTicks(distance * sin(theta) * sqrt(2));
+        int backRightPos = millimetersToEncoderTicks(distance * sin(theta) * sqrt(2));
 
         frontLeft.setTargetPosition(frontLeftPower >= 0 ? frontLeftPos : -frontLeftPos);
         frontRight.setTargetPosition(frontRightPower >= 0 ? frontRightPos : -frontRightPos);

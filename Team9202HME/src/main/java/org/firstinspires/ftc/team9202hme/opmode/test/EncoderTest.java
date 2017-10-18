@@ -16,6 +16,6 @@ public class EncoderTest extends LinearOpMode {
 
         waitForStart();
 
-        driveTrain.move(0.3, 30, 3000);
+        driveTrain.move(0.3, 30, 1000); //39.37 inches
     }
 }

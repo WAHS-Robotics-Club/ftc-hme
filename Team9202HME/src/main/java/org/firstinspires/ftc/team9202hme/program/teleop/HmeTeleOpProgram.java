@@ -2,11 +2,13 @@ package org.firstinspires.ftc.team9202hme.program.teleop;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
+import org.firstinspires.ftc.team9202hme.R;
+import org.firstinspires.ftc.team9202hme.audio.Sound;
 import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
 import org.firstinspires.ftc.team9202hme.hardware.CRServoClaw;
 import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
@@ -14,9 +16,8 @@ import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 public class HmeTeleOpProgram extends TeleOpProgram {
     private HolonomicDriveTrain driveTrain = new HolonomicDriveTrain(76.2, 1120);
     private CRServoClaw claw = new CRServoClaw();
-    private CRServo jewelWhacker;
+    private Servo jewelWhacker;
     private DcMotor spool;
-    
     private boolean dualControl;
 
     public HmeTeleOpProgram(OpMode opMode, boolean dualControl) {
@@ -28,12 +29,12 @@ public class HmeTeleOpProgram extends TeleOpProgram {
     public void init() {
         driveTrain.init(opMode.hardwareMap);
         claw.init(opMode.hardwareMap);
-        jewelWhacker = opMode.hardwareMap.crservo.get(HardwareMapConstants.JEWEL_WHACKER_CRSERVO);
+        jewelWhacker = opMode.hardwareMap.servo.get(HardwareMapConstants.JEWEL_WHACKER_SERVO);
         spool = opMode.hardwareMap.dcMotor.get(HardwareMapConstants.PULLEY_SPOOL_DCMOTOR);
 
         opMode.gamepad1.left_stick_y *= -1; //Our gamepad's joysticks have inverted y-axes for some reason
         opMode.gamepad1.right_stick_y *= -1;//Not sure why, but this negation seems to hold for the duration
-        opMode.gamepad2.left_stick_y *= -1; //the program,;I guess the Gamepad class stores some internal state
+        opMode.gamepad2.left_stick_y *= -1; //the program; I guess the Gamepad class stores some internal state
         opMode.gamepad2.right_stick_y *= -1;//as opposed to just reading from the attached gamepad(s)
     }
 
@@ -54,11 +55,9 @@ public class HmeTeleOpProgram extends TeleOpProgram {
         }
 
         if(secondary.a) {
-            jewelWhacker.setPower(0.7);
+            jewelWhacker.setPosition(1);
         } else if(secondary.b) {
-            jewelWhacker.setPower(-0.7);
-        } else {
-            jewelWhacker.setPower(0);
+            jewelWhacker.setPosition(0);
         }
 
         updateTelemetry();

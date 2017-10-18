@@ -13,7 +13,7 @@ public class AudioTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Sound sound = new Sound();
-        sound.load(hardwareMap, R.raw.gaston);
+        sound.load(hardwareMap, R.raw.you_took_the_peepo);
 
         waitForStart();
 
