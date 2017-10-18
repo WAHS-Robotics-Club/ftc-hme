@@ -30,7 +30,7 @@ public class PowerScale {
         this.scaleFunction = new Function<Double>() {
             @Override
             public Double compute(Double input) {
-                if(abs(input) > MIN_INPUT) return 0.0;
+                if(abs(input) < MIN_INPUT) return 0.0;
 
                 double scaledPower = pow(abs(input), polynomialDegree);
 
