@@ -6,6 +6,7 @@ import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.matrices.MatrixF;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -111,7 +112,7 @@ public class Navigator {
      *         bonus points if a cube is placed inside it during autonomous
      */
     public CryptoColumn decodeTarget() {
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(targets.get(4));
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(targets.get(0));
 
         switch(vuMark) {
             case UNKNOWN: return CryptoColumn.UNKNOWN;
@@ -176,13 +177,14 @@ public class Navigator {
     public Vector3 getRelativeTargetRotation() { //TODO: Implement this function for ALL phone orientations
         OpenGLMatrix rawPose = listener.getRawPose();
         AxesOrder axesOrder = AxesOrder.XYZ;
+        double xMod = 1, yMod = 1, zMod = 1;
 
         if(rawPose != null) {
             switch(cameraSide) {
                 case SCREEN:
                     switch(orientation) {
                         case UPRIGHT:
-                            axesOrder = AxesOrder.XYZ;
+                            axesOrder = AxesOrder.XZX;
                             break;
                         case UPSIDE_DOWN:
 

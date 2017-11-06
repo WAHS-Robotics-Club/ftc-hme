@@ -17,7 +17,7 @@ import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
  *
  * @author Nathaniel Glover
  */
-public class CRServoClaw extends HardwareComponent {
+public class ServoClaw extends HardwareComponent {
     private CRServo left, right;
 
     @Override
@@ -43,10 +43,10 @@ public class CRServoClaw extends HardwareComponent {
     public void grabControlled(Gamepad gamepad) {
         final double CLAW_POWER = 0.7;
 
-        if(gamepad.right_bumper) {
+        if(gamepad.left_bumper) {
             left.setPower(CLAW_POWER);
             right.setPower(CLAW_POWER);
-        } else if(gamepad.left_bumper) {
+        } else if(gamepad.right_bumper) {
             left.setPower(-CLAW_POWER);
             right.setPower(-CLAW_POWER);
         } else {
