@@ -2,20 +2,21 @@ package org.firstinspires.ftc.team9202hme.program.teleop;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
-import org.firstinspires.ftc.team9202hme.R;
-import org.firstinspires.ftc.team9202hme.audio.Sound;
 import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
-import org.firstinspires.ftc.team9202hme.hardware.CRServoClaw;
+import org.firstinspires.ftc.team9202hme.hardware.RelicGrabber;
+import org.firstinspires.ftc.team9202hme.hardware.ServoClaw;
 import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 
 public class HmeTeleOpProgram extends TeleOpProgram {
     private HolonomicDriveTrain driveTrain = new HolonomicDriveTrain(76.2, 1120);
-    private CRServoClaw claw = new CRServoClaw();
+    private ServoClaw claw = new ServoClaw();
+    private RelicGrabber grabber = new RelicGrabber();
     private Servo jewelWhacker;
     private DcMotor spool;
     private boolean dualControl;
@@ -29,22 +30,30 @@ public class HmeTeleOpProgram extends TeleOpProgram {
     public void init() {
         driveTrain.init(opMode.hardwareMap);
         claw.init(opMode.hardwareMap);
+        grabber.init(opMode.hardwareMap);
+
         jewelWhacker = opMode.hardwareMap.servo.get(HardwareMapConstants.JEWEL_WHACKER_SERVO);
         spool = opMode.hardwareMap.dcMotor.get(HardwareMapConstants.PULLEY_SPOOL_DCMOTOR);
-
-        opMode.gamepad1.left_stick_y *= -1; //Our gamepad's joysticks have inverted y-axes for some reason
-        opMode.gamepad1.right_stick_y *= -1;//Not sure why, but this negation seems to hold for the duration
-        opMode.gamepad2.left_stick_y *= -1; //the program; I guess the Gamepad class stores some internal state
-        opMode.gamepad2.right_stick_y *= -1;//as opposed to just reading from the attached gamepad(s)
     }
 
     @Override
     public void loop() {
-        Gamepad primary = opMode.gamepad1;
-        Gamepad secondary = dualControl ? opMode.gamepad2 : primary;
+        Gamepad primary = new Gamepad();
+        Gamepad secondary = new Gamepad();
+
+        try { //Multiplying by -1 changes opMode.gamepad1 and 2's continuously inverts the power, so copy their states first to avoid that
+            primary.copy(opMode.gamepad1);
+            secondary.copy(dualControl ? opMode.gamepad2 : opMode.gamepad1);
+        } catch(RobotCoreException e) {
+            e.printStackTrace();
+        }
+
+        primary.left_stick_y *= -1; //Our gamepads have inverted y-axes for some reason
+        primary.right_stick_y *= -1;
 
         driveTrain.driveControlled(primary);
         claw.grabControlled(primary);
+        grabber.grabControlled(secondary);
 
         if(secondary.right_trigger > 0.05) {
             spool.setPower(secondary.right_trigger);
@@ -55,10 +64,12 @@ public class HmeTeleOpProgram extends TeleOpProgram {
         }
 
         if(secondary.a) {
-            jewelWhacker.setPosition(1);
+            jewelWhacker.setPosition(0.53);
         } else if(secondary.b) {
             jewelWhacker.setPosition(0);
         }
+
+        opMode.telemetry.addData("Jewel Whacker Position", jewelWhacker.getPosition());
 
         updateTelemetry();
     }
@@ -71,6 +82,7 @@ public class HmeTeleOpProgram extends TeleOpProgram {
     private void updateTelemetry() {
         driveTrain.logTelemetry(opMode.telemetry);
         claw.logTelemetry(opMode.telemetry);
+        grabber.logTelemetry(opMode.telemetry);
 
         opMode.telemetry.update();
     }

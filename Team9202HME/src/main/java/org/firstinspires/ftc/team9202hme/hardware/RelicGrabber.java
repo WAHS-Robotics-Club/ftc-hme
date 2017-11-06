@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 
-public class IdolGrabber extends HardwareComponent {
+public class RelicGrabber extends HardwareComponent {
     private DcMotor lift;
     private Servo grabber;
     private CRServo extender;
