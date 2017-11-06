@@ -2,23 +2,19 @@ package org.firstinspires.ftc.team9202hme.math;
 
 import static java.lang.Math.*;
 
+/**
+ * Simple class for scaling gamepad input to be more driver-friendly. Supports
+ * a few different scaling functions, including n-degree monomials, logistic functions,
+ * and purely user-defined scaling functions, all of which have a minimum absolute input
+ * of 0.01; any input below this will give an output of zero.
+ */
 public class PowerScale {
-    private final double MIN_INPUT = 0.01;
+    private static final double MIN_INPUT = 0.01;
 
     private Function<Double> scaleFunction;
-    private double degree;
+    private Function<Double> scalarModifierFunction;
 
-    public PowerScale(Function<Double> scaleFunction) {
-        this.degree = 1;
-        this.scaleFunction = scaleFunction;
-    }
-
-    public PowerScale(final double minAbsolutePower, final double maxAbsolutePower) {
-        this(1, minAbsolutePower, maxAbsolutePower);
-    }
-
-    public PowerScale(final int polynomialDegree, final double minAbsolutePower, final double maxAbsolutePower) {
-        degree = polynomialDegree;
+    public static PowerScale CreateMonomialScaleFunction(final int degree, final double minAbsolutePower, final double maxAbsolutePower) {
         if(maxAbsolutePower <= minAbsolutePower) {
             throw new IllegalArgumentException("Maximum power should be greater than minimum power");
         }
@@ -27,16 +23,46 @@ public class PowerScale {
             throw new IllegalArgumentException("Absolute power cannot be negative");
         }
 
-        this.scaleFunction = new Function<Double>() {
+        Function<Double> scaleFunction = new Function<Double>() {
             @Override
             public Double compute(Double input) {
                 if(abs(input) < MIN_INPUT) return 0.0;
 
-                double scaledPower = pow(abs(input), polynomialDegree);
+                double scaledPower = pow(abs(input), degree);
 
-                return max(minAbsolutePower, min(maxAbsolutePower, (maxAbsolutePower - minAbsolutePower) * scaledPower + minAbsolutePower));
+                return max(minAbsolutePower, min(maxAbsolutePower, (maxAbsolutePower - minAbsolutePower)
+                        * scaledPower + minAbsolutePower)) * (abs(input) / input);
             }
         };
+
+        Function<Double> scalarModifierFunction = new Function<Double>() {
+            @Override
+            public Double compute(Double input) {
+                return pow(input, 1.0 / (double) degree);
+            }
+        };
+
+        return new PowerScale(scaleFunction, scalarModifierFunction);
+    }
+
+    //TODO: Implement logistic scale function
+    public static PowerScale CreateLogisticScaleFunction(final double minAbsolutePower, final double maxAbsolutePower) {
+        throw new UnsupportedOperationException("Not Yet Implemented");
+    }
+
+    public PowerScale(Function<Double> scaleFunction) {
+        this.scaleFunction = scaleFunction;
+        this.scalarModifierFunction = new Function<Double>() {
+            @Override
+            public Double compute(Double input) {
+                return input;
+            }
+        };
+    }
+
+    public PowerScale(Function<Double> scaleFunction, Function<Double> scalarModifierFunction) {
+        this.scaleFunction = scaleFunction;
+        this.scalarModifierFunction = scalarModifierFunction;
     }
 
     public double scale(double power) {
@@ -44,6 +70,6 @@ public class PowerScale {
     }
 
     public double scale(double power, double scaleFactor) {
-        return scaleFunction.compute(power * pow(scaleFactor, 1.0 / degree));
+        return scaleFunction.compute(power * scalarModifierFunction.compute(scaleFactor));
     }
 }
