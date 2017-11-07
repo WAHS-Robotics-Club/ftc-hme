@@ -36,7 +36,7 @@ public class RelicGrabber extends HardwareComponent {
         } else if(gamepad.dpad_left) {
             extender.setPower(0.4);
         } else {
-            extender.setPower(gamepad.x ? -0.05 : 0.0);
+            extender.setPower(gamepad.x ? -0.01 : 0.0);
         }
 
         if(gamepad.x) {

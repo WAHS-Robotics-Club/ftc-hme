@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme.math;
+package org.firstinspires.ftc.team9202hme.util;
 
 
 import static java.lang.Math.*;

@@ -3,7 +3,7 @@ package org.firstinspires.ftc.team9202hme.opmode.test;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.team9202hme.math.Vector3;
+import org.firstinspires.ftc.team9202hme.util.Vector3;
 import org.firstinspires.ftc.team9202hme.navigation.CameraSide;
 import org.firstinspires.ftc.team9202hme.navigation.Navigator;
 import org.firstinspires.ftc.team9202hme.navigation.PhoneOrientation;

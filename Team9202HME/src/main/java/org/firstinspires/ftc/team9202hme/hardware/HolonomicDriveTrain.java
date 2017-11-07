@@ -2,14 +2,12 @@ package org.firstinspires.ftc.team9202hme.hardware;
 
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -17,9 +15,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.TempUnit;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
-import org.firstinspires.ftc.team9202hme.math.PowerScale;
-import org.firstinspires.ftc.team9202hme.math.Vector2;
-import org.firstinspires.ftc.team9202hme.math.Vector3;
+import org.firstinspires.ftc.team9202hme.util.PowerScale;
+import org.firstinspires.ftc.team9202hme.util.Toggle;
+import org.firstinspires.ftc.team9202hme.util.Vector2;
+import org.firstinspires.ftc.team9202hme.util.Vector3;
 import org.firstinspires.ftc.team9202hme.program.AutonomousProgram;
 import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 
@@ -43,13 +42,12 @@ import static java.lang.Math.toRadians;
  * @author Nathaniel Glover
  * @author Sage Wibberley
  */
-//TODO: Make rotations more mathematically consistent, such that positive angles correspond to counter-clockwise rotations
 //TODO: Make minimum move/turn powers programmable
-//TODO: Add PowerScale for non-rotational movement
 public class HolonomicDriveTrain extends HardwareComponent {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
     private BNO055IMU imu;
 
+    private Toggle preciseControlsToggle = new Toggle();
     private final PowerScale turnPowerScale = PowerScale.CreateMonomialScaleFunction(2, getMinimumTurnPower(), 1.0);
 
     private final double wheelCircumference;
@@ -180,9 +178,9 @@ public class HolonomicDriveTrain extends HardwareComponent {
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled = true;
+        parameters.loggingEnabled = false;
         parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+//        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         imu = hardwareMap.get(BNO055IMU.class, HardwareMapConstants.IMU);
         imu.initialize(parameters);
@@ -203,16 +201,14 @@ public class HolonomicDriveTrain extends HardwareComponent {
 
     @Override
     public void logTelemetry(Telemetry telemetry) {
-        telemetry.addData("Precision Controls", (usePreciseControls ? "On" : "Off") + "\n");
+        telemetry.addData("Precision Controls", (preciseControlsToggle.isToggled() ? "On" : "Off") + "\n");
 
         AngularVelocity velocity = imu.getAngularVelocity();
-        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
         Vector3 angularVelocity = new Vector3(velocity.xRotationRate, velocity.yRotationRate, velocity.zRotationRate);
-        Vector3 orientationAngles = new Vector3(orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle);
 
-        telemetry.addData("Angular Velocity", angularVelocity + " degrees/sec");
-        telemetry.addData("Orientation", orientationAngles + " degrees");
+        telemetry.addData("Angular Velocity", angularVelocity + " degrees/sec\n");
+        telemetry.addData("Heading", getHeading() + " degrees\n");
         telemetry.addData("Temperature", imu.getTemperature().toUnit(TempUnit.KELVIN).temperature + " kelvins\n");
 
         telemetry.addData("FL Power", frontLeft.getPower());
@@ -231,8 +227,14 @@ public class HolonomicDriveTrain extends HardwareComponent {
         telemetry.addData("BR Velocity", backRight.getVelocity(AngleUnit.DEGREES) + " degrees/sec");
     }
 
-    private double time = 0;
-    private boolean usePreciseControls = true;
+    public double getHeading() {
+        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        return orientation.firstAngle;
+    }
+
+    public void setHeading(double heading) throws InterruptedException {
+
+    }
 
     /**
      * Sets motor powers to drive the robot based
@@ -247,13 +249,8 @@ public class HolonomicDriveTrain extends HardwareComponent {
      * @see TeleOpProgram
      */
     public void driveControlled(Gamepad gamepad) {
-        final double COOLDOWN = 1; //Have to wait one second before toggling control mode again
-
-        if(gamepad.y) { //Toggle control mode if y is pressed
-            if((System.nanoTime() - time) / 1e9 >= COOLDOWN) {
-                usePreciseControls = !usePreciseControls;
-                time = System.nanoTime();
-            }
+        if(gamepad.y) {
+            preciseControlsToggle.toggle();
         }
 
         double x = gamepad.left_stick_x;
@@ -262,7 +259,7 @@ public class HolonomicDriveTrain extends HardwareComponent {
         Vector2 direction = new Vector2();
         double turnPower;
 
-        if(usePreciseControls) { //Four directional movement only, rotation and movement sensitivity reduced considerably
+        if(preciseControlsToggle.isToggled()) { //Four directional movement only, rotation and movement sensitivity reduced considerably
             if(abs(x) < abs(y)) {
                 direction.x = 0;
                 direction.y = y;
@@ -271,8 +268,8 @@ public class HolonomicDriveTrain extends HardwareComponent {
                 direction.y = 0;
             }
 
-            direction = direction.times(0.5);
-            turnPower = turnPowerScale.scale(gamepad.right_stick_x, 0.5);
+            direction = direction.times(0.45);
+            turnPower = turnPowerScale.scale(gamepad.right_stick_x, 0.45);
         } else {
             direction = new Vector2(gamepad.left_stick_x, gamepad.left_stick_y);
             turnPower = turnPowerScale.scale(gamepad.right_stick_x);
@@ -380,14 +377,12 @@ public class HolonomicDriveTrain extends HardwareComponent {
      * @see AutonomousProgram
      */
     public void move(double power, double angle, double distance) throws InterruptedException {
-        double theta = toRadians(angle + 45);
-
         setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         double basicPosition = encoderTicksPerRotation * (distance / wheelCircumference);
-        double leftRightDiagonalPos = abs(basicPosition * cos(theta));
-        double rightLeftDiagonalPos = abs(basicPosition * sin(theta));
+        double leftRightDiagonalPos = abs(basicPosition * cos(toRadians(angle + 45)));
+        double rightLeftDiagonalPos = abs(basicPosition * sin(toRadians(angle + 45)));
 
         holonomicMove(power, angle, 0);
 
@@ -435,49 +430,22 @@ public class HolonomicDriveTrain extends HardwareComponent {
      * @see AutonomousProgram
      */
     public void turn(double power, double angle) throws InterruptedException {
-//        setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//
-//        imu.resetZAxisIntegrator();
-//
-//        Thread.sleep(5);
-//
-//        while(!imu.isCalibrating()) {
-//            imu.calibrate();
-//            Thread.sleep(5);
-//        }
-//
-//        while(imu.isCalibrating()) {
-//            Thread.sleep(5);
-//        }
-//
-//        boolean negative;
-//
-//        if(angle >= 0) {
-//            negative = false;
-//            power *= 1;
-//        } else {
-//            negative = true;
-//            power *= -1;
-//        }
-//
-//        int currentHeading = 0;
-//
-//        while(currentHeading < abs(angle)) {
-//            if(imu.getHeading() == 0) {
-//                currentHeading = 0;
-//            } else {
-//                currentHeading = negative ? 359 - imu.getHeading() : imu.getHeading();
-//            }
-//
-//            frontLeft.setPower(power);
-//            frontRight.setPower(power);
-//            backLeft.setPower(power);
-//            backRight.setPower(power);
-//
-//            Thread.sleep(1);
-//        }
-//
-//        stop();
+        setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        double startHeading = getHeading();
+
+        double currentHeading = getHeading() - startHeading;
+
+        while(abs(currentHeading - angle) > 1) { //1 degree error margin
+            currentHeading = getHeading() - startHeading;
+            turn(-power * signum(angle - currentHeading));
+            Thread.sleep(1);
+        }
+
+        stop();
+        setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /**

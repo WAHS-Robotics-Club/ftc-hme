@@ -17,7 +17,7 @@ public class ColorSensorTest extends OpMode {
     public void init() {
         colorSensor = hardwareMap.colorSensor.get(HardwareMapConstants.COLOR_SENSOR);
 
-        colorSensor.enableLed(false);
+        colorSensor.enableLed(true);
     }
 
     @Override

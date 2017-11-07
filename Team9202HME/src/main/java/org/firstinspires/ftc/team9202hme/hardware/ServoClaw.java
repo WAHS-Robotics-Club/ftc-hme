@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
+import org.firstinspires.ftc.team9202hme.util.Toggle;
 
 /**
  * A simple continuous-rotation servo claw, made for picking up
@@ -19,6 +20,8 @@ import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
  */
 public class ServoClaw extends HardwareComponent {
     private CRServo left, right;
+
+    private Toggle grabToggle = new Toggle();
 
     @Override
     public void init(HardwareMap hardwareMap) {
@@ -43,15 +46,20 @@ public class ServoClaw extends HardwareComponent {
     public void grabControlled(Gamepad gamepad) {
         final double CLAW_POWER = 0.7;
 
+        if(gamepad.right_bumper) {
+            grabToggle.toggle();
+        }
+
         if(gamepad.left_bumper) {
             left.setPower(CLAW_POWER);
             right.setPower(CLAW_POWER);
-        } else if(gamepad.right_bumper) {
-            left.setPower(-CLAW_POWER);
-            right.setPower(-CLAW_POWER);
+            grabToggle.setToggle(false);
+        } else if(grabToggle.isToggled()) {
+            left.setPower(-1);
+            right.setPower(-1);
         } else {
             left.setPower(0);
-            right.setPower(0);
+            right.setPower(-0.05); //Right claw won't stay against the robot
         }
     }
 

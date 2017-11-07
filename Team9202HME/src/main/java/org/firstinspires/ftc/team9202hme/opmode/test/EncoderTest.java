@@ -19,6 +19,6 @@ public class EncoderTest extends LinearOpMode {
 
         waitForStart();
 
-        driveTrain.move(0.4, 90, 96); //Move 8 feet forward (or 90 degrees) at 0.4 power
+        driveTrain.move(0.4, 90, 24); //Move 2 feet forward (or 90 degrees) at 0.4 power
     }
 }
