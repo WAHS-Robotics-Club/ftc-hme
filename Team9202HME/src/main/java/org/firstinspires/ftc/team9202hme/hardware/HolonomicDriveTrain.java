@@ -177,10 +177,6 @@ public class HolonomicDriveTrain extends HardwareComponent {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled = false;
-        parameters.loggingTag = "IMU";
-//        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         imu = hardwareMap.get(BNO055IMU.class, HardwareMapConstants.IMU);
         imu.initialize(parameters);
@@ -197,6 +193,8 @@ public class HolonomicDriveTrain extends HardwareComponent {
 
         setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        preciseControlsToggle.setToggle(true);
     }
 
     @Override
@@ -394,7 +392,8 @@ public class HolonomicDriveTrain extends HardwareComponent {
 
         setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        holonomicMove(power, angle, 0); //Have to do again, since RUN_TO_POSITION makes all powers positive, which messes with the above signums
+        holonomicMove(power, angle, 0); /*Have to do again, since RUN_TO_POSITION makes all powers positive, which nullifies the above signums
+                                          if done prior to fetching motor powers*/
 
         while(motorsBusy()) {
             Thread.sleep(1);

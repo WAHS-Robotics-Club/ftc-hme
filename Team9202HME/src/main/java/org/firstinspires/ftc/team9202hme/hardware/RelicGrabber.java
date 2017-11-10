@@ -9,11 +9,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
+import org.firstinspires.ftc.team9202hme.util.Toggle;
 
 public class RelicGrabber extends HardwareComponent {
     private DcMotor lift;
     private Servo grabber;
     private CRServo extender;
+
+    private Toggle grabToggle = new Toggle(0.25);
 
     @Override
     public void init(HardwareMap hardwareMap) {
@@ -23,23 +26,27 @@ public class RelicGrabber extends HardwareComponent {
     }
 
     public void grabControlled(Gamepad gamepad) {
+        if(gamepad.x) {
+            grabToggle.toggle();
+        }
+
         if(gamepad.dpad_up) {
-            lift.setPower(gamepad.x ? -1.0 : -0.5);
+            lift.setPower(grabToggle.isToggled() ? -1.0 : -0.5);
         } else if(gamepad.dpad_down) {
-            lift.setPower(0.1);
+            lift.setPower(0.05);
         } else {
             lift.setPower(0);
         }
 
         if(gamepad.dpad_right) {
-            extender.setPower(-0.4);
+            extender.setPower(-0.5);
         } else if(gamepad.dpad_left) {
-            extender.setPower(0.4);
+            extender.setPower(0.5);
         } else {
-            extender.setPower(gamepad.x ? -0.01 : 0.0);
+            extender.setPower(grabToggle.isToggled() ? -0.01 : 0.0);
         }
 
-        if(gamepad.x) {
+        if(grabToggle.isToggled()) {
             grabber.setPosition(1);
         } else {
             grabber.setPosition(0);

@@ -21,7 +21,7 @@ import org.firstinspires.ftc.team9202hme.util.Toggle;
 public class ServoClaw extends HardwareComponent {
     private CRServo left, right;
 
-    private Toggle grabToggle = new Toggle();
+    private Toggle grabToggle = new Toggle(0.25);
 
     @Override
     public void init(HardwareMap hardwareMap) {
@@ -29,6 +29,8 @@ public class ServoClaw extends HardwareComponent {
         right = hardwareMap.crservo.get(HardwareMapConstants.CLAW_RIGHT_CRSERVO);
 
         right.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        grabToggle.setToggle(true);
     }
 
     /**

@@ -7,19 +7,23 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.team9202hme.FieldConstants;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
 import org.firstinspires.ftc.team9202hme.hardware.RelicGrabber;
 import org.firstinspires.ftc.team9202hme.hardware.ServoClaw;
 import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
+import org.firstinspires.ftc.team9202hme.util.Toggle;
 
 public class HmeTeleOpProgram extends TeleOpProgram {
-    private HolonomicDriveTrain driveTrain = new HolonomicDriveTrain(76.2, 1120);
+    private HolonomicDriveTrain driveTrain = new HolonomicDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
     private ServoClaw claw = new ServoClaw();
     private RelicGrabber grabber = new RelicGrabber();
     private Servo jewelWhacker;
     private DcMotor spool;
     private boolean dualControl;
+
+    private Toggle whackerToggle = new Toggle(0.25);
 
     public HmeTeleOpProgram(OpMode opMode, boolean dualControl) {
         super(opMode);
@@ -34,6 +38,8 @@ public class HmeTeleOpProgram extends TeleOpProgram {
 
         jewelWhacker = opMode.hardwareMap.servo.get(HardwareMapConstants.JEWEL_WHACKER_SERVO);
         spool = opMode.hardwareMap.dcMotor.get(HardwareMapConstants.PULLEY_SPOOL_DCMOTOR);
+
+        whackerToggle.setToggle(true);
     }
 
     @Override
@@ -63,13 +69,15 @@ public class HmeTeleOpProgram extends TeleOpProgram {
             spool.setPower(0);
         }
 
-        if(secondary.a) {
-            jewelWhacker.setPosition(0.53);
-        } else if(secondary.b) {
-            jewelWhacker.setPosition(0);
+        if(secondary.b) {
+            whackerToggle.toggle();
         }
 
-        opMode.telemetry.addData("Jewel Whacker Position", jewelWhacker.getPosition());
+        if(whackerToggle.isToggled()) {
+            jewelWhacker.setPosition(0.87);
+        } else {
+            jewelWhacker.setPosition(0.3);
+        }
 
         updateTelemetry();
     }
