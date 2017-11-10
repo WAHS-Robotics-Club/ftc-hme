@@ -191,8 +191,7 @@ public class HolonomicDriveTrain extends HardwareComponent {
         backLeft.setTargetPositionTolerance(15);
         backRight.setTargetPositionTolerance(15);
 
-        setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        stop();
 
         preciseControlsToggle.setToggle(true);
     }
@@ -285,6 +284,9 @@ public class HolonomicDriveTrain extends HardwareComponent {
         frontRight.setPower(0.0);
         backLeft.setPower(0.0);
         backRight.setPower(0.0);
+
+        setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /**
@@ -375,7 +377,7 @@ public class HolonomicDriveTrain extends HardwareComponent {
      * @see AutonomousProgram
      */
     public void move(double power, double angle, double distance) throws InterruptedException {
-        setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        stop();
         setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         double basicPosition = encoderTicksPerRotation * (distance / wheelCircumference);
@@ -394,14 +396,11 @@ public class HolonomicDriveTrain extends HardwareComponent {
 
         holonomicMove(power, angle, 0); /*Have to do again, since RUN_TO_POSITION makes all powers positive, which nullifies the above signums
                                           if done prior to fetching motor powers*/
-
         while(motorsBusy()) {
             Thread.sleep(1);
         }
 
         stop();
-        setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /**
@@ -429,8 +428,7 @@ public class HolonomicDriveTrain extends HardwareComponent {
      * @see AutonomousProgram
      */
     public void turn(double power, double angle) throws InterruptedException {
-        setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        stop();
 
         double startHeading = getHeading();
 
@@ -443,8 +441,6 @@ public class HolonomicDriveTrain extends HardwareComponent {
         }
 
         stop();
-        setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /**
