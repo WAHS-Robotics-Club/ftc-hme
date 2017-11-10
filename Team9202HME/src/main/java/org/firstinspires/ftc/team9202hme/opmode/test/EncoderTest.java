@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Hardware;
 
+import org.firstinspires.ftc.team9202hme.FieldConstants;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
 
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
 public class EncoderTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        HolonomicDriveTrain driveTrain = new HolonomicDriveTrain(3.92, 1120); //4 inch diameter omni wheels, -.8 because omni's deform wheel a bit
+        HolonomicDriveTrain driveTrain = new HolonomicDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
         driveTrain.init(hardwareMap);
 
         waitForStart();

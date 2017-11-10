@@ -2,7 +2,7 @@ package org.firstinspires.ftc.team9202hme;
 
 
 public class HardwareMapConstants {
-    public static final String COLOR_SENSOR = "sensor-color";
+    public static final String COLOR_SENSOR = "color";
     public static final String IMU = "imu";
 
     public static final String CLAW_LEFT_CRSERVO = "claw-left";
