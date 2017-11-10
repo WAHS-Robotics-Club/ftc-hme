@@ -6,14 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 /**
  * Interface for creating programs to be used during
  * the autonomous period of the competition
- *
- * @author Nathaniel Glover
  */
 public abstract class AutonomousProgram {
     /**
      * The two possible sides of the field
-     *
-     * @author Nathaniel Glover
      */
     public enum FieldSide {
         RED, BLUE
@@ -31,8 +27,7 @@ public abstract class AutonomousProgram {
     protected FieldSide fieldSide;
 
     /**
-     * Initializes protected members so that
-     * they may be used by subclasses
+     * Initializes protected members so that they may be used by subclasses
      *
      * @param opMode The LinearOpMode that will be running this program
      * @param fieldSide The side of the field that the robot will be on

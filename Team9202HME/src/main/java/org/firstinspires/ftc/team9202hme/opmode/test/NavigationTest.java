@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.team9202hme.opmode.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.team9202hme.navigation.PhoneOrientation;
 import static java.lang.Math.abs;
 
 @TeleOp(name = "Navigation Test", group = "Tests")
-//@Disabled
+@Disabled
 public class NavigationTest extends OpMode {
     private Navigator navigator = new Navigator(CameraSide.BACK, PhoneOrientation.UPRIGHT, 1, true);
 

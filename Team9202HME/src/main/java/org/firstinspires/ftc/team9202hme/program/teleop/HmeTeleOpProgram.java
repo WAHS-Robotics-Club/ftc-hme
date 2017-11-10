@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.team9202hme.FieldConstants;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
+import org.firstinspires.ftc.team9202hme.hardware.JewelWhacker;
 import org.firstinspires.ftc.team9202hme.hardware.RelicGrabber;
 import org.firstinspires.ftc.team9202hme.hardware.ServoClaw;
 import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
@@ -19,11 +20,9 @@ public class HmeTeleOpProgram extends TeleOpProgram {
     private HolonomicDriveTrain driveTrain = new HolonomicDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
     private ServoClaw claw = new ServoClaw();
     private RelicGrabber grabber = new RelicGrabber();
-    private Servo jewelWhacker;
+    private JewelWhacker jewelWhacker = new JewelWhacker();
     private DcMotor spool;
     private boolean dualControl;
-
-    private Toggle whackerToggle = new Toggle(0.25);
 
     public HmeTeleOpProgram(OpMode opMode, boolean dualControl) {
         super(opMode);
@@ -35,11 +34,9 @@ public class HmeTeleOpProgram extends TeleOpProgram {
         driveTrain.init(opMode.hardwareMap);
         claw.init(opMode.hardwareMap);
         grabber.init(opMode.hardwareMap);
+        jewelWhacker.init(opMode.hardwareMap);
 
-        jewelWhacker = opMode.hardwareMap.servo.get(HardwareMapConstants.JEWEL_WHACKER_SERVO);
         spool = opMode.hardwareMap.dcMotor.get(HardwareMapConstants.PULLEY_SPOOL_DCMOTOR);
-
-        whackerToggle.setToggle(true);
     }
 
     @Override
@@ -60,6 +57,7 @@ public class HmeTeleOpProgram extends TeleOpProgram {
         driveTrain.driveControlled(primary);
         claw.grabControlled(primary);
         grabber.grabControlled(secondary);
+        jewelWhacker.whackControlled(secondary);
 
         if(secondary.right_trigger > 0.05) {
             spool.setPower(secondary.right_trigger);
@@ -67,16 +65,6 @@ public class HmeTeleOpProgram extends TeleOpProgram {
             spool.setPower(-secondary.left_trigger);
         } else {
             spool.setPower(0);
-        }
-
-        if(secondary.b) {
-            whackerToggle.toggle();
-        }
-
-        if(whackerToggle.isToggled()) {
-            jewelWhacker.setPosition(0.87);
-        } else {
-            jewelWhacker.setPosition(0.3);
         }
 
         updateTelemetry();
@@ -91,6 +79,7 @@ public class HmeTeleOpProgram extends TeleOpProgram {
         driveTrain.logTelemetry(opMode.telemetry);
         claw.logTelemetry(opMode.telemetry);
         grabber.logTelemetry(opMode.telemetry);
+        jewelWhacker.logTelemetry(opMode.telemetry);
 
         opMode.telemetry.update();
     }

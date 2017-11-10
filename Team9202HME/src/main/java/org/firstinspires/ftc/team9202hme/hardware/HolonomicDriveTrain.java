@@ -34,7 +34,7 @@ import static java.lang.Math.toRadians;
  * configuration. This class assumes that the wheels are
  * in "X" configuration, where wheels are at 45 degree
  * angles on the corners of the robot. It also assumes
- * that every wheel is the same diameter, and each
+ * that every wheel has the same diameter, and each
  * corresponding motor has the same number of encoder
  * ticks per rotation
  *
@@ -42,7 +42,6 @@ import static java.lang.Math.toRadians;
  * @author Nathaniel Glover
  * @author Sage Wibberley
  */
-//TODO: Make minimum move/turn powers programmable
 public class HolonomicDriveTrain extends HardwareComponent {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
     private BNO055IMU imu;
@@ -201,7 +200,6 @@ public class HolonomicDriveTrain extends HardwareComponent {
         telemetry.addData("Precision Controls", (preciseControlsToggle.isToggled() ? "On" : "Off") + "\n");
 
         AngularVelocity velocity = imu.getAngularVelocity();
-
         Vector3 angularVelocity = new Vector3(velocity.xRotationRate, velocity.yRotationRate, velocity.zRotationRate);
 
         telemetry.addData("Angular Velocity", angularVelocity + " degrees/sec\n");
@@ -256,7 +254,7 @@ public class HolonomicDriveTrain extends HardwareComponent {
         Vector2 direction = new Vector2();
         double turnPower;
 
-        if(preciseControlsToggle.isToggled()) { //Four directional movement only, rotation and movement sensitivity reduced considerably
+        if(preciseControlsToggle.isToggled()) { //Four directional movement only, rotation and movement sensitivity scaled by 0.45
             if(abs(x) < abs(y)) {
                 direction.x = 0;
                 direction.y = y;
