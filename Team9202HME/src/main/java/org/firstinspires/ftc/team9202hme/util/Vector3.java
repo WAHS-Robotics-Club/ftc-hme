@@ -8,7 +8,7 @@ import static java.lang.Math.*;
  *
  * @author Nathaniel Glover
  */
-public class Vector3 extends AbstractVector<Vector3> {
+public class Vector3 {
     /**
      * A constant for an empty vector
      */
@@ -39,14 +39,13 @@ public class Vector3 extends AbstractVector<Vector3> {
         this.z = z;
     }
 
-    @Override
     public double dot(Vector3 multiplier) {
         return (x * multiplier.x) + (y * multiplier.y) + (z * multiplier.z);
     }
 
     /**
      * Returns the cross product of this vector and another.
-     * Note that cross product is only defined for 3-component
+     * Note that cross product is only defined for 3 dimensional
      * vectors
      *
      * @param multiplier The vector with which this one will be multiplied
@@ -60,44 +59,43 @@ public class Vector3 extends AbstractVector<Vector3> {
         );
     }
 
-    @Override
     public Vector3 plus(Vector3 addition) {
         return new Vector3(x + addition.x, y + addition.y, z + addition.z);
     }
 
-    @Override
     public Vector3 minus(Vector3 subtraction) {
         return new Vector3(x - subtraction.x, y - subtraction.y, z - subtraction.z);
     }
 
-    @Override
     public Vector3 times(double scalar) {
         return new Vector3(x * scalar, y * scalar, z * scalar);
     }
 
-    @Override
     public double magnitude() {
         return sqrt((x * x) + (y * y) + (z * z));
     }
 
-    @Override
     public Vector3 normalize() {
         double length = magnitude();
         return new Vector3(x / length, y / length, z / length);
     }
 
-    @Override
-    protected boolean isEqual(Object vector) {
+    private boolean isEqual(Object vector) {
         Vector3 comparator = (Vector3) vector;
         return (x == comparator.x) && (y == comparator.y) && (z == comparator.z);
     }
 
     @Override
-    protected String toText() {
+    public String toString() {
         return "(\n" +
                 "\tX: " + x + ",\n" +
                 "\tY: " + y + ",\n" +
                 "\tZ: " + z +
                 "\n)";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        return object instanceof Vector3 && this.isEqual(object);
     }
 }
