@@ -14,10 +14,10 @@ public class JewelWhacker extends HardwareComponent {
     private Servo whacker;
     private ColorSensor colorSensor;
 
-    private Toggle whackerToggle = new Toggle(0.25);
+    private Toggle whackerToggle = new Toggle();
 
-    private final double WHACKER_DOWN = 0.3;
-    private final double WHACKER_UP = 0.9;
+    private final double WHACKER_DOWN = 0.27;
+    private final double WHACKER_UP = 0.875;
 
     public enum JewelColor {
         RED, BLUE, UNKNOWN
@@ -38,9 +38,9 @@ public class JewelWhacker extends HardwareComponent {
         }
 
         if(whackerToggle.isToggled()) {
-            whacker.setPosition(WHACKER_UP);
+            raise();
         } else {
-            whacker.setPosition(WHACKER_DOWN);
+            lower();
         }
     }
 
@@ -55,10 +55,10 @@ public class JewelWhacker extends HardwareComponent {
     public JewelColor readJewelColor() {
         boolean blueJewel = false, redJewel = false;
 
-        if(colorSensor.blue() - colorSensor.red() >= 3) {
+        if(colorSensor.blue() - colorSensor.red() >= 1) {
             blueJewel = true;
             redJewel = false;
-        } else if(colorSensor.red() - colorSensor.blue() >= 3) {
+        } else if(colorSensor.red() - colorSensor.blue() >= 1) {
             redJewel = true;
             blueJewel = false;
         }

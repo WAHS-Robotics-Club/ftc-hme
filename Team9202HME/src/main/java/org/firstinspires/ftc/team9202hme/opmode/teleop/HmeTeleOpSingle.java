@@ -3,17 +3,12 @@ package org.firstinspires.ftc.team9202hme.opmode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
-import org.firstinspires.ftc.team9202hme.program.teleop.HmeTeleOpProgram;
-import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
+import org.firstinspires.ftc.team9202hme.program.teleop.MainTeleOpProgram;
 
 @TeleOp(name = "HME TeleOp - Single Driver", group = "HME")
 public class HmeTeleOpSingle extends OpMode {
-    private HmeTeleOpProgram robot = new HmeTeleOpProgram(this, false);
+    private MainTeleOpProgram robot = new MainTeleOpProgram(this, false);
 
     @Override
     public void init() {

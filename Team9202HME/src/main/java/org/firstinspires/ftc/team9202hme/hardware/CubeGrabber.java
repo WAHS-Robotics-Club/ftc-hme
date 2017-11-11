@@ -18,17 +18,21 @@ import org.firstinspires.ftc.team9202hme.util.Toggle;
  *
  * @author Nathaniel Glover
  */
-public class ServoClaw extends HardwareComponent {
+public class CubeGrabber extends HardwareComponent {
     private CRServo left, right;
+    private DcMotor spool;
 
-    private Toggle grabToggle = new Toggle(0.25);
+    private Toggle grabToggle = new Toggle();
 
     @Override
     public void init(HardwareMap hardwareMap) {
         left = hardwareMap.crservo.get(HardwareMapConstants.CLAW_LEFT_CRSERVO);
         right = hardwareMap.crservo.get(HardwareMapConstants.CLAW_RIGHT_CRSERVO);
+        spool = hardwareMap.dcMotor.get(HardwareMapConstants.PULLEY_SPOOL_DCMOTOR);
 
         right.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        right.setPower(-0.1); //Right claw won't stay against the robot
 
         grabToggle.setToggle(true);
     }
@@ -62,6 +66,14 @@ public class ServoClaw extends HardwareComponent {
         } else {
             left.setPower(0);
             right.setPower(-0.05); //Right claw won't stay against the robot
+        }
+
+        if(gamepad.right_trigger > 0.05) {
+            spool.setPower(gamepad.right_trigger);
+        } else if(gamepad.left_trigger > 0.05) {
+            spool.setPower(-gamepad.left_trigger);
+        } else {
+            spool.setPower(0);
         }
     }
 

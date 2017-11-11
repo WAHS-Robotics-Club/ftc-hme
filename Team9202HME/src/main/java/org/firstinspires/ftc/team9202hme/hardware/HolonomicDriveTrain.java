@@ -340,16 +340,6 @@ public class HolonomicDriveTrain extends HardwareComponent {
     }
 
     /**
-     * While moving to a specified position (given in encoder ticks), the motors are put in "busy" mode,
-     * which is a convenient way of testing for when the motors have arrived at the target position
-     *
-     * @return Whether or not at least one motor is busy
-     */
-    private boolean motorsBusy() {
-        return frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy();
-    }
-
-    /**
      * Sets the motor powers so that the robot
      * moves at the specified speed and angle,
      * until it has reached the specified
@@ -394,7 +384,7 @@ public class HolonomicDriveTrain extends HardwareComponent {
 
         holonomicMove(power, angle, 0); /*Have to do again, since RUN_TO_POSITION makes all powers positive, which nullifies the above signums
                                           if done prior to fetching motor powers*/
-        while(motorsBusy()) {
+        while(frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy()) {
             Thread.sleep(1);
         }
 
@@ -432,7 +422,7 @@ public class HolonomicDriveTrain extends HardwareComponent {
 
         double currentHeading = getHeading() - startHeading;
 
-        while(abs(currentHeading - angle) > 1) { //1 degree error margin
+        while(abs(currentHeading - angle) > 0.1) { //0.1 degree error margin
             currentHeading = getHeading() - startHeading;
             turn(-power * signum(angle - currentHeading));
             Thread.sleep(1);

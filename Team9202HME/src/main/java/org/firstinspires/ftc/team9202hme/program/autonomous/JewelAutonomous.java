@@ -70,8 +70,11 @@ public class JewelAutonomous extends AutonomousProgram {
                 break;
         }
 
-        Thread.sleep(500);
+        Thread.sleep(300);
 
         jewelWhacker.raise();
+        driveTrain.stop();
+
+        Thread.sleep(1000);
     }
 }

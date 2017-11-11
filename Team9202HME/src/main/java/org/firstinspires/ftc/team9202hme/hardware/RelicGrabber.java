@@ -16,7 +16,7 @@ public class RelicGrabber extends HardwareComponent {
     private Servo grabber;
     private CRServo extender;
 
-    private Toggle grabToggle = new Toggle(0.25);
+    private Toggle grabToggle = new Toggle();
 
     @Override
     public void init(HardwareMap hardwareMap) {
