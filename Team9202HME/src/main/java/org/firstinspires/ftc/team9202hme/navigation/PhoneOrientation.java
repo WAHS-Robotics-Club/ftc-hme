@@ -4,8 +4,6 @@ package org.firstinspires.ftc.team9202hme.navigation;
  * The four possible orientations of the robot controller
  * phone on the robot. These are necessary to give proper
  * readings of an image's location in 3D space
- *
- * @author Nathaniel Glover
  */
 public enum PhoneOrientation {
     /**

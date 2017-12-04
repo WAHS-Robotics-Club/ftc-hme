@@ -5,8 +5,6 @@ import static java.lang.Math.*;
 
 /**
  * A vector containing three components
- *
- * @author Nathaniel Glover
  */
 public class Vector3 {
     /**

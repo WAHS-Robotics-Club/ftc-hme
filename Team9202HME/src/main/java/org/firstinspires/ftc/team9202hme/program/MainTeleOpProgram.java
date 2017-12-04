@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme.program.teleop;
+package org.firstinspires.ftc.team9202hme.program;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -32,27 +32,24 @@ public class MainTeleOpProgram extends TeleOpProgram {
         jewelWhacker.init(opMode.hardwareMap);
     }
 
+//    private int counter = 0;
+//    private double startTime = System.nanoTime() / 1e9d;
+
     @Override
     public void loop() {
-        Gamepad primary = new Gamepad();
-        Gamepad secondary = new Gamepad();
-
-        try { //Multiplying gamepad1 and 2's y-axes by -1 continuously inverts them back and forth, so copy their states first to avoid that
-            primary.copy(opMode.gamepad1);
-            secondary.copy(dualControl ? opMode.gamepad2 : opMode.gamepad1);
-        } catch(RobotCoreException e) {
-            e.printStackTrace();
-        }
-
-        primary.left_stick_y *= -1; //Apparently gamepads have inverted y-axes for some reason
-        primary.right_stick_y *= -1;
+//        startTime = System.nanoTime() / 1e9d;
+        Gamepad primary = opMode.gamepad1;
+        Gamepad secondary = dualControl ? opMode.gamepad2 : primary;
 
         driveTrain.driveControlled(primary);
         cubeGrabber.grabControlled(primary);
         relicGrabber.grabControlled(secondary);
         jewelWhacker.whackControlled(secondary);
 
-        updateTelemetry();
+//        counter++;
+//        opMode.telemetry.addData("Loops per second", counter / ((System.nanoTime() / 1e9d) - startTime));
+
+//        updateTelemetry();
     }
 
     @Override
@@ -62,9 +59,6 @@ public class MainTeleOpProgram extends TeleOpProgram {
 
     private void updateTelemetry() {
         driveTrain.logTelemetry(opMode.telemetry);
-        cubeGrabber.logTelemetry(opMode.telemetry);
-        relicGrabber.logTelemetry(opMode.telemetry);
-        jewelWhacker.logTelemetry(opMode.telemetry);
 
         opMode.telemetry.update();
     }

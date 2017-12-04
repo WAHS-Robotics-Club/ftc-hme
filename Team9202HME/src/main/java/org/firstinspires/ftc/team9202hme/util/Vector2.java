@@ -5,8 +5,6 @@ import static java.lang.Math.*;
 
 /**
  * A vector containing two components
- *
- * @author Nathaniel Glover
  */
 public class Vector2 {
     /**
@@ -70,8 +68,8 @@ public class Vector2 {
     @Override
     public String toString() {
         return "(\n" +
-                    "\tX: " + x + ",\n" +
-                    "\tY: " + y +
+                "\tX: " + x + ",\n" +
+                "\tY: " + y +
                 "\n)";
     }
 

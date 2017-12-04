@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 /**
  * Interface for creating programs to be used during
  * the driver controlled and endgame periods of the competition
- *
- * @author Nathaniel Glover
  */
 public abstract class TeleOpProgram {
     /**

@@ -29,7 +29,7 @@ public abstract class AutonomousProgram {
     /**
      * Initializes protected members so that they may be used by subclasses
      *
-     * @param opMode The LinearOpMode that will be running this program
+     * @param opMode    The LinearOpMode that will be running this program
      * @param fieldSide The side of the field that the robot will be on
      *                  when this program is run
      */

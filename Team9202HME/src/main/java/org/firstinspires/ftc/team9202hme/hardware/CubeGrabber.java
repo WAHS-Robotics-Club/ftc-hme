@@ -15,8 +15,6 @@ import org.firstinspires.ftc.team9202hme.util.Toggle;
 /**
  * A simple continuous-rotation servo claw, made for picking up
  * 6x6x6 inch foam cubes
- *
- * @author Nathaniel Glover
  */
 public class CubeGrabber extends HardwareComponent {
     private CRServo left, right;
@@ -46,7 +44,6 @@ public class CubeGrabber extends HardwareComponent {
      *                It should ideally come from the OpMode in the
      *                program that will be controlling the robot, as either
      *                gamepad1 or gamepad2
-     *
      * @see TeleOpProgram
      */
     public void grabControlled(Gamepad gamepad) {

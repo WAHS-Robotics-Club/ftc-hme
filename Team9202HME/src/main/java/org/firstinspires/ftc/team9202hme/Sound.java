@@ -10,12 +10,10 @@ import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 
 /**
  * Manages playback of audio from a file.
- *
+ * <p>
  * Simply place an audio file in Team9202HME/res/raw,
  * and then use R.raw.{file_name} as the Android resource ID.
  * Be sure to import the correct R class, there are multiple.
- *
- * @author Nathaniel Glover
  */
 public class Sound {
     private MediaPlayer mediaPlayer;
@@ -29,7 +27,7 @@ public class Sound {
      *
      * @param hardwareMap Is used to get a handle to the FTC Robot Controller app, so sound can
      *                    be played through it
-     * @param resourceId The Android resource ID for the audio file to be played
+     * @param resourceId  The Android resource ID for the audio file to be played
      */
     public void load(HardwareMap hardwareMap, int resourceId) {
         mediaPlayer = MediaPlayer.create(hardwareMap.appContext, resourceId);
@@ -40,7 +38,7 @@ public class Sound {
                 while(mediaPlayer.isPlaying()) {
                     try {
                         Thread.sleep(1);
-                    } catch (InterruptedException e) {
+                    } catch(InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -91,7 +89,8 @@ public class Sound {
 
     /**
      * Sets the volume of the sound for both left and right speakers, if possible
-     * @param leftVolume The left volume, from 0.0 to 1.0
+     *
+     * @param leftVolume  The left volume, from 0.0 to 1.0
      * @param rightVolume The right volume, from 0.0 to 1.0
      */
     public void setVolume(float leftVolume, float rightVolume) {

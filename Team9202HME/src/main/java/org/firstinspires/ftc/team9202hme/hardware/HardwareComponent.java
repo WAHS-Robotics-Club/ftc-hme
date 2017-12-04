@@ -13,8 +13,6 @@ import org.firstinspires.ftc.team9202hme.program.AutonomousProgram;
  * An interface for initializing hardware devices
  * on the robot, and logging any necessary data
  * to the telemetry
- *
- * @author Nathaniel Glover
  */
 public abstract class HardwareComponent {
     /**
@@ -25,7 +23,6 @@ public abstract class HardwareComponent {
      *                    initialize hardware devices. It should
      *                    ideally come from the OpMode in the
      *                    program that will be using the hardware
-     *
      * @see OpMode
      * @see TeleOpProgram
      * @see AutonomousProgram
@@ -42,7 +39,6 @@ public abstract class HardwareComponent {
      *                  data. It should ideally come from the OpMode
      *                  in the program that will be displaying the
      *                  data to the driver station phone
-     *
      * @see OpMode
      * @see TeleOpProgram
      * @see AutonomousProgram

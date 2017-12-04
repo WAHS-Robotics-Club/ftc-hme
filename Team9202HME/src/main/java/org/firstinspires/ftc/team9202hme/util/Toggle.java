@@ -13,7 +13,7 @@ public class Toggle {
     }
 
     public Toggle() {
-        cooldownTime = 0.5;
+        cooldownTime = 0.25;
         toggled = false;
         time = System.nanoTime();
     }

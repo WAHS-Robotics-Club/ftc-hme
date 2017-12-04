@@ -4,7 +4,7 @@ package org.firstinspires.ftc.team9202hme.opmode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.team9202hme.program.teleop.MainTeleOpProgram;
+import org.firstinspires.ftc.team9202hme.program.MainTeleOpProgram;
 
 @TeleOp(name = "HME TeleOp - Dual Driver", group = "HME")
 public class HmeTeleOpDual extends OpMode {

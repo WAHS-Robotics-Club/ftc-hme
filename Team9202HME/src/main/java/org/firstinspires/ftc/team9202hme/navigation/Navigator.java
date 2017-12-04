@@ -23,13 +23,11 @@ import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 /**
  * A collection of functions for locating images in
  * 3D space, using the robot controller phone's camera
- *
+ * <p>
  * NOTE: For the 2017-18 First Tech Challenge, Relic Recovery, the only "target" that
  * this class will be working with is the crypto key VuMark, so its functions will not
  * have parameters for which target to track, since there is only one. This will be changed
  * whenever there are more available targets
- *
- * @author Nathaniel Glover
  */
 public class Navigator {
     private VuforiaLocalizer.Parameters vuforiaSettings;
@@ -41,12 +39,12 @@ public class Navigator {
     /**
      * Creates the Navigator with necessary parameters
      *
-     * @param cameraSide The camera that will be used to locate images
-     * @param orientation The orientation of the phone on the robot
+     * @param cameraSide                  The camera that will be used to locate images
+     * @param orientation                 The orientation of the phone on the robot
      * @param maxSimultaneousImageTargets The maximum number of image targets that can be tracked at one time
-     * @param showCameraFeedbackOnPhone Whether or not what the camera is seeing should be displayed on the
-     *                                  robot controller phone. This is good for debugging, but eats through
-     *                                  the phone battery
+     * @param showCameraFeedbackOnPhone   Whether or not what the camera is seeing should be displayed on the
+     *                                    robot controller phone. This is good for debugging, but eats through
+     *                                    the phone battery
      */
     public Navigator(CameraSide cameraSide, PhoneOrientation orientation, int maxSimultaneousImageTargets, boolean showCameraFeedbackOnPhone) {
         this.cameraSide = cameraSide;
@@ -59,9 +57,11 @@ public class Navigator {
         }
 
         switch(cameraSide) {
-            case SCREEN: vuforiaSettings.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+            case SCREEN:
+                vuforiaSettings.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
                 break;
-            case BACK: vuforiaSettings.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+            case BACK:
+                vuforiaSettings.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
                 break;
         }
 
@@ -106,17 +106,22 @@ public class Navigator {
      * Only valid for FTC Relic Recovery (2017-2018) challenge, will be removed when the season ends
      *
      * @return Returns either LEFT, CENTER, or RIGHT, which correspond to the column which will award
-     *         bonus points if a cube is placed inside it during autonomous
+     * bonus points if a cube is placed inside it during autonomous
      */
     public CryptoColumn decodeTarget() {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(targets.get(0));
 
         switch(vuMark) {
-            case UNKNOWN: return CryptoColumn.UNKNOWN;
-            case LEFT: return CryptoColumn.LEFT;
-            case CENTER: return CryptoColumn.CENTER;
-            case RIGHT: return CryptoColumn.RIGHT;
-            default: return CryptoColumn.UNKNOWN;
+            case UNKNOWN:
+                return CryptoColumn.UNKNOWN;
+            case LEFT:
+                return CryptoColumn.LEFT;
+            case CENTER:
+                return CryptoColumn.CENTER;
+            case RIGHT:
+                return CryptoColumn.RIGHT;
+            default:
+                return CryptoColumn.UNKNOWN;
         }
     }
 
@@ -124,10 +129,10 @@ public class Navigator {
      * Returns the position, using right-hand rule, of the target in 3D space
      *
      * @return The translation of the target in 3D space, relative to the phone, where x
-     *         is the distance from the origin on the x axis, y is the distance from the
-     *         origin on the y axis, and z is the distance from the origin on the z axis.
-     *         These values are all given in millimeters, and use the right-hand rule to
-     *         determine the meaning of positive and negative values
+     * is the distance from the origin on the x axis, y is the distance from the
+     * origin on the y axis, and z is the distance from the origin on the z axis.
+     * These values are all given in millimeters, and use the right-hand rule to
+     * determine the meaning of positive and negative values
      */
     public Vector3 getRelativeTargetTranslation() {
         OpenGLMatrix pose = listener.getPose();
@@ -166,10 +171,10 @@ public class Navigator {
      * Returns the rotation, of the target in 3D space
      *
      * @return The rotation of the target in 3D space, relative to the phone, using
-     *         Euler angles, where x is pitch, y is yaw, and z is roll, and all are
-     *         in degrees, where a counter-clockwise rotation is positive. For more
-     *         help, look into the right-hand rule, because this can get confusing
-     *         very quickly
+     * Euler angles, where x is pitch, y is yaw, and z is roll, and all are
+     * in degrees, where a counter-clockwise rotation is positive. For more
+     * help, look into the right-hand rule, because this can get confusing
+     * very quickly
      */
     public Vector3 getRelativeTargetRotation() { //TODO: Implement this function for ALL phone orientations
         OpenGLMatrix rawPose = listener.getRawPose();
