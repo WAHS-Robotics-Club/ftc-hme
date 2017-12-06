@@ -3,26 +3,14 @@ package org.firstinspires.ftc.team9202hme.hardware;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.TempUnit;
-import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.util.PowerScale;
 import org.firstinspires.ftc.team9202hme.util.Toggle;
 import org.firstinspires.ftc.team9202hme.util.Vector2;
-import org.firstinspires.ftc.team9202hme.util.Vector3;
-import org.firstinspires.ftc.team9202hme.program.AutonomousProgram;
-import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 
-import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 import static java.lang.Math.cos;
 import static java.lang.Math.signum;
@@ -30,7 +18,7 @@ import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
 
 /**
- * Drive train made for robots using the holonomic drive
+ * Drive train made for robots using the omni-wheel drive
  * configuration. This class assumes that the wheels are
  * in "X" configuration, where wheels are at 45 degree
  * angles on the corners of the robot. It also assumes
@@ -38,91 +26,22 @@ import static java.lang.Math.toRadians;
  * corresponding motor has the same number of encoder
  * ticks per rotation
  */
-public class HolonomicDriveTrain extends HardwareComponent {
-    private DcMotorEx frontLeft, frontRight, backLeft, backRight;
-//    private BNO055IMU imu;
+public class HolonomicDriveTrain extends OmniDirectionalDrive {
+    private BNO055IMU imu;
 
     private Toggle preciseControlsToggle = new Toggle();
     private final PowerScale turnPowerScale = PowerScale.CreateMonomialScaleFunction(2, getMinimumTurnPower(), 1.0);
 
-    private final double wheelCircumference;
-    private final int encoderTicksPerRotation;
-
     /**
-     * Gives HolonomicDriveTrain the values it needs to calculate how to properly apply motor powers
+     * Gives drive train the values it needs to calculate how to properly apply motor powers
      * when moving and turning autonomously
      *
      * @param wheelDiameter           The diameter of the robot's wheels; unit is unnecessary as long as it is consistent with other distances
      * @param encoderTicksPerRotation The number of ticks given off by each motor's
      *                                encoder each rotation. If you are using Andymark
-     *                                Neverest 40's, then this value is 1120
      */
     public HolonomicDriveTrain(double wheelDiameter, int encoderTicksPerRotation) {
-        this.wheelCircumference = wheelDiameter * PI;
-        this.encoderTicksPerRotation = encoderTicksPerRotation;
-    }
-
-    /**
-     * Enumeration of the four possible motors that this drive train will work with
-     */
-    private enum Motor {
-        FRONT_LEFT, FRONT_RIGHT, BACK_LEFT, BACK_RIGHT
-    }
-
-    /**
-     * Calculates the motor power necessary to move the
-     * robot at the desired angle, which is specified by
-     * a simple direction vector, while also turning the
-     * robot at the desired motor power
-     *
-     * @param movePower The power at which the robot will move
-     * @param angle     The direction at which the robot will move
-     * @param turnPower The power with which the robot will turn
-     * @param motor     The motor to calculate power for
-     * @return The motor power necessary for moving in holonomic drive configuration
-     */
-    private double holonomicMath(double movePower, double angle, double turnPower, Motor motor) {
-        angle = toRadians(angle);
-        double x = movePower * cos(angle);
-        double y = movePower * sin(angle);
-
-        return holonomicMath(new Vector2(x, y), turnPower, motor);
-    }
-
-    /**
-     * Calculates the motor power necessary to move the
-     * robot at the desired angle, which is specified by
-     * a simple direction vector, while also turning the
-     * robot at the desired motor power
-     *
-     * @param direction The direction at which the robot will move, should have a
-     *                  magnitude less than or equal to 1
-     * @param turnPower The power with which the robot will turn
-     * @param motor     The motor to calculate power for
-     * @return The motor power necessary for moving in holonomic drive configuration
-     */
-    private double holonomicMath(Vector2 direction, double turnPower, Motor motor) {
-        double y = direction.y;
-        double x = direction.x;
-
-        double power = 0.0;
-
-        switch(motor) {
-            case FRONT_LEFT:
-                power = -y - x - turnPower;
-                break;
-            case FRONT_RIGHT:
-                power = +y - x - turnPower;
-                break;
-            case BACK_LEFT:
-                power = -y + x - turnPower;
-                break;
-            case BACK_RIGHT:
-                power = +y + x - turnPower;
-                break;
-        }
-
-        return power;
+        super(wheelDiameter, encoderTicksPerRotation);
     }
 
     /**
@@ -132,8 +51,8 @@ public class HolonomicDriveTrain extends HardwareComponent {
      * @param angle     An angle (in degrees) specifying direction
      * @param turnPower The power at which the robot will spin
      */
-    private void holonomicMove(double movePower, double angle, double turnPower) {
-        holonomicMove(new Vector2(movePower * cos(toRadians(angle)), movePower * sin(toRadians(angle))), turnPower);
+    private void holonomicMoveAndTurn(double movePower, double angle, double turnPower) {
+        holonomicMoveAndTurn(new Vector2(movePower * cos(toRadians(angle)), movePower * sin(toRadians(angle))), turnPower);
     }
 
     /**
@@ -142,35 +61,20 @@ public class HolonomicDriveTrain extends HardwareComponent {
      * @param direction A vector specifying the direction, of which the magnitude can range from 0 to 1
      * @param turnPower The power at which the robot will spin
      */
-    private void holonomicMove(Vector2 direction, double turnPower) {
+    private void holonomicMoveAndTurn(Vector2 direction, double turnPower) {
         if(abs(direction.x) <= 0.01 && abs(direction.y) <= 0.01 && abs(turnPower) <= 0.01) {
             stop();
         } else {
-            frontLeft.setPower(holonomicMath(direction, turnPower, Motor.FRONT_LEFT));
-            frontRight.setPower(holonomicMath(direction, turnPower, Motor.FRONT_RIGHT));
-            backLeft.setPower(holonomicMath(direction, turnPower, Motor.BACK_LEFT));
-            backRight.setPower(holonomicMath(direction, turnPower, Motor.BACK_RIGHT));
+            frontLeft.setPower(-direction.y - direction.x - turnPower);
+            frontRight.setPower(direction.y - direction.x - turnPower);
+            backLeft.setPower(-direction.y + direction.x - turnPower);
+            backRight.setPower(direction.y + direction.x - turnPower);
         }
-    }
-
-    /**
-     * Sets the run mode for all four motors
-     *
-     * @param runMode The run mode (reset encoders, run to position, etc.)
-     */
-    private void setRunMode(DcMotor.RunMode runMode) {
-        frontLeft.setMode(runMode);
-        frontRight.setMode(runMode);
-        backLeft.setMode(runMode);
-        backRight.setMode(runMode);
     }
 
     @Override
     public void init(HardwareMap hardwareMap) {
-        frontLeft = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_FRONT_LEFT);
-        frontRight = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_FRONT_RIGHT);
-        backLeft = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_BACK_LEFT);
-        backRight = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.DRIVE_BACK_RIGHT);
+        super.init(hardwareMap);
 
 //        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 //        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -179,47 +83,15 @@ public class HolonomicDriveTrain extends HardwareComponent {
 //        imu = hardwareMap.get(BNO055IMU.class, HardwareMapConstants.IMU);
 //        imu.initialize(parameters);
 
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        frontLeft.setTargetPositionTolerance(15);
-        frontRight.setTargetPositionTolerance(15);
-        backLeft.setTargetPositionTolerance(15);
-        backRight.setTargetPositionTolerance(15);
-
-        stop();
-
         preciseControlsToggle.setToggle(true);
     }
 
     @Override
     public void logTelemetry(Telemetry telemetry) {
         telemetry.addData("Precision Controls", (preciseControlsToggle.isToggled() ? "On" : "Off") + "\n");
-//        telemetry.addData("Heading", getHeading() + " degrees\n");
     }
 
-//    public double getHeading() {
-//        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-//        return (orientation.firstAngle <= 0 ? orientation.firstAngle + 360 : orientation.firstAngle);
-//    }
-//
-//    public void setHeading(double heading) throws InterruptedException {
-//
-//    }
-
-    /**
-     * Sets motor powers to drive the robot based
-     * on input from a gamepad. This is meant to be
-     * used in {@link TeleOpProgram#loop()}
-     *
-     * @param gamepad The gamepad that will be used to control the robot.
-     *                It should ideally come from the OpMode in the
-     *                program that will be controlling the robot, as either
-     *                gamepad1 or gamepad2
-     * @see TeleOpProgram
-     */
+    @Override
     public void driveControlled(Gamepad gamepad) {
         if(gamepad.y) {
             preciseControlsToggle.toggle();
@@ -242,184 +114,69 @@ public class HolonomicDriveTrain extends HardwareComponent {
 
             direction = direction.times(0.45);
             turnPower = turnPowerScale.scale(gamepad.right_stick_x, 0.45);
-        } else {
+        } else { //Normal 360 degree motion, movement speed unscaled
             direction = new Vector2(x, y);
             turnPower = turnPowerScale.scale(gamepad.right_stick_x);
         }
 
-        holonomicMove(direction, turnPower);
+        holonomicMoveAndTurn(direction, turnPower);
     }
 
-    /**
-     * Sets all motor powers to zero, effectively
-     * bring the robot to a complete stop
-     */
-    public void stop() {
-        frontLeft.setPower(0.0);
-        frontRight.setPower(0.0);
-        backLeft.setPower(0.0);
-        backRight.setPower(0.0);
-
-        setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    /**
-     * Sets the motor powers so that the robot
-     * moves at the specified speed and angle
-     *
-     * @param power The power that will be applied
-     *              to the motors, ranging from 0.0
-     *              to 1.0
-     * @param angle The angle, in degrees, where
-     *              0 degrees is the front of the
-     *              robot, at which the robot will
-     *              move
-     */
+    @Override
     public void move(double power, double angle) {
-        holonomicMove(power, angle, 0);
+        holonomicMoveAndTurn(power, angle, 0);
     }
 
-    /**
-     * Sets the motor powers so that the robot
-     * spins
-     *
-     * @param power The power that will be applied
-     *              to the motors, ranging from -1.0
-     *              to 1.0, where a negative power
-     *              will cause the robot to spin
-     *              counter-clockwise
-     */
+    @Override
     public void turn(double power) {
-        holonomicMove(0, 0, power);
+        holonomicMoveAndTurn(0, 0, power);
     }
 
-    /**
-     * Sets the motor powers so that the robot moves
-     * at the desired angle, while simultaneously
-     * spinning
-     *
-     * @param movePower The power that will be applied
-     *                  to the motors, ranging from 0.0
-     *                  to 1.0
-     * @param angle     The angle, in degrees, where
-     *                  0 degrees is the front of the
-     *                  robot, at which the robot will
-     *                  move
-     * @param turnPower The power that will be applied
-     *                  to the motors, ranging from -1.0
-     *                  to 1.0, where a negative power
-     *                  will cause the robot to spin
-     *                  counter-clockwise
-     */
+    @Override
     public void moveAndTurn(double movePower, double angle, double turnPower) {
-        holonomicMove(movePower, angle, turnPower);
+        holonomicMoveAndTurn(movePower, angle, turnPower);
     }
 
-    /**
-     * Sets the motor powers so that the robot
-     * moves at the specified speed and angle,
-     * until it has reached the specified
-     * distance
-     * <p>
-     * <b>NOTE:</b> Do not catch the InterruptedException.
-     * This method is intended for use in {@link AutonomousProgram#run()},
-     * which will properly handle the InterruptedException should it occur.
-     *
-     * @param power    The power that will be applied
-     *                 to the motors, ranging from 0.0
-     *                 to 1.0
-     * @param angle    The angle, in degrees, where
-     *                 0 degrees is the front of the
-     *                 robot, at which the robot will
-     *                 move
-     * @param distance The distance, in millimeters,
-     *                 that the robot will move
-     * @throws InterruptedException This method will put the current thread to sleep while the motors are moving to the target distance,
-     *                              which will throw an InterruptedException if the thread is terminated
-     * @see AutonomousProgram
-     */
+    @Override
     public void move(double power, double angle, double distance) throws InterruptedException {
         stop();
-        setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        resetEncoders();
 
         double basicPosition = encoderTicksPerRotation * (distance / wheelCircumference);
-        double leftRightDiagonalPos = abs(basicPosition * cos(toRadians(angle + 45)));
-        double rightLeftDiagonalPos = abs(basicPosition * sin(toRadians(angle + 45)));
+        double blFrPos = abs(basicPosition * cos(toRadians(angle + 45))); //Target position for backLeft and frontRight
+        double brFlPos = abs(basicPosition * sin(toRadians(angle + 45))); //Target position for backRight and frontLeft
 
-        holonomicMove(power, angle, 0);
+        holonomicMoveAndTurn(power, angle, 0);
 
-        frontRight.setTargetPosition((int) (leftRightDiagonalPos * signum(frontRight.getPower())));
-        backLeft.setTargetPosition((int) (leftRightDiagonalPos * signum(backLeft.getPower())));
+        frontRight.setTargetPosition((int) (blFrPos * signum(frontRight.getPower())));
+        backLeft.setTargetPosition((int) (blFrPos * signum(backLeft.getPower())));
 
-        frontLeft.setTargetPosition((int) (rightLeftDiagonalPos * signum(frontLeft.getPower())));
-        backRight.setTargetPosition((int) (rightLeftDiagonalPos * signum(backRight.getPower())));
+        frontLeft.setTargetPosition((int) (brFlPos * signum(frontLeft.getPower())));
+        backRight.setTargetPosition((int) (brFlPos * signum(backRight.getPower())));
 
         setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        holonomicMove(power, angle, 0); /*Have to do again, since RUN_TO_POSITION makes all powers positive, which nullifies the above signums
-                                          if done prior to fetching motor powers*/
+        holonomicMoveAndTurn(power, angle, 0); /*Have to do again, since RUN_TO_POSITION makes all powers positive, which nullifies the above signums
+                                                 if done prior to fetching motor powers*/
         while(frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy()) {
             Thread.sleep(1);
         }
 
         stop();
+        resetEncoders();
     }
 
-    /**
-     * Sets the motor powers so that the robot spins,
-     * until it reaches the desired angle
-     * <p>
-     * <b>NOTE:</b> Do not catch the InterruptedException.
-     * This method is intended for use in {@link AutonomousProgram#run()},
-     * which will properly handle the InterruptedException should it occur.
-     *
-     * @param power The power that will be applied
-     *              to the motors, ranging from -1.0
-     *              to 1.0, where a negative power
-     *              will cause the robot to spin
-     *              counter-clockwise
-     * @param angle The angle in degrees to
-     *              which the robot will turn,
-     *              ranging from -359 to 359, where
-     *              0 is the front of the robot
-     *              and negative values cause
-     *              a counter-clockwise turn
-     * @throws InterruptedException This method will put the current thread to sleep while the robot is turning to the target angle,
-     *                              which will throw an InterruptedException if the thread is terminated
-     * @see AutonomousProgram
-     */
+    @Override
     public void turn(double power, double angle) throws InterruptedException {
-//        stop();
-//
-//        double startHeading = getHeading();
-//
-//        double currentHeading = getHeading() - startHeading;
-//
-//        while(abs(currentHeading - angle) > 2) { //2 degree error margin
-//            currentHeading = getHeading() - startHeading;
-//            turn(-power * signum(angle - currentHeading));
-//        }
-//
-//        stop();
+        //Unimplemented, gyro is bad
     }
 
-    /**
-     * Due to friction, most drive trains' motors will stall
-     * if given a sufficiently low power, which this method returns
-     *
-     * @return The lowest absolute power at which the drive train will be able to move
-     */
+    @Override
     public double getMinimumMovePower() {
         return 0.15;
     }
 
-    /**
-     * Due to friction, most drive trains' motors will stall
-     * if given a sufficiently low power, which this method returns
-     *
-     * @return The lowest absolute power at which the drive train will be able to turn
-     */
+    @Override
     public double getMinimumTurnPower() {
         return 0.1;
     }

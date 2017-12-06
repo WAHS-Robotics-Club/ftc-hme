@@ -4,15 +4,15 @@ package org.firstinspires.ftc.team9202hme.program;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.team9202hme.FieldConstants;
-import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
+import org.firstinspires.ftc.team9202hme.hardware.OmniDirectionalDrive;
+import org.firstinspires.ftc.team9202hme.hardware.MecanumDriveTrain;
 import org.firstinspires.ftc.team9202hme.hardware.JewelWhacker;
 import org.firstinspires.ftc.team9202hme.navigation.CameraSide;
 import org.firstinspires.ftc.team9202hme.navigation.Navigator;
 import org.firstinspires.ftc.team9202hme.navigation.PhoneOrientation;
-import org.firstinspires.ftc.team9202hme.program.AutonomousProgram;
 
 public class MainAutonomousProgram extends AutonomousProgram {
-    private HolonomicDriveTrain driveTrain = new HolonomicDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
+    private OmniDirectionalDrive driveTrain = new MecanumDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
     private JewelWhacker jewelWhacker = new JewelWhacker();
     private Navigator navigator = new Navigator(CameraSide.BACK, PhoneOrientation.VOLUME_SIDE_DOWN, 1, true);
     private boolean shouldMove;

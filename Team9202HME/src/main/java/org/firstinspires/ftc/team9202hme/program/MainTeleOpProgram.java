@@ -2,18 +2,17 @@ package org.firstinspires.ftc.team9202hme.program;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.team9202hme.FieldConstants;
-import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
+import org.firstinspires.ftc.team9202hme.hardware.OmniDirectionalDrive;
+import org.firstinspires.ftc.team9202hme.hardware.MecanumDriveTrain;
 import org.firstinspires.ftc.team9202hme.hardware.JewelWhacker;
 import org.firstinspires.ftc.team9202hme.hardware.RelicGrabber;
 import org.firstinspires.ftc.team9202hme.hardware.CubeGrabber;
-import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 
 public class MainTeleOpProgram extends TeleOpProgram {
-    private HolonomicDriveTrain driveTrain = new HolonomicDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
+    private OmniDirectionalDrive driveTrain = new MecanumDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
     private CubeGrabber cubeGrabber = new CubeGrabber();
     private RelicGrabber relicGrabber = new RelicGrabber();
     private JewelWhacker jewelWhacker = new JewelWhacker();

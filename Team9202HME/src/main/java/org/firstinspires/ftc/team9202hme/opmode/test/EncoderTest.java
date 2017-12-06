@@ -3,11 +3,8 @@ package org.firstinspires.ftc.team9202hme.opmode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Hardware;
 
 import org.firstinspires.ftc.team9202hme.FieldConstants;
-import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
 
 @TeleOp(name = "Encoder Test", group = "Tests")
