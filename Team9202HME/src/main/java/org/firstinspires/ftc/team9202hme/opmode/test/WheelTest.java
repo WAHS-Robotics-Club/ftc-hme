@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 
 @TeleOp(name = "Wheel Test", group = "Tests")
-//@Disabled
+@Disabled
 public class WheelTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

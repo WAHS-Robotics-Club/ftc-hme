@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 
 @TeleOp(name = "Whacker Range Test", group = "Tests")
-@Disabled
+//@Disabled
 public class WhackerRangeTest extends OpMode {
     private Servo whacker;
 

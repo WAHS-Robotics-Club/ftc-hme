@@ -5,8 +5,14 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.OrientationSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.util.PowerScale;
 import org.firstinspires.ftc.team9202hme.util.Toggle;
 import org.firstinspires.ftc.team9202hme.util.Vector2;
@@ -62,7 +68,7 @@ public class HolonomicDriveTrain extends OmniDirectionalDrive {
      * @param turnPower The power at which the robot will spin
      */
     private void holonomicMoveAndTurn(Vector2 direction, double turnPower) {
-        if(abs(direction.x) <= 0.01 && abs(direction.y) <= 0.01 && abs(turnPower) <= 0.01) {
+        if(abs(direction.x) < 0.01 && abs(direction.y) < 0.01 && abs(turnPower) < 0.01) {
             stop();
         } else {
             frontLeft.setPower(-direction.y - direction.x - turnPower);
@@ -76,19 +82,26 @@ public class HolonomicDriveTrain extends OmniDirectionalDrive {
     public void init(HardwareMap hardwareMap) {
         super.init(hardwareMap);
 
-//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-//        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-//        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-//
-//        imu = hardwareMap.get(BNO055IMU.class, HardwareMapConstants.IMU);
-//        imu.initialize(parameters);
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+
+        imu = hardwareMap.get(BNO055IMU.class, HardwareMapConstants.IMU);
+        imu.initialize(parameters);
 
         preciseControlsToggle.setToggle(true);
     }
 
     @Override
+    public double getHeading() {
+        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        return orientation.firstAngle;
+    }
+
+    @Override
     public void logTelemetry(Telemetry telemetry) {
         telemetry.addData("Precision Controls", (preciseControlsToggle.isToggled() ? "On" : "Off") + "\n");
+        telemetry.addData("Heading", getHeading() + " degrees");
     }
 
     @Override
@@ -98,7 +111,7 @@ public class HolonomicDriveTrain extends OmniDirectionalDrive {
         }
 
         double x = gamepad.left_stick_x;
-        double y = -gamepad.left_stick_y; //All gamepad y-axes are flipped for some dumb reason
+        double y = -gamepad.left_stick_y; //All gamepad y-axes are flipped, which doesn't work well with this control scheme
 
         Vector2 direction = new Vector2();
         double turnPower;
@@ -168,7 +181,12 @@ public class HolonomicDriveTrain extends OmniDirectionalDrive {
 
     @Override
     public void turn(double power, double angle) throws InterruptedException {
-        //Unimplemented, gyro is bad
+        //TODO: Implement this, just gotta get the gyro to be more accurate
+    }
+
+    @Override
+    public void absoluteTurn(double power, double angle) throws InterruptedException {
+        //TODO: This as well
     }
 
     @Override

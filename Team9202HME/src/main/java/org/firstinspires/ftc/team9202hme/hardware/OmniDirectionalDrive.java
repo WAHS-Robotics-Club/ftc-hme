@@ -23,7 +23,7 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
 
     /**
      * Gives drive train the values it needs to calculate how to properly apply motor powers
-     * when moving and turning autonomously
+     * and handle encoder positions when moving and turning autonomously
      *
      * @param wheelDiameter           The diameter of the robot's wheels; unit is unnecessary as long as it is consistent with other distances
      * @param encoderTicksPerRotation The number of ticks given off by each motor's
@@ -48,7 +48,8 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
     }
 
     /**
-     * Resets encoder positions to 0 for all four motors
+     * Resets encoder positions to 0 for all four motors. Motors will briefly
+     * stop receiving power on reset.
      */
     protected void resetEncoders() {
         setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -67,13 +68,23 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        frontLeft.setTargetPositionTolerance(15);
-        frontRight.setTargetPositionTolerance(15);
-        backLeft.setTargetPositionTolerance(15);
-        backRight.setTargetPositionTolerance(15);
+        frontLeft.setTargetPositionTolerance(12);
+        frontRight.setTargetPositionTolerance(12);
+        backLeft.setTargetPositionTolerance(12);
+        backRight.setTargetPositionTolerance(12);
 
         stop();
     }
+
+    /**
+     * Returns the angle at which the robot is currently turned relative
+     * to its position on initialization. This angle is on the plane on
+     * which the robot is driving.
+     *
+     * @return The heading, ranging from 0 to 359, where increasing angles
+     * correspond to counter-clockwise rotation
+     */
+    public abstract double getHeading();
 
     /**
      * Sets motor powers to drive the robot based
@@ -172,7 +183,10 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
 
     /**
      * Sets the motor powers so that the robot spins,
-     * until it reaches the desired angle
+     * until it reaches the desired angle relative to its
+     * position when the method is called. For instance, if
+     * the robot was tilted 30 degrees and told to turn 50, its
+     * final heading would be 80.
      * <p>
      * <b>NOTE:</b> Do not catch the InterruptedException.
      * This method is intended for use in {@link AutonomousProgram#run()},
@@ -187,13 +201,34 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
      *              which the robot will turn,
      *              ranging from -359 to 359, where
      *              0 is the front of the robot
-     *              and negative values cause
-     *              a counter-clockwise turn
+     *              and positive values indicate
+     *              an angle left of 0
      * @throws InterruptedException This method will put the current thread to sleep while the robot is turning to the target angle,
      *                              which will throw an InterruptedException if the thread is terminated
      * @see AutonomousProgram
      */
     public abstract void turn(double power, double angle) throws InterruptedException;
+
+    /**
+     * Sets motor powers so that the robot spins,
+     * until its heading reaches the desired angle relative
+     * to its original position at initialization. For instance,
+     * if the robot was tilted 30 degrees and told to turn to 50,
+     * its final heading would be 50.
+     *
+     * @param power The power that will be applied to
+     *              the motors, ranging from -1.0 to 1.0,
+     *              where a negative power will cause the
+     *              robot to spin counter-clockwise
+     * @param angle The absolute angle in degrees to which
+     *              the robot will turn, ranging from 0 to
+     *              359, where 0 is the robot's position at
+     *              initialization and increasing angles respond
+     *              to counter-clockwise rotation
+     * @throws InterruptedException This method will put the current thread to sleep while the robot is turning to the target angle,
+     *                              which will throw an InterruptedException if the thread is terminated
+     */
+    public abstract void absoluteTurn(double power, double angle) throws InterruptedException;
 
     /**
      * Due to friction, most drive trains' motors will stall

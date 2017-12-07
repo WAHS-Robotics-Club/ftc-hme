@@ -6,13 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.team9202hme.FieldConstants;
 import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
+import org.firstinspires.ftc.team9202hme.hardware.MecanumDriveTrain;
+import org.firstinspires.ftc.team9202hme.hardware.OmniDirectionalDrive;
 
 @TeleOp(name = "Encoder Test", group = "Tests")
 //@Disabled
 public class EncoderTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        HolonomicDriveTrain driveTrain = new HolonomicDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
+        OmniDirectionalDrive driveTrain = new MecanumDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
         driveTrain.init(hardwareMap);
 
         waitForStart();

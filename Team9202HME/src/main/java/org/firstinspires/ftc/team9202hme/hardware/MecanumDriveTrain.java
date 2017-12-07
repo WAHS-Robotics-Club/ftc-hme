@@ -1,10 +1,16 @@
 package org.firstinspires.ftc.team9202hme.hardware;
 
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.util.Vector2;
 
 import static java.lang.Math.*;
@@ -16,6 +22,8 @@ import static java.lang.Math.*;
  * and motor type.
  */
 public class MecanumDriveTrain extends OmniDirectionalDrive {
+    private BNO055IMU imu;
+
     /**
      * Gives drive train the values it needs to calculate how to properly apply motor powers
      * when moving and turning autonomously
@@ -46,11 +54,24 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
     @Override
     public void init(HardwareMap hardwareMap) {
         super.init(hardwareMap);
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+
+        imu = hardwareMap.get(BNO055IMU.class, HardwareMapConstants.IMU);
+        imu.initialize(parameters);
+    }
+
+    @Override
+    public double getHeading() {
+        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        return orientation.firstAngle;
     }
 
     @Override
     public void logTelemetry(Telemetry telemetry) {
-
+        telemetry.addData("Heading", getHeading() + " degrees");
     }
 
     @Override
@@ -80,6 +101,11 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
 
     @Override
     public void turn(double power, double angle) throws InterruptedException {
+
+    }
+
+    @Override
+    public void absoluteTurn(double power, double angle) throws InterruptedException {
 
     }
 
