@@ -2,6 +2,7 @@ package org.firstinspires.ftc.team9202hme.hardware;
 
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -37,11 +38,11 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
     }
 
     private void mecanumMoveAndTurn(Vector2 direction, double turnPower) {
-        if(direction.x < 0.01 && direction.y < 0.01 && turnPower < 0.01) {
+        if(abs(direction.x) < 0.01 && abs(direction.y) < 0.01 && abs(turnPower) < 0.01) {
             stop();
         } else {
-            frontLeft.setPower(direction.y + direction.x + turnPower);
-            backLeft.setPower(direction.y - direction.x + turnPower);
+            frontLeft.setPower(direction.y - direction.x - turnPower);
+            backLeft.setPower(direction.y + direction.x - turnPower);
             frontRight.setPower(-direction.y - direction.x - turnPower);
             backRight.setPower(-direction.y + direction.x - turnPower);
         }
@@ -96,12 +97,47 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
 
     @Override
     public void move(double power, double angle, double distance) throws InterruptedException {
+        stop();
+        resetEncoders();
 
+        double basicPosition = encoderTicksPerRotation * (distance / wheelCircumference);
+
+        //TODO: Find the actual values for these. Will likely involve multiplying by sin/cos of some angle
+        //They do work for now however, since we only need to move forwards and backwards in autonomous
+        double flBrPosition = basicPosition;
+        double frBlPosition = basicPosition;
+
+        mecanumMoveAndTurn(power, angle, 0);
+
+        frontLeft.setTargetPositionTolerance((int) (flBrPosition * signum(frontLeft.getPower())));
+        backLeft.setTargetPositionTolerance((int) (frBlPosition * signum(backLeft.getPower())));
+
+        frontRight.setTargetPositionTolerance((int) (frBlPosition * signum(frontRight.getPower())));
+        backRight.setTargetPositionTolerance((int) (flBrPosition * signum(backRight.getPower())));
+
+        mecanumMoveAndTurn(power, angle, 0);
+
+        setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while(frontLeft.isBusy() || backLeft.isBusy() || frontRight.isBusy() || backRight.isBusy()) {
+            Thread.sleep(1);
+        }
+
+        stop();
+        resetEncoders();
     }
 
     @Override
     public void turn(double power, double angle) throws InterruptedException {
+        double startHeading = getHeading();
 
+        double error = angle;
+
+        while(abs(error) > 0.5) {
+            double scale = (1 - getMinimumTurnPower()) * sin(toRadians(90 * (abs(error) / angle))) + getMinimumTurnPower();
+            turn(power * abs(scale) * signum(error));
+            error = angle - (getHeading() - startHeading);
+        }
     }
 
     @Override
