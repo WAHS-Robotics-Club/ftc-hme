@@ -141,11 +141,11 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
 
         mecanumMoveAndTurn(power, angle, 0);
 
-        frontLeft.setTargetPositionTolerance((int) (position * signum(frontLeft.getPower())));
-        backLeft.setTargetPositionTolerance((int) (position * signum(backLeft.getPower())));
+        frontLeft.setTargetPosition((int) (position * signum(frontLeft.getPower())));
+        backLeft.setTargetPosition((int) (position * signum(backLeft.getPower())));
 
-        frontRight.setTargetPositionTolerance((int) (position * signum(frontRight.getPower())));
-        backRight.setTargetPositionTolerance((int) (position * signum(backRight.getPower())));
+        frontRight.setTargetPosition((int) (position * signum(frontRight.getPower())));
+        backRight.setTargetPosition((int) (position * signum(backRight.getPower())));
 
         mecanumMoveAndTurn(power, angle, 0);
 
