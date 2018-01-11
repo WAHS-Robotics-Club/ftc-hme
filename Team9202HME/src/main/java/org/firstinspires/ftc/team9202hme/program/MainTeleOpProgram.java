@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.team9202hme.FieldConstants;
+import org.firstinspires.ftc.team9202hme.hardware.HolonomicDriveTrain;
 import org.firstinspires.ftc.team9202hme.hardware.OmniDirectionalDrive;
 import org.firstinspires.ftc.team9202hme.hardware.MecanumDriveTrain;
 import org.firstinspires.ftc.team9202hme.hardware.JewelWhacker;
@@ -15,7 +16,6 @@ public class MainTeleOpProgram extends TeleOpProgram {
     private OmniDirectionalDrive driveTrain = new MecanumDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
     private CubeGrabber cubeGrabber = new CubeGrabber();
     private RelicGrabber relicGrabber = new RelicGrabber();
-    private JewelWhacker jewelWhacker = new JewelWhacker();
     private boolean dualControl;
 
     public MainTeleOpProgram(OpMode opMode, boolean dualControl) {
@@ -27,8 +27,7 @@ public class MainTeleOpProgram extends TeleOpProgram {
     public void init() {
         driveTrain.init(opMode.hardwareMap);
         cubeGrabber.init(opMode.hardwareMap);
-        relicGrabber.init(opMode.hardwareMap);
-        jewelWhacker.init(opMode.hardwareMap);
+//        relicGrabber.init(opMode.hardwareMap);
     }
 
 //    private int counter = 0;
@@ -42,13 +41,11 @@ public class MainTeleOpProgram extends TeleOpProgram {
 
         driveTrain.driveControlled(primary);
         cubeGrabber.grabControlled(primary);
-        relicGrabber.grabControlled(secondary);
-        jewelWhacker.whackControlled(secondary);
+//        relicGrabber.grabControlled(secondary);
 
 //        counter++;
 //        opMode.telemetry.addData("Loops per second", counter / ((System.nanoTime() / 1e9d) - startTime));
-
-//        updateTelemetry();
+        updateTelemetry();
     }
 
     @Override
@@ -58,6 +55,8 @@ public class MainTeleOpProgram extends TeleOpProgram {
 
     private void updateTelemetry() {
         driveTrain.logTelemetry(opMode.telemetry);
+        cubeGrabber.logTelemetry(opMode.telemetry);
+        relicGrabber.logTelemetry(opMode.telemetry);
 
         opMode.telemetry.update();
     }

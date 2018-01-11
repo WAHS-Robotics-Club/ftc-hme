@@ -2,7 +2,6 @@ package org.firstinspires.ftc.team9202hme.opmode.test;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
@@ -15,7 +14,7 @@ public class ColorSensorTest extends OpMode {
 
     @Override
     public void init() {
-        colorSensor = hardwareMap.colorSensor.get(HardwareMapConstants.COLOR_SENSOR);
+        colorSensor = hardwareMap.colorSensor.get(HardwareMapConstants.COLOR_DISTANCE_SENSOR);
 
         colorSensor.enableLed(true);
     }

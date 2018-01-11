@@ -18,9 +18,38 @@ public class ImuTest extends LinearOpMode {
 
         waitForStart();
 
+        double previousHeading = driveTrain.getHeading();
+
+        double startTime = System.nanoTime() / 1e9d;
+        double accumulatedTime = 0;
+
+        int updates = 0;
+        int accumulatedUpdates = 0;
+
+        double updatesPerSecond = 0;
+
         while(opModeIsActive()) {
-            driveTrain.turn(0.4);
-            driveTrain.logTelemetry(telemetry);
+            driveTrain.turn(gamepad1.right_stick_x);
+
+            double heading = driveTrain.getHeading();
+
+            if(Math.abs(previousHeading - heading) > 1) {
+                updates++;
+                accumulatedUpdates++;
+            }
+
+            previousHeading = heading;
+            double time = System.nanoTime() / 1e9d - startTime;
+            accumulatedTime += time;
+
+            if(accumulatedTime >= 1) {
+                updatesPerSecond = accumulatedUpdates / accumulatedTime;
+                accumulatedTime = 0;
+                accumulatedUpdates = 0;
+            }
+
+            telemetry.addData("Updates per second", updatesPerSecond);
+            telemetry.addData("Average updates per second", updates / time);
         }
     }
 }
