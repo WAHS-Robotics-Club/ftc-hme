@@ -73,6 +73,8 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
         backLeft.setTargetPositionTolerance(12);
         backRight.setTargetPositionTolerance(12);
 
+        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         stop();
     }
 

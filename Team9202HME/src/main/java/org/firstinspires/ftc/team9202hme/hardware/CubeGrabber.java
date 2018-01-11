@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.team9202hme.hardware;
 
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
@@ -17,22 +16,23 @@ import org.firstinspires.ftc.team9202hme.util.Toggle;
  * 6x6x6 inch foam cubes
  */
 public class CubeGrabber extends HardwareComponent {
-    private CRServo left, right;
+    private Servo left, right;
     private DcMotor spool;
 
-    private Toggle grabToggle = new Toggle();
+    private Toggle narrowGrabToggle = new Toggle();
 
     @Override
     public void init(HardwareMap hardwareMap) {
-        left = hardwareMap.crservo.get(HardwareMapConstants.CLAW_LEFT_CRSERVO);
-        right = hardwareMap.crservo.get(HardwareMapConstants.CLAW_RIGHT_CRSERVO);
-        spool = hardwareMap.dcMotor.get(HardwareMapConstants.PULLEY_SPOOL_DCMOTOR);
+        left = hardwareMap.servo.get(HardwareMapConstants.CLAW_LEFT_SERVO);
+        right = hardwareMap.servo.get(HardwareMapConstants.CLAW_RIGHT_SERVO);
+        spool = hardwareMap.dcMotor.get(HardwareMapConstants.PULLEY_DCMOTOR);
 
-        right.setDirection(DcMotorSimple.Direction.REVERSE);
+        left.setPosition(1);
+        right.setPosition(0);
 
-        right.setPower(-0.1); //Right claw won't stay against the robot
+        spool.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        grabToggle.setToggle(true);
+        narrowGrabToggle.setToggle(false);
     }
 
     /**
@@ -47,22 +47,21 @@ public class CubeGrabber extends HardwareComponent {
      * @see TeleOpProgram
      */
     public void grabControlled(Gamepad gamepad) {
-        final double CLAW_POWER = 0.7;
-
         if(gamepad.right_bumper) {
-            grabToggle.toggle();
+            narrowGrabToggle.toggle();
         }
 
         if(gamepad.left_bumper) {
-            left.setPower(CLAW_POWER);
-            right.setPower(CLAW_POWER);
-            grabToggle.setToggle(false);
-        } else if(grabToggle.isToggled()) {
-            left.setPower(-1);
-            right.setPower(-1);
+            left.setPosition(left.getPosition() + 0.0075);
+            right.setPosition(right.getPosition() - 0.0075);
+        }
+
+        if(narrowGrabToggle.isToggled()) {
+            left.setPosition(0);
+            right.setPosition(1);
         } else {
-            left.setPower(0);
-            right.setPower(-0.05); //Right claw won't stay against the robot
+            left.setPosition(0.510);
+            right.setPosition(0.370);
         }
 
         if(gamepad.right_trigger > 0.05) {
@@ -76,6 +75,7 @@ public class CubeGrabber extends HardwareComponent {
 
     @Override
     public void logTelemetry(Telemetry telemetry) {
-
+        telemetry.addData("Left", left.getPosition());
+        telemetry.addData("Right", right.getPosition());
     }
 }

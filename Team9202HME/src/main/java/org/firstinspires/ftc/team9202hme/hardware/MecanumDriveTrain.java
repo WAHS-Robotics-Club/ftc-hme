@@ -12,6 +12,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
+import org.firstinspires.ftc.team9202hme.util.PowerScale;
+import org.firstinspires.ftc.team9202hme.util.Toggle;
 import org.firstinspires.ftc.team9202hme.util.Vector2;
 
 import static java.lang.Math.*;
@@ -20,10 +22,14 @@ import static java.lang.Math.*;
  * Drive train made for robots using mecanum wheels in a simple
  * tank drive configuration. This class assumes that all wheels
  * are pointing in the same direction and have the same diameter
- * and motor type.
+ * and motor type. Left and right motion may be inverted depending
+ * on the manufacturer and placement of your wheels.
  */
 public class MecanumDriveTrain extends OmniDirectionalDrive {
     private BNO055IMU imu;
+
+    private final Toggle preciseControlsToggle = new Toggle();
+    private final PowerScale turnPowerScale = PowerScale.CreateMonomialScaleFunction(2, getMinimumTurnPower(), 1.0);
 
     /**
      * Gives drive train the values it needs to calculate how to properly apply motor powers
@@ -41,10 +47,10 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
         if(abs(direction.x) < 0.01 && abs(direction.y) < 0.01 && abs(turnPower) < 0.01) {
             stop();
         } else {
-            frontLeft.setPower(direction.y - direction.x - turnPower);
-            backLeft.setPower(direction.y + direction.x - turnPower);
-            frontRight.setPower(-direction.y - direction.x - turnPower);
-            backRight.setPower(-direction.y + direction.x - turnPower);
+            frontLeft.setPower(-direction.y + direction.x - turnPower);
+            backLeft.setPower(-direction.y - direction.x - turnPower);
+            frontRight.setPower(direction.y - direction.x - turnPower);
+            backRight.setPower(direction.y + direction.x - turnPower);
         }
     }
 
@@ -55,6 +61,8 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
     @Override
     public void init(HardwareMap hardwareMap) {
         super.init(hardwareMap);
+
+        preciseControlsToggle.setToggle(true);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -77,7 +85,33 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
 
     @Override
     public void driveControlled(Gamepad gamepad) {
-        mecanumMoveAndTurn(new Vector2(gamepad.left_stick_x, gamepad.left_stick_y), gamepad.right_stick_x);
+        if(gamepad.y) {
+            preciseControlsToggle.toggle();
+        }
+
+        double x = gamepad.left_stick_x;
+        double y = -gamepad.left_stick_y; //All gamepad y-axes are flipped, which doesn't work well with this control scheme
+
+        Vector2 direction = new Vector2();
+        double turnPower;
+
+        if(preciseControlsToggle.isToggled()) { //Four directional movement only, rotation and movement sensitivity scaled by 0.45
+            if(abs(x) < abs(y)) {
+                direction.x = 0;
+                direction.y = y;
+            } else {
+                direction.x = x;
+                direction.y = 0;
+            }
+
+            direction = direction.times(0.45);
+            turnPower = turnPowerScale.scale(gamepad.right_stick_x, 0.45);
+        } else { //Normal 360 degree motion, movement speed unscaled
+            direction = new Vector2(x, y);
+            turnPower = turnPowerScale.scale(gamepad.right_stick_x);
+        }
+
+        mecanumMoveAndTurn(direction, turnPower);
     }
 
     @Override
@@ -100,20 +134,18 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
         stop();
         resetEncoders();
 
-        double basicPosition = encoderTicksPerRotation * (distance / wheelCircumference);
+        double position = encoderTicksPerRotation * (distance / wheelCircumference);
 
-        //TODO: Find the actual values for these. Will likely involve multiplying by sin/cos of some angle
-        //They do work for now however, since we only need to move forwards and backwards in autonomous
-        double flBrPosition = basicPosition;
-        double frBlPosition = basicPosition;
+        //TODO: Find the actual values for motor positions besides position. Will likely involve multiplying by sin/cos of some angle
+        //They will work for now however, since we only need to move forwards in autonomous
 
         mecanumMoveAndTurn(power, angle, 0);
 
-        frontLeft.setTargetPositionTolerance((int) (flBrPosition * signum(frontLeft.getPower())));
-        backLeft.setTargetPositionTolerance((int) (frBlPosition * signum(backLeft.getPower())));
+        frontLeft.setTargetPositionTolerance((int) (position * signum(frontLeft.getPower())));
+        backLeft.setTargetPositionTolerance((int) (position * signum(backLeft.getPower())));
 
-        frontRight.setTargetPositionTolerance((int) (frBlPosition * signum(frontRight.getPower())));
-        backRight.setTargetPositionTolerance((int) (flBrPosition * signum(backRight.getPower())));
+        frontRight.setTargetPositionTolerance((int) (position * signum(frontRight.getPower())));
+        backRight.setTargetPositionTolerance((int) (position * signum(backRight.getPower())));
 
         mecanumMoveAndTurn(power, angle, 0);
 
@@ -142,7 +174,7 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
 
     @Override
     public void absoluteTurn(double power, double angle) throws InterruptedException {
-
+        //TODO: Implement this later, not important for competition
     }
 
     @Override
@@ -152,6 +184,6 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
 
     @Override
     public double getMinimumTurnPower() {
-        return 0.05;
+        return 0.1;
     }
 }
