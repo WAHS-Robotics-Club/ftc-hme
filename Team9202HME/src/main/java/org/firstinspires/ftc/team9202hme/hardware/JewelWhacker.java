@@ -4,16 +4,15 @@ package org.firstinspires.ftc.team9202hme.hardware;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
-import org.firstinspires.ftc.team9202hme.util.Toggle;
 
 public class JewelWhacker extends HardwareComponent {
-    private CRServo whacker;
+    private Servo whacker;
     private CRServo extender;
     private ColorSensor colorSensor;
     private DistanceSensor distanceSensor;
@@ -24,35 +23,40 @@ public class JewelWhacker extends HardwareComponent {
 
     @Override
     public void init(HardwareMap hardwareMap) {
-        whacker = hardwareMap.crservo.get(HardwareMapConstants.WHACKER_CRSERVO);
+        whacker = hardwareMap.servo.get(HardwareMapConstants.WHACKER_SERVO);
         extender = hardwareMap.crservo.get(HardwareMapConstants.WHACKER_EXTENDER_CRSERVO);
         colorSensor = hardwareMap.colorSensor.get(HardwareMapConstants.COLOR_DISTANCE_SENSOR);
         distanceSensor = hardwareMap.get(DistanceSensor.class, HardwareMapConstants.COLOR_DISTANCE_SENSOR);
+
+        raise();
     }
 
-    public void extend() {
-        extender.setPower(1);
+    public void extend(double distance) throws InterruptedException {
+        extender.setPower(-1);
+        Thread.sleep((int) (1000 * distance / 3));
+        stop();
     }
 
     public void stop() {
         extender.setPower(0);
-        whacker.setPower(0);
     }
 
-    public void retract() {
-        extender.setPower(-1);
+    public void retract(double distance) throws InterruptedException {
+        extender.setPower(1);
+        Thread.sleep((int) (1000 * distance / 3));
+        stop();
     }
 
     public void raise() {
-        whacker.setPower(0.5);
+        whacker.setPosition(0.95);
     }
 
     public void lower() {
-        whacker.setPower(-0.5);
+        whacker.setPosition(0.244);
     }
 
     public JewelColor readJewelColor() {
-        final int TOLERANCE = 20;
+        final int TOLERANCE = 12;
         boolean blueJewel = false, redJewel = false;
 
         if(colorSensor.blue() - colorSensor.red() >= TOLERANCE) {

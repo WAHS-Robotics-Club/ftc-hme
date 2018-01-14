@@ -16,7 +16,7 @@ public class WhackerRangeTest extends OpMode {
 
     @Override
     public void init() {
-        whacker = hardwareMap.servo.get(HardwareMapConstants.WHACKER_CRSERVO);
+        whacker = hardwareMap.servo.get(HardwareMapConstants.WHACKER_SERVO);
         extender = hardwareMap.crservo.get(HardwareMapConstants.WHACKER_EXTENDER_CRSERVO);
         whacker.setPosition(0.8);
     }
@@ -24,9 +24,9 @@ public class WhackerRangeTest extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.dpad_up) {
-            whacker.setPosition(whacker.getPosition() + 0.0005);
+            whacker.setPosition(whacker.getPosition() + 0.005);
         } else if(gamepad1.dpad_down) {
-            whacker.setPosition(whacker.getPosition() - 0.0005);
+            whacker.setPosition(whacker.getPosition() - 0.005);
         } else {
             whacker.setPosition(whacker.getPosition());
         }

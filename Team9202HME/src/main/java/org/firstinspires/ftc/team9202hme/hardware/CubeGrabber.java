@@ -19,7 +19,8 @@ public class CubeGrabber extends HardwareComponent {
     private Servo left, right;
     private DcMotor spool;
 
-    private Toggle narrowGrabToggle = new Toggle();
+    private Toggle grabToggle = new Toggle();
+    private Toggle grabTypeToggle = new Toggle(); //Toggled = narrow grab, Untoggled = wide grab
 
     @Override
     public void init(HardwareMap hardwareMap) {
@@ -27,12 +28,7 @@ public class CubeGrabber extends HardwareComponent {
         right = hardwareMap.servo.get(HardwareMapConstants.CLAW_RIGHT_SERVO);
         spool = hardwareMap.dcMotor.get(HardwareMapConstants.PULLEY_DCMOTOR);
 
-        left.setPosition(1);
-        right.setPosition(0);
-
         spool.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        narrowGrabToggle.setToggle(false);
     }
 
     /**
@@ -48,20 +44,22 @@ public class CubeGrabber extends HardwareComponent {
      */
     public void grabControlled(Gamepad gamepad) {
         if(gamepad.right_bumper) {
-            narrowGrabToggle.toggle();
+            grabToggle.toggle();
         }
 
         if(gamepad.left_bumper) {
-            left.setPosition(left.getPosition() + 0.0075);
-            right.setPosition(right.getPosition() - 0.0075);
+            grabTypeToggle.toggle();
         }
 
-        if(narrowGrabToggle.isToggled()) {
+        if(grabToggle.isToggled()) {
             left.setPosition(0);
             right.setPosition(1);
         } else {
-            left.setPosition(0.510);
-            right.setPosition(0.370);
+            if(grabTypeToggle.isToggled()) { //Narrow grab
+                release();
+            } else { //Wide grab
+                openWide();
+            }
         }
 
         if(gamepad.right_trigger > 0.05) {
@@ -73,9 +71,35 @@ public class CubeGrabber extends HardwareComponent {
         }
     }
 
+    public void grab() {
+        left.setPosition(0);
+        right.setPosition(1);
+    }
+
+    public void release() {
+        left.setPosition(0.51);
+        right.setPosition(0.37);
+    }
+
+    public void openWide() {
+        left.setPosition(0.81);
+        right.setPosition(0.07);
+    }
+
+    public void lift() {
+        spool.setPower(0.8);
+    }
+
+    public void stop() {
+        spool.setPower(0);
+    }
+
+    public void lower() {
+        spool.setPower(-0.8);
+    }
+
     @Override
     public void logTelemetry(Telemetry telemetry) {
-        telemetry.addData("Left", left.getPosition());
-        telemetry.addData("Right", right.getPosition());
+
     }
 }

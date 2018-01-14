@@ -4,6 +4,7 @@ package org.firstinspires.ftc.team9202hme.program;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.team9202hme.FieldConstants;
+import org.firstinspires.ftc.team9202hme.hardware.CubeGrabber;
 import org.firstinspires.ftc.team9202hme.hardware.OmniDirectionalDrive;
 import org.firstinspires.ftc.team9202hme.hardware.MecanumDriveTrain;
 import org.firstinspires.ftc.team9202hme.hardware.JewelWhacker;
@@ -17,6 +18,7 @@ import static java.lang.Math.abs;
 public class MainAutonomousProgram extends AutonomousProgram {
     private OmniDirectionalDrive driveTrain = new MecanumDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
     private JewelWhacker jewelWhacker = new JewelWhacker();
+    private CubeGrabber cubeGrabber = new CubeGrabber();
     private Navigator navigator = new Navigator(CameraSide.BACK, PhoneOrientation.UPRIGHT, 1, true);
     private boolean shouldPlaceCube;
 
@@ -35,90 +37,97 @@ public class MainAutonomousProgram extends AutonomousProgram {
 
     @Override
     public void run() throws InterruptedException {
-        final int extendTime = 2000;
-
         driveTrain.init(opMode.hardwareMap);
         jewelWhacker.init(opMode.hardwareMap);
+        cubeGrabber.init(opMode.hardwareMap);
         navigator.init();
         opMode.waitForStart();
 
-        CryptoColumn column = CryptoColumn.UNKNOWN;
-        jewelWhacker.extend();
-        int startTime = (int) (System.nanoTime() / 1e6);
-        double distanceFromImage = 0;
-        while(System.nanoTime() / 1e6 - startTime < extendTime) {
-            if(navigator.canSeeTarget() && column == CryptoColumn.UNKNOWN) {
-                column = navigator.decodeTarget();
-                distanceFromImage = abs(navigator.getRelativeTargetTranslation().x);
-            }
-            Thread.sleep(1);
-        }
+        cubeGrabber.grab();
+        Thread.sleep(500);
+
+        cubeGrabber.lift();
+        Thread.sleep(1000);
+        cubeGrabber.stop();
+
+        jewelWhacker.extend(10.5);
 
         jewelWhacker.stop();
         jewelWhacker.lower();
 
-        Thread.sleep(300);
-        jewelWhacker.logTelemetry(opMode.telemetry);
-        opMode.telemetry.update();
-        Thread.sleep(1000);
+        Thread.sleep(800);
 
         JewelWhacker.JewelColor jewelColor = jewelWhacker.readJewelColor();
         boolean counterClockwiseTurn = false;
+        boolean skipToCubePlacement = false;
 
         //Set turn speed for robot based on field side and detected color of jewel (color sensor is on the left side of the whacker)
         switch(fieldSide) {
             case RED:
                 switch(jewelColor) {
                     case RED:
-                        driveTrain.turn(-0.3);
+                        driveTrain.turn(0.3);
                         counterClockwiseTurn = true;
                         break;
                     case BLUE:
-                        driveTrain.turn(0.3);
+                        driveTrain.turn(-0.3);
                         break;
-                    case UNKNOWN:
-                        jewelWhacker.raise();
+                    case UNKNOWN: skipToCubePlacement = true;
                         break;
                 }
                 break;
             case BLUE:
                 switch(jewelColor) {
                     case RED:
-                        driveTrain.turn(0.3);
+                        driveTrain.turn(-0.3);
                         break;
                     case BLUE:
-                        driveTrain.turn(-0.3);
+                        driveTrain.turn(0.3);
                         counterClockwiseTurn = true;
                         break;
-                    case UNKNOWN:
-                        jewelWhacker.raise();
+                    case UNKNOWN: skipToCubePlacement = true;
                         break;
                 }
                 break;
         }
 
-        Thread.sleep(300);
-
-        jewelWhacker.retract();
-        Thread.sleep(extendTime);
-        jewelWhacker.stop();
+        Thread.sleep(400);
+        driveTrain.stop();
+        Thread.sleep(200);
         jewelWhacker.raise();
 
-        Thread.sleep(500);
-        driveTrain.turn(counterClockwiseTurn ? 0.3 : -0.3);
-        Thread.sleep(300);
+        jewelWhacker.retract(10.5);
+
+        if(!skipToCubePlacement) {
+            driveTrain.turn(counterClockwiseTurn ? -0.3 : 0.3);
+            Thread.sleep(400);
+        }
 
         driveTrain.stop();
+        Thread.sleep(500);
+
+        double distanceFromImage = -navigator.getRelativeTargetTranslation().x * 0.0393701;
+        CryptoColumn column = navigator.decodeTarget();
 
         int columnIndex = -1;
+//        switch(column) {
+//            case LEFT: columnIndex = fieldSide == FieldSide.RED ? 3 : 1;
+//                break;
+//            case CENTER: columnIndex = 2;
+//                break;
+//            case RIGHT: columnIndex = fieldSide == FieldSide.RED ? 1 : 3;
+//                break;
+//            case UNKNOWN: shouldPlaceCube = false;
+//                break;
+//        }
         switch(column) {
-            case LEFT: columnIndex = fieldSide == FieldSide.RED ? 3 : 1;
+            case LEFT: columnIndex = fieldSide == FieldSide.RED ? 3 : 3;
                 break;
             case CENTER: columnIndex = 2;
                 break;
-            case RIGHT: columnIndex = fieldSide == FieldSide.RED ? 1 : 3;
+            case RIGHT: columnIndex = fieldSide == FieldSide.RED ? 1 : 1;
                 break;
-            case UNKNOWN:
+            case UNKNOWN: shouldPlaceCube = false;
                 break;
         }
 
@@ -126,12 +135,24 @@ public class MainAutonomousProgram extends AutonomousProgram {
                 + columnIndex * FieldConstants.CRYPTO_BOX_COLUMN_WIDTH;
 
         if(shouldPlaceCube) {
-            Thread.sleep(1000);
             driveTrain.move(0.5, 90, distanceToColumn);
 
-            driveTrain.turn(0.5, 90);
+            driveTrain.move(0.4, 180);
+            Thread.sleep(1000);
 
-            driveTrain.move(0.5, 90, 12);
+            driveTrain.turn(0.5, 90);
+            cubeGrabber.lower();
+            Thread.sleep(1100);
+            cubeGrabber.stop();
+            cubeGrabber.openWide();
+            cubeGrabber.lift();
+            Thread.sleep(1100);
+            cubeGrabber.stop();
+
+            driveTrain.move(0.5, 90, 22);
+            driveTrain.move(0.5, 270, 5);
+        } else {
+//            driveTrain.move(0.5, 90, 32);
         }
     }
 }

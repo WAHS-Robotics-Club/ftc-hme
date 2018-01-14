@@ -16,6 +16,7 @@ public class MainTeleOpProgram extends TeleOpProgram {
     private OmniDirectionalDrive driveTrain = new MecanumDriveTrain(FieldConstants.WHEEL_DIAMETER, FieldConstants.ENCODER_TICKS_PER_ROTATION);
     private CubeGrabber cubeGrabber = new CubeGrabber();
     private RelicGrabber relicGrabber = new RelicGrabber();
+    private JewelWhacker jewelWhacker = new JewelWhacker();
     private boolean dualControl;
 
     public MainTeleOpProgram(OpMode opMode, boolean dualControl) {
@@ -27,25 +28,19 @@ public class MainTeleOpProgram extends TeleOpProgram {
     public void init() {
         driveTrain.init(opMode.hardwareMap);
         cubeGrabber.init(opMode.hardwareMap);
-//        relicGrabber.init(opMode.hardwareMap);
+        relicGrabber.init(opMode.hardwareMap);
+        jewelWhacker.init(opMode.hardwareMap);
     }
-
-//    private int counter = 0;
-//    private double startTime = System.nanoTime() / 1e9d;
 
     @Override
     public void loop() {
-//        startTime = System.nanoTime() / 1e9d;
-        Gamepad primary = opMode.gamepad1;
-        Gamepad secondary = dualControl ? opMode.gamepad2 : primary;
-
-        driveTrain.driveControlled(primary);
-        cubeGrabber.grabControlled(primary);
-//        relicGrabber.grabControlled(secondary);
-
-//        counter++;
-//        opMode.telemetry.addData("Loops per second", counter / ((System.nanoTime() / 1e9d) - startTime));
-        updateTelemetry();
+        driveTrain.driveControlled(opMode.gamepad1);
+        cubeGrabber.grabControlled(opMode.gamepad1);
+        if(opMode.gamepad1.a) jewelWhacker.raise();
+        if(dualControl) {
+            relicGrabber.grabControlled(opMode.gamepad2);
+        }
+//        updateTelemetry();
     }
 
     @Override

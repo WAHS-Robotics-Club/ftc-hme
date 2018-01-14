@@ -9,7 +9,7 @@ public class HardwareMapConstants {
     public static final String CLAW_RIGHT_SERVO = "claw-right";
     public static final String PULLEY_DCMOTOR = "pulley";
 
-    public static final String WHACKER_CRSERVO = "whacker";
+    public static final String WHACKER_SERVO = "whacker";
     public static final String WHACKER_EXTENDER_CRSERVO = "extender";
 
     public static final String RELIC_CLAW_ROTATOR = "rotator";

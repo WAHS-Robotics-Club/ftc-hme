@@ -104,8 +104,8 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
                 direction.y = 0;
             }
 
-            direction = direction.times(0.45);
-            turnPower = turnPowerScale.scale(gamepad.right_stick_x, 0.45);
+            direction = direction.times(0.8);
+            turnPower = turnPowerScale.scale(gamepad.right_stick_x, 0.8);
         } else { //Normal 360 degree motion, movement speed unscaled
             direction = new Vector2(x, y);
             turnPower = turnPowerScale.scale(gamepad.right_stick_x);
@@ -134,22 +134,19 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
         stop();
         resetEncoders();
 
-        double position = encoderTicksPerRotation * (distance / wheelCircumference);
+        int position = (int) (encoderTicksPerRotation * (abs(distance) / wheelCircumference));
 
-        //TODO: Find the actual values for motor positions besides position. Will likely involve multiplying by sin/cos of some angle
+        //TODO: Find the actual values for motor positions besides the above variable. Will likely involve multiplying by sin/cos of some angle
         //They will work for now however, since we only need to move forwards in autonomous
 
-        mecanumMoveAndTurn(power, angle, 0);
-
-        frontLeft.setTargetPosition((int) (position * signum(frontLeft.getPower())));
-        backLeft.setTargetPosition((int) (position * signum(backLeft.getPower())));
-
-        frontRight.setTargetPosition((int) (position * signum(frontRight.getPower())));
-        backRight.setTargetPosition((int) (position * signum(backRight.getPower())));
-
-        mecanumMoveAndTurn(power, angle, 0);
-
         setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        frontLeft.setTargetPosition((int) (-position * signum(sin(angle))));
+        backLeft.setTargetPosition((int) (-position * signum(sin(angle))));
+        frontRight.setTargetPosition((int) (position * signum(sin(angle))));
+        backRight.setTargetPosition((int) (position * signum(sin(angle))));
+
+        mecanumMoveAndTurn(power, angle, 0);
 
         while(frontLeft.isBusy() || backLeft.isBusy() || frontRight.isBusy() || backRight.isBusy()) {
             Thread.sleep(1);
@@ -165,7 +162,9 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
 
         double error = angle;
 
-        while(abs(error) > 0.5) {
+        double startTime = System.nanoTime() / 1e9;
+
+        while(abs(error) > 0.5 && (System.nanoTime() / 1e9) - startTime < 4) {
             double scale = (1 - getMinimumTurnPower()) * sin(toRadians(90 * (abs(error) / angle))) + getMinimumTurnPower();
             turn(power * abs(scale) * signum(error));
             error = angle - (getHeading() - startHeading);
