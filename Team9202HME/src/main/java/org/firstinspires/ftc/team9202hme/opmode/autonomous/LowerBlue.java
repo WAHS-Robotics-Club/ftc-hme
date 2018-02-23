@@ -7,11 +7,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.team9202hme.program.AutonomousProgram;
 import org.firstinspires.ftc.team9202hme.program.MainAutonomousProgram;
 
-@Autonomous(name = "Red")
-public class AutonomousRed extends LinearOpMode {
+@Autonomous(name = "Lower Blue")
+public class LowerBlue extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        MainAutonomousProgram autonomous = new MainAutonomousProgram(this, AutonomousProgram.FieldSide.RED, true);
-        autonomous.run();
+        MainAutonomousProgram mainAutonomousProgram =
+                new MainAutonomousProgram(this, AutonomousProgram.FieldSide.BLUE, AutonomousProgram.FieldPosition.LOWER, true);
+        mainAutonomousProgram.run();
     }
 }

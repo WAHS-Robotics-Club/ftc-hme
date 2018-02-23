@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.team9202hme.opmode.test;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 
 @TeleOp(name = "Color Sensor Test", group = "Tests")
-//@Disabled
+@Disabled
 public class ColorSensorTest extends OpMode {
     private ColorSensor colorSensor;
 

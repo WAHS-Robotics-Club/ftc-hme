@@ -16,6 +16,13 @@ public abstract class AutonomousProgram {
     }
 
     /**
+     * The two possible positions on the field, where lower is closer to the audience
+     */
+    public enum FieldPosition {
+        UPPER, LOWER
+    }
+
+    /**
      * The LinearOpMode that will be running this program. Used for accessing
      * things like HardwareMap, Gamepad, and Telemetry
      */
@@ -27,15 +34,23 @@ public abstract class AutonomousProgram {
     protected FieldSide fieldSide;
 
     /**
+     * The position on the field that the robot will be in when this program is run
+     */
+    protected FieldPosition fieldPosition;
+
+    /**
      * Initializes protected members so that they may be used by subclasses
      *
      * @param opMode    The LinearOpMode that will be running this program
      * @param fieldSide The side of the field that the robot will be on
      *                  when this program is run
+     * @param fieldPosition The position on the field that the robot will be in
+     *                      when this program is run
      */
-    public AutonomousProgram(LinearOpMode opMode, FieldSide fieldSide) {
+    public AutonomousProgram(LinearOpMode opMode, FieldSide fieldSide, FieldPosition fieldPosition) {
         this.opMode = opMode;
         this.fieldSide = fieldSide;
+        this.fieldPosition = fieldPosition;
     }
 
     /**

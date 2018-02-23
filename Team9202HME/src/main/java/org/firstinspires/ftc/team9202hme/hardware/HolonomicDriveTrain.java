@@ -92,7 +92,6 @@ public class HolonomicDriveTrain extends OmniDirectionalDrive {
         preciseControlsToggle.setToggle(true);
     }
 
-    @Override
     public double getHeading() {
         Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return orientation.firstAngle;

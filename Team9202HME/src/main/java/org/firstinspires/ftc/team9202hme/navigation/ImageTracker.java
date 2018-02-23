@@ -29,7 +29,7 @@ import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
  * have parameters for which target to track, since there is only one. This will be changed
  * whenever there are more available targets
  */
-public class Navigator {
+public class ImageTracker {
     private VuforiaLocalizer.Parameters vuforiaSettings;
     private VuforiaTrackables targets;
     private CameraSide cameraSide;
@@ -37,7 +37,7 @@ public class Navigator {
     private VuforiaTrackableDefaultListener listener;
 
     /**
-     * Creates the Navigator with necessary parameters
+     * Creates the ImageTracker with necessary parameters
      *
      * @param cameraSide                  The camera that will be used to locate images
      * @param orientation                 The orientation of the phone on the robot
@@ -46,7 +46,7 @@ public class Navigator {
      *                                    robot controller phone. This is good for debugging, but eats through
      *                                    the phone battery
      */
-    public Navigator(CameraSide cameraSide, PhoneOrientation orientation, int maxSimultaneousImageTargets, boolean showCameraFeedbackOnPhone) {
+    public ImageTracker(CameraSide cameraSide, PhoneOrientation orientation, int maxSimultaneousImageTargets, boolean showCameraFeedbackOnPhone) {
         this.cameraSide = cameraSide;
         this.orientation = orientation;
 
@@ -77,9 +77,9 @@ public class Navigator {
     }
 
     /**
-     * Initializes the Navigator. This should be called during either
+     * Initializes the ImageTracker. This should be called during either
      * {@link TeleOpProgram#init()} or {@link AutonomousProgram#run()} and
-     * is necessary for the Navigator class to function properly
+     * is necessary for the ImageTracker class to function properly
      */
     public void init() {
         VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(vuforiaSettings);

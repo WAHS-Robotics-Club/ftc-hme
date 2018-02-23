@@ -11,7 +11,8 @@ import org.firstinspires.ftc.team9202hme.program.MainAutonomousProgram;
 public class NoMoveBlue extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        MainAutonomousProgram mainAutonomousProgram = new MainAutonomousProgram(this, AutonomousProgram.FieldSide.BLUE, false);
+        MainAutonomousProgram mainAutonomousProgram =
+                new MainAutonomousProgram(this, AutonomousProgram.FieldSide.BLUE, AutonomousProgram.FieldPosition.LOWER, false);
         mainAutonomousProgram.run();
     }
 }

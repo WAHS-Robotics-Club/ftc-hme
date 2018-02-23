@@ -16,7 +16,7 @@ import org.firstinspires.ftc.team9202hme.util.Toggle;
  * 6x6x6 inch foam cubes
  */
 public class CubeGrabber extends HardwareComponent {
-    private Servo left, right;
+    private Servo lowerLeft, lowerRight, upperLeft, upperRight;
     private DcMotor spool;
 
     private Toggle grabToggle = new Toggle();
@@ -24,9 +24,13 @@ public class CubeGrabber extends HardwareComponent {
 
     @Override
     public void init(HardwareMap hardwareMap) {
-        left = hardwareMap.servo.get(HardwareMapConstants.CLAW_LEFT_SERVO);
-        right = hardwareMap.servo.get(HardwareMapConstants.CLAW_RIGHT_SERVO);
+        lowerLeft = hardwareMap.servo.get(HardwareMapConstants.CLAW_LOWER_LEFT_SERVO);
+        lowerRight = hardwareMap.servo.get(HardwareMapConstants.CLAW_LOWER_RIGHT_SERVO);
+//        upperLeft = hardwareMap.servo.get(HardwareMapConstants.CLAW_UPPER_LEFT_SERVO);
+//        upperRight = hardwareMap.servo.get(HardwareMapConstants.CLAW_UPPER_RIGHT_SERVO);
         spool = hardwareMap.dcMotor.get(HardwareMapConstants.PULLEY_DCMOTOR);
+
+        spool.setPower(0);
 
         spool.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
@@ -52,8 +56,7 @@ public class CubeGrabber extends HardwareComponent {
         }
 
         if(grabToggle.isToggled()) {
-            left.setPosition(0);
-            right.setPosition(1);
+            grab();
         } else {
             if(grabTypeToggle.isToggled()) { //Narrow grab
                 release();
@@ -72,22 +75,28 @@ public class CubeGrabber extends HardwareComponent {
     }
 
     public void grab() {
-        left.setPosition(0);
-        right.setPosition(1);
+        lowerLeft.setPosition(0);
+        lowerRight.setPosition(1);
+//        upperLeft.setPosition(1);
+//        upperRight.setPosition(0);
     }
 
     public void release() {
-        left.setPosition(0.51);
-        right.setPosition(0.37);
+        lowerLeft.setPosition(0.51);
+        lowerRight.setPosition(0.37);
+//        upperLeft.setPosition(0.49);
+//        upperRight.setPosition(0.63);
     }
 
     public void openWide() {
-        left.setPosition(0.81);
-        right.setPosition(0.07);
+        lowerLeft.setPosition(0.81);
+        lowerRight.setPosition(0.07);
+//        upperLeft.setPosition(0.19);
+//        upperRight.setPosition(0.93);
     }
 
     public void lift() {
-        spool.setPower(0.8);
+        spool.setPower(1);
     }
 
     public void stop() {
@@ -95,7 +104,7 @@ public class CubeGrabber extends HardwareComponent {
     }
 
     public void lower() {
-        spool.setPower(-0.8);
+        spool.setPower(-1);
     }
 
     @Override

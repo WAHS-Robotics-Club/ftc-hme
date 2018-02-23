@@ -13,7 +13,7 @@ import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 
 public class JewelWhacker extends HardwareComponent {
     private Servo whacker;
-    private CRServo extender;
+    private Servo extender;
     private ColorSensor colorSensor;
     private DistanceSensor distanceSensor;
 
@@ -24,39 +24,43 @@ public class JewelWhacker extends HardwareComponent {
     @Override
     public void init(HardwareMap hardwareMap) {
         whacker = hardwareMap.servo.get(HardwareMapConstants.WHACKER_SERVO);
-        extender = hardwareMap.crservo.get(HardwareMapConstants.WHACKER_EXTENDER_CRSERVO);
+        extender = hardwareMap.servo.get(HardwareMapConstants.WHACKER_EXTENDER_SERVO);
         colorSensor = hardwareMap.colorSensor.get(HardwareMapConstants.COLOR_DISTANCE_SENSOR);
         distanceSensor = hardwareMap.get(DistanceSensor.class, HardwareMapConstants.COLOR_DISTANCE_SENSOR);
 
-        raise();
+        retract();
     }
 
-    public void extend(double distance) throws InterruptedException {
-        extender.setPower(-1);
-        Thread.sleep((int) (1000 * distance / 3));
-        stop();
+    public void center() {
+        extender.setPosition(0.517);
     }
 
-    public void stop() {
-        extender.setPower(0);
+    public void hitLeft() {
+        extender.setPosition(0.342);
     }
 
-    public void retract(double distance) throws InterruptedException {
-        extender.setPower(1);
-        Thread.sleep((int) (1000 * distance / 3));
-        stop();
+    public void hitRight() {
+        extender.setPosition(0.711);
+    }
+
+    public void retract() {
+        extender.setPosition(1.0);
     }
 
     public void raise() {
-        whacker.setPosition(0.95);
+        whacker.setPosition(0);
+    }
+
+    public void hoverOverJewels() {
+        whacker.setPosition(0.877);
     }
 
     public void lower() {
-        whacker.setPosition(0.244);
+        whacker.setPosition(0.982);
     }
 
     public JewelColor readJewelColor() {
-        final int TOLERANCE = 12;
+        final int TOLERANCE = 15;
         boolean blueJewel = false, redJewel = false;
 
         if(colorSensor.blue() - colorSensor.red() >= TOLERANCE) {

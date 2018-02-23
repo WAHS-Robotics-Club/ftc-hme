@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.team9202hme.R;
-import org.firstinspires.ftc.team9202hme.Sound;
+import org.firstinspires.ftc.team9202hme.util.Sound;
 
 @TeleOp(name = "Audio Test", group = "Tests")
 @Disabled
