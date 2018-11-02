@@ -94,21 +94,25 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
         Vector2 direction = new Vector2();
         double turnPower;
 
-        if(preciseControlsToggle.isToggled()) { //Four directional movement only
-            if(abs(x) < abs(y)) {
-                direction.x = 0;
-                direction.y = y;
-            } else {
-                direction.x = x;
-                direction.y = 0;
-            }
+//        if(preciseControlsToggle.isToggled()) { //Four directional movement only
+//            if(abs(x) < abs(y)) {
+//                direction.x = 0;
+//                direction.y = y;
+//            } else {
+//                direction.x = x;
+//                direction.y = 0;
+//            }
+//
+//            turnPower = turnPowerScale.scale(gamepad.right_stick_x, 0.7);
+//            direction.x *= 0.8;
+//        } else { //Normal 360 degree motion, movement speed unscaled
+//            direction = new Vector2(x, y);
+//            turnPower = turnPowerScale.scale(gamepad.right_stick_x);
+//        }
 
-            turnPower = turnPowerScale.scale(gamepad.right_stick_x, 0.7);
-            direction.x *= 0.8;
-        } else { //Normal 360 degree motion, movement speed unscaled
-            direction = new Vector2(x, y);
-            turnPower = turnPowerScale.scale(gamepad.right_stick_x);
-        }
+        direction = new Vector2(x, y);
+
+        turnPower = gamepad.right_stick_x;
 
         mecanumMoveAndTurn(direction, turnPower);
     }

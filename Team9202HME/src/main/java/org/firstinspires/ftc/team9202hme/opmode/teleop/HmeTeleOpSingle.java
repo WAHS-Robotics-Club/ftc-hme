@@ -8,25 +8,25 @@ import org.firstinspires.ftc.team9202hme.program.MainTeleOpProgram;
 
 @TeleOp(name = "HME TeleOp - Single Driver", group = "HME")
 public class HmeTeleOpSingle extends OpMode {
-    private MainTeleOpProgram robot = new MainTeleOpProgram(this, false);
+    private MainTeleOpProgram program = new MainTeleOpProgram(this, false);
 
     @Override
     public void init() {
-        robot.init();
+        program.init();
     }
 
     @Override
     public void start() {
-        robot.start();
+        program.start();
     }
 
     @Override
     public void loop() {
-        robot.loop();
+        program.loop();
     }
 
     @Override
     public void stop() {
-        robot.stop();
+        program.stop();
     }
 }
