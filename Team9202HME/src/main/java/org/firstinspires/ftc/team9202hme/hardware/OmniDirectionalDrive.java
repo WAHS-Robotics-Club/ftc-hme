@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.program.AutonomousProgram;
 import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
+import org.firstinspires.ftc.team9202hme.util.Vector2;
 
 /**
  * Class representing a holonomic drive train (capable of omni-directional movement).
@@ -88,18 +89,15 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
      */
     public abstract double getHeading();
 
-    /**
-     * Sets motor powers to drive the robot based
-     * on input from a gamepad. This is meant to be
-     * used in {@link TeleOpProgram#loop()}
-     *
-     * @param gamepad The gamepad that will be used to control the robot.
-     *                It should ideally come from the OpMode in the
-     *                program that will be controlling the robot, as either
-     *                gamepad1 or gamepad2
-     * @see TeleOpProgram
-     */
-    public abstract void driveControlled(Gamepad gamepad);
+    public abstract void move(Vector2 direction, double turnPower);
+
+    public void move(Vector2 direction) {
+        move(direction, 0);
+    }
+
+    public void turn(double power) {
+        move(Vector2.ZERO, power);
+    }
 
     /**
      * Sets all motor powers to zero, effectively
@@ -111,140 +109,4 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
         backLeft.setPower(0.0);
         backRight.setPower(0.0);
     }
-
-    /**
-     * Sets the motor powers so that the robot
-     * moves at the specified speed and angle
-     *
-     * @param power The power that will be applied
-     *              to the motors, ranging from 0.0
-     *              to 1.0
-     * @param angle The angle, in degrees, where
-     *              0 degrees is the front of the
-     *              robot, at which the robot will
-     *              move
-     */
-    public abstract void move(double power, double angle);
-
-    /**
-     * Sets the motor powers so that the robot
-     * spins
-     *
-     * @param power The power that will be applied
-     *              to the motors, ranging from -1.0
-     *              to 1.0, where a negative power
-     *              will cause the robot to spin
-     *              counter-clockwise
-     */
-    public abstract void turn(double power);
-
-    /**
-     * Sets the motor powers so that the robot moves
-     * at the desired angle, while simultaneously
-     * spinning
-     *
-     * @param movePower The power that will be applied
-     *                  to the motors, ranging from 0.0
-     *                  to 1.0
-     * @param angle     The angle, in degrees, where
-     *                  0 degrees is the front of the
-     *                  robot, at which the robot will
-     *                  move
-     * @param turnPower The power that will be applied
-     *                  to the motors, ranging from -1.0
-     *                  to 1.0, where a negative power
-     *                  will cause the robot to spin
-     *                  counter-clockwise
-     */
-    public abstract void moveAndTurn(double movePower, double angle, double turnPower);
-
-    /**
-     * Sets the motor powers so that the robot
-     * moves at the specified speed and angle,
-     * until it has reached the specified
-     * distance
-     * <p>
-     * <b>NOTE:</b> Do not catch the InterruptedException.
-     * This method is intended for use in {@link AutonomousProgram#run()},
-     * which will properly handle the InterruptedException should it occur.
-     *
-     * @param power    The power that will be applied
-     *                 to the motors, ranging from 0.0
-     *                 to 1.0
-     * @param angle    The angle, in degrees, where
-     *                 0 degrees is the front of the
-     *                 robot, at which the robot will
-     *                 move
-     * @param distance The distance, in millimeters,
-     *                 that the robot will move
-     * @throws InterruptedException This method will put the current thread to sleep while the motors are moving to the target distance,
-     *                              which will throw an InterruptedException if the thread is terminated
-     * @see AutonomousProgram
-     */
-    public abstract void move(double power, double angle, double distance) throws InterruptedException;
-
-    /**
-     * Sets the motor powers so that the robot spins,
-     * until it reaches the desired angle relative to its
-     * position when the method is called. For instance, if
-     * the robot was tilted 30 degrees and told to turn 50, its
-     * final heading would be 80.
-     * <p>
-     * <b>NOTE:</b> Do not catch the InterruptedException.
-     * This method is intended for use in {@link AutonomousProgram#run()},
-     * which will properly handle the InterruptedException should it occur.
-     *
-     * @param power The power that will be applied
-     *              to the motors, ranging from -1.0
-     *              to 1.0, where a negative power
-     *              will cause the robot to spin
-     *              counter-clockwise
-     * @param angle The angle in degrees to
-     *              which the robot will turn,
-     *              ranging from -359 to 359, where
-     *              0 is the front of the robot
-     *              and positive values indicate
-     *              an angle left of 0
-     * @throws InterruptedException This method will put the current thread to sleep while the robot is turning to the target angle,
-     *                              which will throw an InterruptedException if the thread is terminated
-     * @see AutonomousProgram
-     */
-    public abstract void turn(double power, double angle) throws InterruptedException;
-
-    /**
-     * Sets motor powers so that the robot spins,
-     * until its heading reaches the desired angle relative
-     * to its original position at initialization. For instance,
-     * if the robot was tilted 30 degrees and told to turn to 50,
-     * its final heading would be 50.
-     *
-     * @param power The power that will be applied to
-     *              the motors, ranging from -1.0 to 1.0,
-     *              where a negative power will cause the
-     *              robot to spin counter-clockwise
-     * @param angle The absolute angle in degrees to which
-     *              the robot will turn, ranging from 0 to
-     *              359, where 0 is the robot's position at
-     *              initialization and increasing angles respond
-     *              to counter-clockwise rotation
-     * @throws InterruptedException This method will put the current thread to sleep while the robot is turning to the target angle,
-     *                              which will throw an InterruptedException if the thread is terminated
-     */
-    public abstract void absoluteTurn(double power, double angle) throws InterruptedException;
-
-    /**
-     * Due to friction, most drive trains' motors will stall
-     * if given a sufficiently low power, which this method returns
-     *
-     * @return The lowest absolute power at which the drive train will be able to move
-     */
-    public abstract double getMinimumMovePower();
-
-    /**
-     * Due to friction, most drive trains' motors will stall
-     * if given a sufficiently low power, which this method returns
-     *
-     * @return The lowest absolute power at which the drive train will be able to turn
-     */
-    public abstract double getMinimumTurnPower();
 }

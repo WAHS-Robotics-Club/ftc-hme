@@ -28,9 +28,6 @@ import static java.lang.Math.*;
 public class MecanumDriveTrain extends OmniDirectionalDrive {
     private BNO055IMU imu;
 
-    private final Toggle preciseControlsToggle = new Toggle();
-    private final PowerScale turnPowerScale = PowerScale.CreateMonomialScaleFunction(2, getMinimumTurnPower(), 1.0);
-
     /**
      * Gives drive train the values it needs to calculate how to properly apply motor powers
      * when moving and turning autonomously
@@ -43,7 +40,25 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
         super(wheelDiameter, encoderTicksPerRotation);
     }
 
-    private void mecanumMoveAndTurn(Vector2 direction, double turnPower) {
+    @Override
+    public void init(HardwareMap hardwareMap) {
+        super.init(hardwareMap);
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+
+        imu = hardwareMap.get(BNO055IMU.class, HardwareMapConstants.IMU);
+        imu.initialize(parameters);
+    }
+
+    @Override
+    public double getHeading() {
+        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        return orientation.firstAngle;
+    }
+
+    @Override
+    public void move(Vector2 direction, double turnPower) {
         if(abs(direction.x) < 0.01 && abs(direction.y) < 0.01 && abs(turnPower) < 0.01) {
             stop();
         } else {
@@ -54,152 +69,12 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
         }
     }
 
-    private void mecanumMoveAndTurn(double movePower, double angle, double turnPower) {
-        mecanumMoveAndTurn(new Vector2(cos(toRadians(angle)), sin(toRadians(angle))).times(movePower), turnPower);
-    }
-
-    @Override
-    public void init(HardwareMap hardwareMap) {
-        super.init(hardwareMap);
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-
-        imu = hardwareMap.get(BNO055IMU.class, HardwareMapConstants.IMU);
-        imu.initialize(parameters);
-
-        preciseControlsToggle.setToggle(true);
-    }
-
-    @Override
-    public double getHeading() {
-        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        return orientation.firstAngle;
-    }
-
     @Override
     public void logTelemetry(Telemetry telemetry) {
         telemetry.addData("Heading", getHeading() + " degrees");
-    }
-
-    @Override
-    public void driveControlled(Gamepad gamepad) {
-        if(gamepad.y) {
-            preciseControlsToggle.toggle();
-        }
-
-        double x = gamepad.left_stick_x;
-        double y = -gamepad.left_stick_y; //All gamepad y-axes are flipped, which doesn't work well with this control scheme
-
-        Vector2 direction = new Vector2();
-        double turnPower;
-
-//        if(preciseControlsToggle.isToggled()) { //Four directional movement only
-//            if(abs(x) < abs(y)) {
-//                direction.x = 0;
-//                direction.y = y;
-//            } else {
-//                direction.x = x;
-//                direction.y = 0;
-//            }
-//
-//            turnPower = turnPowerScale.scale(gamepad.right_stick_x, 0.7);
-//            direction.x *= 0.8;
-//        } else { //Normal 360 degree motion, movement speed unscaled
-//            direction = new Vector2(x, y);
-//            turnPower = turnPowerScale.scale(gamepad.right_stick_x);
-//        }
-
-        direction = new Vector2(x, y);
-
-        turnPower = gamepad.right_stick_x;
-
-        mecanumMoveAndTurn(direction, turnPower);
-    }
-
-    @Override
-    public void move(double power, double angle) {
-        mecanumMoveAndTurn(power, angle, 0);
-    }
-
-    @Override
-    public void turn(double power) {
-        mecanumMoveAndTurn(Vector2.ZERO, power);
-    }
-
-    @Override
-    public void moveAndTurn(double movePower, double angle, double turnPower) {
-        mecanumMoveAndTurn(movePower, angle, turnPower);
-    }
-
-    @Override
-    public void move(double power, double angle, double distance) throws InterruptedException {
-        final double timeout = 5; //Seconds until the robot should stop moving
-
-        stop();
-        resetEncoders();
-
-        int position = (int) (encoderTicksPerRotation * (abs(distance) / wheelCircumference));
-
-        mecanumMoveAndTurn(power, angle, 0);
-
-        frontLeft.setTargetPosition((int) (position * signum(frontLeft.getPower())));
-        backLeft.setTargetPosition((int) (position * signum(backLeft.getPower())));
-        frontRight.setTargetPosition((int) (position * signum(frontRight.getPower())));
-        backRight.setTargetPosition((int) (position * signum(backRight.getPower())));
-
-        setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        mecanumMoveAndTurn(power, angle, 0);
-        double startTime = System.nanoTime() / 1e9;
-
-        while((frontLeft.isBusy() || backLeft.isBusy() || frontRight.isBusy() || backRight.isBusy())
-                && (System.nanoTime() / 1e9) - startTime < timeout) {
-            Thread.sleep(1);
-        }
-
-        stop();
-        resetEncoders();
-    }
-
-    @Override
-    public void turn(double power, double angle) throws InterruptedException {
-        final double timeout = 5; //Seconds until the robot should stop turning
-        double startHeading = getHeading();
-
-        double error = angle;
-
-        double startTime = System.nanoTime() / 1e9;
-
-        if(signum(angle) == 1) {
-            turn(power);
-            while(error > 0 && (System.nanoTime() / 1e9) - startTime < timeout) {
-                error = angle - abs(getHeading() - startHeading);
-                Thread.sleep(1);
-            }
-        } else {
-            turn(-power);
-            while(error < 0 && (System.nanoTime() / 1e9) - startTime < timeout) {
-                error = angle + (getHeading() - startHeading);
-                Thread.sleep(1);
-            }
-        }
-
-        stop();
-    }
-
-    @Override
-    public void absoluteTurn(double power, double angle) throws InterruptedException {
-        //TODO: Implement this later, not important for competition
-    }
-
-    @Override
-    public double getMinimumMovePower() {
-        return 0.1;
-    }
-
-    @Override
-    public double getMinimumTurnPower() {
-        return 0.1;
+        telemetry.addData("FL Power", frontLeft.getPower());
+        telemetry.addData("FR Power", frontRight.getPower());
+        telemetry.addData("BL Power", backLeft.getPower());
+        telemetry.addData("BR Power", backRight.getPower());
     }
 }

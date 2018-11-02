@@ -8,7 +8,7 @@ import org.firstinspires.ftc.team9202hme.program.MainTeleOpProgram;
 
 @TeleOp(name = "HME TeleOp - Single Driver", group = "HME")
 public class HmeTeleOpSingle extends OpMode {
-    private MainTeleOpProgram program = new MainTeleOpProgram(this, false);
+    private MainTeleOpProgram program = new MainTeleOpProgram(this);
 
     @Override
     public void init() {

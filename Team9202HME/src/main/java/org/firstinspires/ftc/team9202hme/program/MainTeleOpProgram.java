@@ -6,42 +6,30 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.team9202hme.RobotConstants;
 import org.firstinspires.ftc.team9202hme.hardware.MecanumDriveTrain;
-import org.firstinspires.ftc.team9202hme.hardware.JewelWhacker;
-import org.firstinspires.ftc.team9202hme.hardware.CubeGrabber;
+import org.firstinspires.ftc.team9202hme.util.Vector2;
 
 public class MainTeleOpProgram extends TeleOpProgram {
     private MecanumDriveTrain driveTrain = new MecanumDriveTrain(RobotConstants.WHEEL_DIAMETER, RobotConstants.ENCODER_TICKS_PER_ROTATION);
-//    private CubeGrabber cubeGrabber = new CubeGrabber();
-//    private JewelWhacker jewelWhacker = new JewelWhacker();
-//    private boolean dualControl;
 
-    public MainTeleOpProgram(OpMode opMode, boolean dualControl) {
+    public MainTeleOpProgram(OpMode opMode) {
         super(opMode);
-//        this.dualControl = dualControl;
     }
 
     @Override
     public void init() {
-//        cubeGrabber.init(opMode.hardwareMap);
-//        jewelWhacker.init(opMode.hardwareMap);
         driveTrain.init(opMode.hardwareMap);
     }
 
     @Override
     public void loop() {
         Gamepad primary = opMode.gamepad1;
-//        Gamepad secondary = dualControl ? opMode.gamepad2 : opMode.gamepad1;
 
-        driveTrain.driveControlled(primary);
-//        cubeGrabber.grabControlled(primary);
+        float turnPower = primary.right_stick_x;
+        Vector2 moveDirection = new Vector2();
+        moveDirection.x = primary.left_stick_x;
+        moveDirection.y = primary.left_stick_y;
 
-//        if(secondary.a) {
-//            jewelWhacker.raise();
-//        } else if(secondary.b) {
-//            jewelWhacker.retract();
-//        }
-
-//        updateTelemetry();
+        driveTrain.move(moveDirection, turnPower);
     }
 
     @Override
@@ -50,9 +38,7 @@ public class MainTeleOpProgram extends TeleOpProgram {
     }
 
     private void updateTelemetry() {
-        driveTrain.logTelemetry(opMode.telemetry);
-//        cubeGrabber.logTelemetry(opMode.telemetry);
-
-        opMode.telemetry.update();
+//        driveTrain.logTelemetry(opMode.telemetry);
+//        opMode.telemetry.update();
     }
 }
