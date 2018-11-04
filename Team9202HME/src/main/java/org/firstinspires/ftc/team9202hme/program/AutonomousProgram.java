@@ -3,23 +3,25 @@ package org.firstinspires.ftc.team9202hme.program;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.team9202hme.util.TelemetryManager;
+
 /**
  * Interface for creating programs to be used during
  * the autonomous period of the competition
  */
 public abstract class AutonomousProgram {
     /**
-     * The two possible sides of the field
+     * The two possible alliance colors, which determine location on the field
      */
-    public enum FieldSide {
-        RED, BLUE
+    public enum AllianceColor {
+        RED, BLUE, DONT_CARE
     }
 
     /**
-     * The two possible positions on the field, where lower is closer to the audience
+     * The two possible field positions on a given alliance
      */
     public enum FieldPosition {
-        UPPER, LOWER
+        CRATER_FACING, DEPOT_FACING, DONT_CARE
     }
 
     /**
@@ -31,7 +33,7 @@ public abstract class AutonomousProgram {
     /**
      * The side of the field that the robot will be on when this program is run
      */
-    protected FieldSide fieldSide;
+    protected AllianceColor allianceColor;
 
     /**
      * The position on the field that the robot will be in when this program is run
@@ -42,16 +44,20 @@ public abstract class AutonomousProgram {
      * Initializes protected members so that they may be used by subclasses
      *
      * @param opMode    The LinearOpMode that will be running this program
-     * @param fieldSide The side of the field that the robot will be on
+     * @param allianceColor The side of the field that the robot will be on
      *                  when this program is run
      * @param fieldPosition The position on the field that the robot will be in
      *                      when this program is run
      */
-    public AutonomousProgram(LinearOpMode opMode, FieldSide fieldSide, FieldPosition fieldPosition) {
+    public AutonomousProgram(LinearOpMode opMode, AllianceColor allianceColor, FieldPosition fieldPosition) {
         this.opMode = opMode;
-        this.fieldSide = fieldSide;
+        this.allianceColor = allianceColor;
         this.fieldPosition = fieldPosition;
     }
+
+    protected abstract void initialize() throws InterruptedException;
+
+    protected abstract void start() throws InterruptedException;
 
     /**
      * Runs the program. <b>NOTE:</b> Do not catch the InterruptedException.
@@ -62,5 +68,10 @@ public abstract class AutonomousProgram {
      *                              a very common occurrence in autonomous mode, and {@link LinearOpMode#runOpMode()}
      *                              should handle it properly
      */
-    public abstract void run() throws InterruptedException;
+    public void run() throws InterruptedException {
+        TelemetryManager.setTelemetryInstance(opMode.telemetry);
+        initialize();
+        opMode.waitForStart();
+        start();
+    }
 }

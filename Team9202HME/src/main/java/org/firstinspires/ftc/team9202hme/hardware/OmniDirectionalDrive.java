@@ -95,6 +95,14 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
         move(direction, 0);
     }
 
+    public void move(double direction, double magnitude, double turnPower) {
+        move((new Vector2(Math.cos(direction), Math.sin(direction))).times(magnitude), turnPower);
+    }
+
+    public void move(double direction, double magnitude) {
+        move(direction, magnitude, 0);
+    }
+
     public void turn(double power) {
         move(Vector2.ZERO, power);
     }

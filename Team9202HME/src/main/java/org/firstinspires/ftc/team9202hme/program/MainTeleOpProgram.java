@@ -16,18 +16,18 @@ public class MainTeleOpProgram extends TeleOpProgram {
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         driveTrain.init(opMode.hardwareMap);
     }
 
     @Override
-    public void loop() {
+    public void update() {
         Gamepad primary = opMode.gamepad1;
 
         float turnPower = primary.right_stick_x;
         Vector2 moveDirection = new Vector2();
         moveDirection.x = primary.left_stick_x;
-        moveDirection.y = primary.left_stick_y;
+        moveDirection.y = -primary.left_stick_y;
 
         driveTrain.move(moveDirection, turnPower);
     }

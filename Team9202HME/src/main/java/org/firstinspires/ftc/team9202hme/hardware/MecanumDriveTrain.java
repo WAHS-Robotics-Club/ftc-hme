@@ -32,7 +32,8 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
      * Gives drive train the values it needs to calculate how to properly apply motor powers
      * when moving and turning autonomously
      *
-     * @param wheelDiameter           The diameter of the robot's wheels; unit is unnecessary as long as it is consistent with other distances
+     * @param wheelDiameter           The diameter of the robot's wheels; unit is unnecessary as
+     *                                long as it is consistent with other distance units
      * @param encoderTicksPerRotation The number of ticks given off by each motor's
      *                                encoder each rotation. If you are using Andymark
      */
