@@ -6,8 +6,6 @@
           android:versionName="4.3">
 
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-  <uses-permission android:name="android.permission.CAMERA" />
-  <uses-feature android:name="android.hardware.camera" />
 
   <application
     android:allowBackup="true"
