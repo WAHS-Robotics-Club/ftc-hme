@@ -22,8 +22,8 @@ public class Sound {
 
     /**
      * Loads the audio data from a file, accessed through an Android resource ID.
-     * This function must be called before any other, and is usually done so in
-     * {@link TeleOpProgram#init()} or in the beginning of {@link AutonomousProgram#run()}
+     * This function must be called before any other in the class, and is usually done so in
+     * {@link TeleOpProgram#initialize()} or in the beginning of {@link AutonomousProgram#run()}
      *
      * @param hardwareMap Is used to get a handle to the FTC Robot Controller app, so sound can
      *                    be played through it
@@ -72,7 +72,7 @@ public class Sound {
     /**
      * Enables or disables looping
      *
-     * @param looping Whether or not to loop the sound
+     * @param looping Whether or not to update the sound
      */
     public void setLooping(boolean looping) {
         mediaPlayer.setLooping(looping);
