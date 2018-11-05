@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme.opmode.test;
+package org.firstinspires.ftc.team9202hme.opmode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
