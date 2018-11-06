@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.team9202hme.RobotConstants;
-import org.firstinspires.ftc.team9202hme.hardware.MecanumDriveTrain;
+import org.firstinspires.ftc.team9202hme.motion.MecanumDriveTrain;
 import org.firstinspires.ftc.team9202hme.util.Vector2;
 
 public class MainTeleOpProgram extends TeleOpProgram {

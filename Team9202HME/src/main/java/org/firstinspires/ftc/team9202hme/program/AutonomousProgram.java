@@ -14,14 +14,34 @@ public abstract class AutonomousProgram {
      * The two possible alliance colors, which determine location on the field
      */
     public enum AllianceColor {
-        RED, BLUE, DONT_CARE
+        RED, BLUE, DONT_CARE;
+
+        @Override
+        public String toString() {
+            switch(this) {
+                case RED: return "Red";
+                case BLUE: return "Blue";
+                case DONT_CARE: return "";
+                default: return "";
+            }
+        }
     }
 
     /**
      * The two possible field positions on a given alliance
      */
     public enum FieldPosition {
-        CRATER_FACING, DEPOT_FACING, DONT_CARE
+        CRATER_FACING, DEPOT_FACING, DONT_CARE;
+
+        @Override
+        public String toString() {
+            switch(this) {
+                case CRATER_FACING: return "Crater";
+                case DEPOT_FACING: return "Depot";
+                case DONT_CARE: return "";
+                default: return "";
+            }
+        }
     }
 
     /**
