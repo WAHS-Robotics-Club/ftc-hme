@@ -1,9 +1,8 @@
-package org.firstinspires.ftc.team9202hme.hardware;
+package org.firstinspires.ftc.team9202hme.motion;
 
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -12,8 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
-import org.firstinspires.ftc.team9202hme.util.PowerScale;
-import org.firstinspires.ftc.team9202hme.util.Toggle;
+import org.firstinspires.ftc.team9202hme.RobotConstants;
 import org.firstinspires.ftc.team9202hme.util.Vector2;
 
 import static java.lang.Math.*;
@@ -25,7 +23,7 @@ import static java.lang.Math.*;
  * and motor type. Left and right motion may be inverted depending
  * on the manufacturer and placement of your wheels.
  */
-public class MecanumDriveTrain extends OmniDirectionalDrive {
+public class MecanumDriveTrain extends HolonomicDriveTrain {
     private BNO055IMU imu;
 
     /**
@@ -41,15 +39,25 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
         super(wheelDiameter, encoderTicksPerRotation);
     }
 
+    public MecanumDriveTrain() {
+        this(RobotConstants.WHEEL_DIAMETER, RobotConstants.ENCODER_TICKS_PER_ROTATION);
+    }
+
     @Override
     public void init(HardwareMap hardwareMap) {
         super.init(hardwareMap);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.calibrationDataFile = RobotConstants.IMU_CALIBRATION_FILE;
+        parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
 
         imu = hardwareMap.get(BNO055IMU.class, HardwareMapConstants.IMU);
         imu.initialize(parameters);
+        BNO055IMU.CalibrationData calibrationData = imu.readCalibrationData();
+        imu.writeCalibrationData(calibrationData);
+
+        setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     @Override
@@ -59,23 +67,45 @@ public class MecanumDriveTrain extends OmniDirectionalDrive {
     }
 
     @Override
-    public void move(Vector2 direction, double turnPower) {
-        if(abs(direction.x) < 0.01 && abs(direction.y) < 0.01 && abs(turnPower) < 0.01) {
+    public void move(Vector2 velocity, double turnPower) {
+        Vector2 clampedVelocity = velocity.magnitude() > 1 ? velocity.normalize() : velocity;
+
+        if(abs(clampedVelocity.x) < 0.01 && abs(clampedVelocity.y) < 0.01 && abs(turnPower) < 0.01) {
             stop();
         } else {
-            frontLeft.setPower(-direction.y - direction.x - turnPower);
-            backLeft.setPower(-direction.y + direction.x - turnPower);
-            frontRight.setPower(direction.y - direction.x - turnPower);
-            backRight.setPower(direction.y + direction.x - turnPower);
+            frontLeft.setPower(-clampedVelocity.y - clampedVelocity.x - turnPower);
+            backLeft.setPower(-clampedVelocity.y + clampedVelocity.x - turnPower);
+            frontRight.setPower(clampedVelocity.y - clampedVelocity.x - turnPower);
+            backRight.setPower(clampedVelocity.y + clampedVelocity.x - turnPower);
         }
+    }
+
+    @Override
+    public void moveToDisplacement(Vector2 displacement, double movePower) {
+        //TODO: Implement this
+    }
+
+    @Override
+    public void turnToHeading(double heading) throws InterruptedException {
+        stop();
+
+        while(abs(getHeading() - heading) > 1) {
+            turn(signum(getHeading() - heading) * max(abs(getHeading() - heading) / 120, 0.125));
+            Thread.sleep(0, 1);
+        }
+
+        Thread.sleep(50);
+
+        while(abs(getHeading() - heading) > 0.25) {
+            turn(signum(getHeading() - heading) * 0.115);
+            Thread.sleep(0, 1);
+        }
+
+        stop();
     }
 
     @Override
     public void logTelemetry(Telemetry telemetry) {
         telemetry.addData("Heading", getHeading() + " degrees");
-        telemetry.addData("FL Power", frontLeft.getPower());
-        telemetry.addData("FR Power", frontRight.getPower());
-        telemetry.addData("BL Power", backLeft.getPower());
-        telemetry.addData("BR Power", backRight.getPower());
     }
 }

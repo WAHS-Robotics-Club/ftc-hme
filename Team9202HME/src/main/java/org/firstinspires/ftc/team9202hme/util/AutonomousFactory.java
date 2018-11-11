@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme.opmode;
+package org.firstinspires.ftc.team9202hme.util;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;

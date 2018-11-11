@@ -55,6 +55,10 @@ public class Vector2 {
         return sqrt((x * x) + (y * y));
     }
 
+    public double direction() {
+        return toDegrees(atan2(y, x));
+    }
+
     public Vector2 normalize() {
         double length = magnitude();
         return new Vector2(x / length, y / length);

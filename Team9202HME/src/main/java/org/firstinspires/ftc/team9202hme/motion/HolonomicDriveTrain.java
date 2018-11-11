@@ -1,14 +1,12 @@
-package org.firstinspires.ftc.team9202hme.hardware;
+package org.firstinspires.ftc.team9202hme.motion;
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
-import org.firstinspires.ftc.team9202hme.program.AutonomousProgram;
-import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
+import org.firstinspires.ftc.team9202hme.RobotComponent;
 import org.firstinspires.ftc.team9202hme.util.Vector2;
 
 /**
@@ -17,7 +15,7 @@ import org.firstinspires.ftc.team9202hme.util.Vector2;
  * robot. Also assumes that each motor has access to an encoder and is plugged into a REV
  * Robotics expansion hub.
  */
-public abstract class OmniDirectionalDrive extends HardwareComponent {
+public abstract class HolonomicDriveTrain extends RobotComponent {
     protected final double wheelCircumference;
     protected final int encoderTicksPerRotation;
     protected DcMotorEx frontLeft, frontRight, backLeft, backRight;
@@ -31,7 +29,7 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
      *                                encoder each rotation. If you are using Andymark
      *                                Neverest 40's, then this value is 1120
      */
-    public OmniDirectionalDrive(double wheelDiameter, int encoderTicksPerRotation) {
+    public HolonomicDriveTrain(double wheelDiameter, int encoderTicksPerRotation) {
         wheelCircumference = Math.PI * wheelDiameter;
         this.encoderTicksPerRotation = encoderTicksPerRotation;
     }
@@ -84,27 +82,39 @@ public abstract class OmniDirectionalDrive extends HardwareComponent {
      * to its position on initialization. This angle is on the plane on
      * which the robot is driving.
      *
-     * @return The heading, ranging from 0 to 359, where increasing angles
+     * @return The heading, ranging from -180 to 180, where increasing angles
      * correspond to counter-clockwise rotation
      */
     public abstract double getHeading();
 
-    public abstract void move(Vector2 direction, double turnPower);
+    public abstract void move(Vector2 velocity, double turnPower);
 
-    public void move(Vector2 direction) {
-        move(direction, 0);
+    public void move(Vector2 velocity) {
+        move(velocity, 0);
     }
 
-    public void move(double direction, double magnitude, double turnPower) {
-        move((new Vector2(Math.cos(direction), Math.sin(direction))).times(magnitude), turnPower);
+    public void move(double direction, double movePower, double turnPower) {
+        move((new Vector2(Math.cos(Math.toRadians(direction)), Math.sin(Math.toRadians(direction)))).times(movePower), turnPower);
     }
 
-    public void move(double direction, double magnitude) {
-        move(direction, magnitude, 0);
+    public void move(double direction, double movePower) {
+        move(direction, movePower, 0);
     }
 
     public void turn(double power) {
         move(Vector2.ZERO, power);
+    }
+
+    public abstract void moveToDisplacement(Vector2 displacement, double movePower) throws InterruptedException;
+
+    public void moveToDisplacement(double direction, double distance, double movePower) throws InterruptedException {
+        moveToDisplacement((new Vector2(Math.cos(Math.toRadians(direction)), Math.sin(Math.toRadians(direction)))).times(distance), movePower);
+    }
+
+    public abstract void turnToHeading(double heading) throws InterruptedException;
+
+    public void rotateBy(double degrees) throws InterruptedException {
+        turnToHeading(getHeading() + degrees);
     }
 
     /**

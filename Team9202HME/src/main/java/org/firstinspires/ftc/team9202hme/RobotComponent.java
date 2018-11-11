@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme.hardware;
+package org.firstinspires.ftc.team9202hme;
 
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,11 +10,11 @@ import org.firstinspires.ftc.team9202hme.program.TeleOpProgram;
 import org.firstinspires.ftc.team9202hme.program.AutonomousProgram;
 
 /**
- * An interface for initializing hardware devices
+ * An interface for initializing components (hardware or sensory software)
  * on the robot, and logging any necessary data
  * to the telemetry
  */
-public abstract class HardwareComponent {
+public abstract class RobotComponent {
     /**
      * Initializes the class's members that are tied
      * to physical hardware devices on the robot

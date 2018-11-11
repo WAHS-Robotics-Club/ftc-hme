@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.team9202hme.opmode;
+package org.firstinspires.ftc.team9202hme.opmode.test;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.RobotConstants;
 
 @TeleOp(name = "IMU Telemetry", group = "Tests")
-//@Disabled
+@Disabled
 public class ImuTelemetry extends OpMode {
     private BNO055IMU imu;
 
