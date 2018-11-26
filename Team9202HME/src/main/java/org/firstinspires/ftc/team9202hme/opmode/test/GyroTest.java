@@ -10,7 +10,7 @@ import org.firstinspires.ftc.team9202hme.util.TelemetryManager;
 import org.firstinspires.ftc.team9202hme.util.Vector2;
 
 @TeleOp(name = "Gyro Test", group = "Tests")
-//@Disabled
+@Disabled
 public class GyroTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

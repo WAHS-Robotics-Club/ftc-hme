@@ -75,7 +75,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      */
     public void register(OpModeManager manager) {
         try {
-            Class c = Class.forName("org.firstinspires.ftc.team9202hme.opmode.AutonomousFactory");
+            Class c = Class.forName("org.firstinspires.ftc.team9202hme.util.AutonomousFactory");
         } catch(ClassNotFoundException e) {
             e.printStackTrace();
         }

@@ -56,8 +56,6 @@ public class MecanumDriveTrain extends HolonomicDriveTrain {
         imu.initialize(parameters);
         BNO055IMU.CalibrationData calibrationData = imu.readCalibrationData();
         imu.writeCalibrationData(calibrationData);
-
-        setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     @Override
@@ -81,8 +79,38 @@ public class MecanumDriveTrain extends HolonomicDriveTrain {
     }
 
     @Override
-    public void moveToDisplacement(Vector2 displacement, double movePower) {
-        //TODO: Implement this
+    public void moveToDisplacement(Vector2 displacement, double movePower) throws InterruptedException {
+        final double timeout = 5; //Seconds until the robot should stop moving
+
+        double initialHeading = getHeading();
+
+        double distance = displacement.y; //TODO: Support all directions, not just forward/backward
+        int position = (int) (encoderTicksPerRotation * (abs(distance) / wheelCircumference));
+
+        stop();
+        resetEncoders();
+
+        move(90, movePower * signum(distance));
+
+        frontLeft.setTargetPosition((int) (position * signum(frontLeft.getPower())));
+        backLeft.setTargetPosition((int) (position * signum(backLeft.getPower())));
+        frontRight.setTargetPosition((int) (position * signum(frontRight.getPower())));
+        backRight.setTargetPosition((int) (position * signum(backRight.getPower())));
+
+        setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        move(90, movePower * signum(distance));
+        double startTime = System.nanoTime() / 1e9;
+
+        while((frontLeft.isBusy() || backLeft.isBusy() || frontRight.isBusy() || backRight.isBusy())
+                && (System.nanoTime() / 1e9) - startTime < timeout) {
+            Thread.sleep(1);
+        }
+
+        stop();
+        resetEncoders();
+
+        turnToHeading(initialHeading); //Correct any slight rotation
     }
 
     @Override
@@ -107,5 +135,10 @@ public class MecanumDriveTrain extends HolonomicDriveTrain {
     @Override
     public void logTelemetry(Telemetry telemetry) {
         telemetry.addData("Heading", getHeading() + " degrees");
+
+        telemetry.addData("FL Pos", frontLeft.getCurrentPosition());
+        telemetry.addData("FR Pos", frontRight.getCurrentPosition());
+        telemetry.addData("BL Pos", backLeft.getCurrentPosition());
+        telemetry.addData("BR Pos", backRight.getCurrentPosition());
     }
 }

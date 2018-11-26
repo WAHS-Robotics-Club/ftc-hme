@@ -9,4 +9,7 @@ public class HardwareMapConstants {
     public static final String DRIVE_FRONT_RIGHT = "fr";
     public static final String DRIVE_BACK_LEFT = "bl";
     public static final String DRIVE_BACK_RIGHT = "br";
+
+    public static final String SAMPLER = "sampler";
+    public static final String MAKRER = "marker";
 }

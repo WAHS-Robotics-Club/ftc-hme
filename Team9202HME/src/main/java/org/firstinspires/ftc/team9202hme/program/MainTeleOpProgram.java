@@ -4,6 +4,7 @@ package org.firstinspires.ftc.team9202hme.program;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.team9202hme.RobotConstants;
 import org.firstinspires.ftc.team9202hme.motion.MecanumDriveTrain;
 import org.firstinspires.ftc.team9202hme.util.Vector2;
@@ -33,12 +34,13 @@ public class MainTeleOpProgram extends TeleOpProgram {
     }
 
     @Override
-    public void stop() {
-        driveTrain.stop();
+    protected void updateTelemetry(Telemetry telemetry) {
+//        driveTrain.logTelemetry(telemetry);
+//        telemetry.update();
     }
 
-    private void updateTelemetry() {
-//        driveTrain.logTelemetry(opMode.telemetry);
-//        opMode.telemetry.update();
+    @Override
+    public void stop() {
+        driveTrain.stop();
     }
 }

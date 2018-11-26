@@ -3,6 +3,7 @@ package org.firstinspires.ftc.team9202hme.program;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.team9202hme.util.TelemetryManager;
 
 /**
@@ -52,6 +53,8 @@ public abstract class TeleOpProgram {
      */
     protected abstract void update();
 
+    protected abstract void updateTelemetry(Telemetry telemetry);
+
     /**
      * Code that will update continuously as the OpMode runs, until
      * a stop is requested or it crashes. Should be called in
@@ -59,7 +62,7 @@ public abstract class TeleOpProgram {
      */
     public void loop() {
         update();
-        TelemetryManager.getTelemetry().update();
+        updateTelemetry(TelemetryManager.getTelemetry());
     }
 
     /**
