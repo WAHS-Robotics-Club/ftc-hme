@@ -13,7 +13,7 @@ import org.firstinspires.ftc.team9202hme.util.ComplexSensorFactory;
 import java.util.List;
 
 @TeleOp(name = "Object Detection Test", group = "Tests")
-@Disabled
+//@Disabled
 public class ObjectDetectionTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

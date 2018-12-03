@@ -15,7 +15,7 @@ public class DepotClaimer extends RobotComponent {
 
     @Override
     public void init(HardwareMap hardwareMap) {
-        marker = hardwareMap.servo.get(HardwareMapConstants.MAKRER);
+        marker = hardwareMap.servo.get(HardwareMapConstants.MARKER);
         rest();
     }
 

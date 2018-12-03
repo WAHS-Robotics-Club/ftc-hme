@@ -2,21 +2,34 @@ package org.firstinspires.ftc.team9202hme.program;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.team9202hme.util.TelemetryManager;
+import org.firstinspires.ftc.team9202hme.motion.DepotClaimer;
+import org.firstinspires.ftc.team9202hme.motion.Hanger;
+import org.firstinspires.ftc.team9202hme.motion.HolonomicDriveTrain;
+import org.firstinspires.ftc.team9202hme.motion.MecanumDriveTrain;
+import org.firstinspires.ftc.team9202hme.motion.MineralSampler;
+import org.firstinspires.ftc.team9202hme.sensory.Mineral;
+import org.firstinspires.ftc.team9202hme.sensory.MineralDetector;
 
 public class MainAutonomousProgram extends AutonomousProgram {
-    public MainAutonomousProgram(LinearOpMode opMode, AllianceColor allianceColor, FieldPosition fieldPosition) {
-        super(opMode, allianceColor, fieldPosition);
+    private HolonomicDriveTrain driveTrain = new MecanumDriveTrain();
+    private MineralSampler sampler = new MineralSampler();
+    private DepotClaimer claimer = new DepotClaimer();
+    private Hanger hanger = new Hanger();
+
+    private MineralDetector detector = new MineralDetector(true);
+
+    public MainAutonomousProgram(LinearOpMode opMode, FieldPosition fieldPosition) {
+        super(opMode, AllianceColor.DONT_CARE, fieldPosition); //Alliance color doesn't matter in autonomous for FTC 2018-19 Rover Ruckus
     }
 
     @Override
     protected void initialize() throws InterruptedException {
-        Telemetry t = TelemetryManager.getTelemetry();
+        driveTrain.init(opMode.hardwareMap);
+        sampler.init(opMode.hardwareMap);
+        claimer.init(opMode.hardwareMap);
+        hanger.init(opMode.hardwareMap);
 
-        t.addData("Alliance Color", allianceColor);
-        t.addData("Field Position", fieldPosition);
-        t.update();
+        detector.init(opMode.hardwareMap);
     }
 
     @Override

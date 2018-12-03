@@ -15,7 +15,7 @@ import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.RobotConstants;
 
 @TeleOp(name = "IMU Telemetry", group = "Tests")
-@Disabled
+//@Disabled
 public class ImuTelemetry extends OpMode {
     private BNO055IMU imu;
 

@@ -22,23 +22,18 @@ public class AutonomousFactory implements OpModeFactory {
         Map<OpMode, OpModeMeta> opModes = new HashMap<>();
 
         AutonomousProgram.FieldPosition[] fieldPositions = {AutonomousProgram.FieldPosition.CRATER_FACING, AutonomousProgram.FieldPosition.DEPOT_FACING};
-        AutonomousProgram.AllianceColor[] allianceColors = {AutonomousProgram.AllianceColor.RED, AutonomousProgram.AllianceColor.BLUE};
 
         for(final AutonomousProgram.FieldPosition fieldPosition : fieldPositions) {
-            for(final AutonomousProgram.AllianceColor color : allianceColors) {
-                opModes.put(new LinearOpMode() {
-                    private AutonomousProgram program = new MainAutonomousProgram(this, color, fieldPosition);
+            opModes.put(new LinearOpMode() {
+                private AutonomousProgram program = new MainAutonomousProgram(this, fieldPosition);
 
-                    @Override
-                    public void runOpMode() throws InterruptedException {
-                        program.run();
-                    }
+                @Override
+                public void runOpMode() throws InterruptedException {
+                    program.run();
+                }
 
-                }, new OpModeMeta("Full (" +
-                        color.toString().toLowerCase() + " " +
-                        fieldPosition.toString().toLowerCase() + ")",
-                        OpModeMeta.Flavor.AUTONOMOUS, "HME"));
-            }
+            }, new OpModeMeta(fieldPosition.toString(),
+                    OpModeMeta.Flavor.AUTONOMOUS, "HME"));
         }
 
         return opModes;

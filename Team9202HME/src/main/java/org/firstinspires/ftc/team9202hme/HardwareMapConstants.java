@@ -11,5 +11,7 @@ public class HardwareMapConstants {
     public static final String DRIVE_BACK_RIGHT = "br";
 
     public static final String SAMPLER = "sampler";
-    public static final String MAKRER = "marker";
+    public static final String MARKER = "marker";
+    public static final String LIFT = "lift";
+    public static final String WINCH = "winch";
 }
