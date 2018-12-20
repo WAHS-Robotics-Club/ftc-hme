@@ -80,7 +80,7 @@ public class MecanumDriveTrain extends HolonomicDriveTrain {
 
     @Override
     public void moveToDisplacement(Vector2 displacement, double movePower) throws InterruptedException {
-        final double timeout = 5; //Seconds until the robot should stop moving
+        final double timeout = 7; //Seconds until the robot should stop moving
 
         double initialHeading = getHeading();
 
@@ -110,7 +110,7 @@ public class MecanumDriveTrain extends HolonomicDriveTrain {
         stop();
         resetEncoders();
 
-        turnToHeading(initialHeading); //Correct any slight rotation
+        turnToHeading(initialHeading); //Correct any slight rotation that occurred during movement
     }
 
     @Override
