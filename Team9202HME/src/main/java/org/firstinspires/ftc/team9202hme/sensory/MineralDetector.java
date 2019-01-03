@@ -11,14 +11,12 @@ import org.firstinspires.ftc.team9202hme.util.ComplexSensorFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class MineralDetector extends RobotComponent {
     private TFObjectDetector tfObjectDetector;
     private List<Recognition> recognitions = new ArrayList<>();
-
-    private final double SCREEN_WIDTH = 0;
-    private final double SCREEN_HEIGHT = 0;
 
     private boolean provideCameraFeedback;
 
@@ -41,21 +39,32 @@ public class MineralDetector extends RobotComponent {
         }
     }
 
-    public List<Mineral> getMinerals() {
+    public List<Mineral> getMineralsByCloseness() {
         update();
-        List<Mineral> minerals = new ArrayList<>();
+        Mineral[] minerals = new Mineral[recognitions.size()];
 
-        for(Recognition recognition : recognitions) {
-            minerals.add(new Mineral(recognition));
+        for(int i = 0; i < minerals.length; i++) {
+            minerals[i] = new Mineral(recognitions.get(i));
         }
 
-        return minerals;
+        Arrays.sort(minerals, new Comparator<Mineral>() {
+            @Override
+            public int compare(Mineral mineral, Mineral t1) {
+                if(mineral.getArea() == t1.getArea()) {
+                    return 0;
+                } else {
+                    return mineral.getArea() > t1.getArea() ? -1 : 1;
+                }
+            }
+        });
+
+        return new ArrayList<>(Arrays.asList(minerals));
     }
 
     public Mineral getGoldMineral() {
         update();
 
-        List<Mineral> minerals = getMinerals();
+        List<Mineral> minerals = getMineralsByCloseness();
         if(minerals != null) {
             for(Mineral m : minerals) {
                 if(m.isGold()) return m;
@@ -69,14 +78,15 @@ public class MineralDetector extends RobotComponent {
     public void logTelemetry(Telemetry telemetry) {
         update();
         if(recognitions != null && recognitions.size() > 0) {
-            for(Recognition r : recognitions) {
-                telemetry.addData("Angle", r.estimateAngleToObject(AngleUnit.DEGREES));
-                telemetry.addData("Left", r.getLeft());
-                telemetry.addData("Right", r.getRight());
-                telemetry.addData("Top", r.getTop());
-                telemetry.addData("Bottom", r.getBottom());
-                telemetry.addData("Label", r.getLabel());
+            for(Mineral mineral : getMineralsByCloseness()) {
+                telemetry.addData("Type", mineral.isGold() ? "Gold" : "Silver");
+                telemetry.addData("Area", mineral.getArea());
+                telemetry.addData("Angle", mineral.getAngle());
+                telemetry.addData("Offset", mineral.getOffset());
             }
+
+            telemetry.addLine();
+            telemetry.addLine();
         }
     }
 }

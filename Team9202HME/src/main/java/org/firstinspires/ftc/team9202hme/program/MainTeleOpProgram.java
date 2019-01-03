@@ -14,9 +14,11 @@ import org.firstinspires.ftc.team9202hme.util.Vector2;
 public class MainTeleOpProgram extends TeleOpProgram {
     private MecanumDriveTrain driveTrain = new MecanumDriveTrain(RobotConstants.WHEEL_DIAMETER, RobotConstants.ENCODER_TICKS_PER_ROTATION);
     private LinearElevator lift = new LinearElevator();
+    private boolean dualDriver;
 
-    public MainTeleOpProgram(OpMode opMode) {
+    public MainTeleOpProgram(OpMode opMode, boolean dualDriver) {
         super(opMode);
+        this.dualDriver = dualDriver;
     }
 
     @Override
@@ -28,6 +30,7 @@ public class MainTeleOpProgram extends TeleOpProgram {
     @Override
     public void update() {
         Gamepad primary = opMode.gamepad1;
+        Gamepad secondary = dualDriver ? opMode.gamepad2 : opMode.gamepad1;
 
         float turnPower = primary.right_stick_x;
         Vector2 moveDirection = new Vector2();
@@ -35,16 +38,26 @@ public class MainTeleOpProgram extends TeleOpProgram {
         moveDirection.y = -primary.left_stick_y;
 
         driveTrain.move(moveDirection, turnPower);
+
+        if(secondary.dpad_up) {
+            lift.lift();
+        } else if(secondary.dpad_down) {
+            lift.lower();
+        } else {
+            lift.stop();
+        }
     }
 
     @Override
     protected void updateTelemetry(Telemetry telemetry) {
 //        driveTrain.logTelemetry(telemetry);
+//        lift.logTelemetry(telemetry);
 //        telemetry.update();
     }
 
     @Override
     public void stop() {
         driveTrain.stop();
+        lift.stop();
     }
 }

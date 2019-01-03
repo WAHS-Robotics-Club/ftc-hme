@@ -10,8 +10,8 @@ import org.firstinspires.ftc.team9202hme.RobotComponent;
 
 public class LinearElevator extends RobotComponent {
     private DcMotorEx left, right;
-    private final double POWER = 1.0;
-    private final int TICKS_TO_CATCH = 0; //TODO: Measure this
+    private double power;
+    private final int TICKS_TO_CATCH = 11200; //TODO: Measure this
 
     private void setPower(double power) {
         left.setPower(power);
@@ -23,25 +23,11 @@ public class LinearElevator extends RobotComponent {
         right.setMode(mode);
     }
 
-    @Override
-    public void init(HardwareMap hardwareMap) {
-        left = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.LIFT_LEFT);
-        right = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.LIFT_RIGHT);
-
-        left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        left.setTargetPositionTolerance(10);
-        right.setTargetPositionTolerance(10);
-
-        setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //TODO: Connect encoders and change this to RUN_USING_ENCODER
-    }
-
-    public void raiseToCatch() throws InterruptedException {
+    private void runToPosition(int position) throws InterruptedException {
         stop();
 
-        left.setTargetPosition(TICKS_TO_CATCH);
-        right.setTargetPosition(TICKS_TO_CATCH);
+        left.setTargetPosition(position);
+        right.setTargetPosition(position);
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         lift();
@@ -52,27 +38,42 @@ public class LinearElevator extends RobotComponent {
         stop();
     }
 
+    public LinearElevator() {
+        this(1.0);
+    }
+
+    public LinearElevator(double liftPower) {
+        power = liftPower;
+    }
+
+    @Override
+    public void init(HardwareMap hardwareMap) {
+        left = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.LIFT_LEFT);
+        right = (DcMotorEx) hardwareMap.dcMotor.get(HardwareMapConstants.LIFT_RIGHT);
+
+        left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        left.setTargetPositionTolerance(20);
+        right.setTargetPositionTolerance(20);
+
+        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void liftToCatch() throws InterruptedException {
+        runToPosition(TICKS_TO_CATCH);
+    }
+
     public void lowerToRest() throws InterruptedException {
-        stop();
-
-        left.setTargetPosition(-TICKS_TO_CATCH);
-        right.setTargetPosition(-TICKS_TO_CATCH);
-        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        lower();
-        while(left.isBusy() && right.isBusy()) {
-            Thread.sleep(1);
-        }
-
-        stop();
+        runToPosition(-TICKS_TO_CATCH);
     }
 
     public void lift() {
-        setPower(POWER);
+        setPower(power);
     }
 
     public void lower() {
-        setPower(-POWER);
+        setPower(-power);
     }
 
     public void stop() {
@@ -81,6 +82,7 @@ public class LinearElevator extends RobotComponent {
 
     @Override
     public void logTelemetry(Telemetry telemetry) {
-
+        telemetry.addData("Left Lift", left.getCurrentPosition());
+        telemetry.addData("Right Lift", right.getCurrentPosition());
     }
 }

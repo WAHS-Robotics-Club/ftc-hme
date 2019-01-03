@@ -8,13 +8,20 @@ import org.firstinspires.ftc.team9202hme.motion.MecanumDriveTrain;
 import org.firstinspires.ftc.team9202hme.sensory.MineralDetector;
 
 public class MainAutonomousProgram extends AutonomousProgram {
+    public enum AdditionalSteps {
+        None, SampleOnly, ClaimOnly, SampleAndClaim
+    }
+
     private HolonomicDriveTrain driveTrain = new MecanumDriveTrain();
     private LinearElevator lift = new LinearElevator();
 
     private MineralDetector detector = new MineralDetector(true);
 
-    public MainAutonomousProgram(LinearOpMode opMode, FieldPosition fieldPosition) {
+    private AdditionalSteps additionalSteps;
+
+    public MainAutonomousProgram(LinearOpMode opMode, FieldPosition fieldPosition, AdditionalSteps additionalSteps) {
         super(opMode, AllianceColor.DONT_CARE, fieldPosition); //Alliance color doesn't matter in autonomous for FTC 2018-19 Rover Ruckus
+        this.additionalSteps = additionalSteps;
     }
 
     @Override

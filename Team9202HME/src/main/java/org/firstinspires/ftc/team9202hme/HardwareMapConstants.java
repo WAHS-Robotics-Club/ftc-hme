@@ -12,4 +12,6 @@ public class HardwareMapConstants {
 
     public static final String LIFT_LEFT = "liftL";
     public static final String LIFT_RIGHT = "liftR";
+
+    public static final String CAMERA_PIVOT = "pivot";
 }

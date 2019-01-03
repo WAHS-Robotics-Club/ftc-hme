@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.team9202hme.program.MainTeleOpProgram;
 
-@TeleOp(name = "HME TeleOp - Single Driver", group = "HME")
-public class SingleDriverTeleOp extends OpMode {
-    private MainTeleOpProgram program = new MainTeleOpProgram(this, false);
+@TeleOp(name = "HME TeleOp - Dual Driver", group = "HME")
+public class DualDriverTeleOp extends OpMode {
+    private MainTeleOpProgram program = new MainTeleOpProgram(this, true);
 
     @Override
     public void init() {

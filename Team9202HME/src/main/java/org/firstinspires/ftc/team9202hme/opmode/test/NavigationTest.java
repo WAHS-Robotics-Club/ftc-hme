@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.team9202hme.sensory.VuforiaNavigator;
 
 @TeleOp(name = "Navigation Test", group = "Tests")
-//@Disabled
+@Disabled
 public class NavigationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

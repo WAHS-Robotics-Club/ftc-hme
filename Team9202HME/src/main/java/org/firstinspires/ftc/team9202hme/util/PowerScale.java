@@ -45,11 +45,6 @@ public class PowerScale {
         return new PowerScale(scaleFunction, scalarModifierFunction);
     }
 
-    //TODO: Implement logistic scale function
-    public static PowerScale CreateLogisticScaleFunction(final double minAbsolutePower, final double maxAbsolutePower) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    }
-
     public PowerScale(Function<Double> scaleFunction) {
         this.scaleFunction = scaleFunction;
         this.scalarModifierFunction = new Function<Double>() {

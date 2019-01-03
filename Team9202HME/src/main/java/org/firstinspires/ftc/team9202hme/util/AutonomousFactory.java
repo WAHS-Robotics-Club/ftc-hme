@@ -25,7 +25,7 @@ public class AutonomousFactory implements OpModeFactory {
 
         for(final AutonomousProgram.FieldPosition fieldPosition : fieldPositions) {
             opModes.put(new LinearOpMode() {
-                private AutonomousProgram program = new MainAutonomousProgram(this, fieldPosition);
+                private AutonomousProgram program = new MainAutonomousProgram(this, fieldPosition, MainAutonomousProgram.AdditionalSteps.None);
 
                 @Override
                 public void runOpMode() throws InterruptedException {
