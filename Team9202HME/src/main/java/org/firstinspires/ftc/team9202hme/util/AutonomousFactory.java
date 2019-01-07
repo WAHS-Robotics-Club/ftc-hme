@@ -21,19 +21,31 @@ public class AutonomousFactory implements OpModeFactory {
     public Map<OpMode, OpModeMeta> generateOpModes() {
         Map<OpMode, OpModeMeta> opModes = new HashMap<>();
 
-        AutonomousProgram.FieldPosition[] fieldPositions = {AutonomousProgram.FieldPosition.CRATER_FACING, AutonomousProgram.FieldPosition.DEPOT_FACING};
+        AutonomousProgram.FieldPosition[] fieldPositions = {
+                AutonomousProgram.FieldPosition.CRATER_FACING,
+                AutonomousProgram.FieldPosition.DEPOT_FACING
+        };
+
+        MainAutonomousProgram.AdditionalSteps[] additionalSteps = {
+                MainAutonomousProgram.AdditionalSteps.NONE,
+                MainAutonomousProgram.AdditionalSteps.CLAIM_ONLY,
+                MainAutonomousProgram.AdditionalSteps.PARK_ONLY,
+                MainAutonomousProgram.AdditionalSteps.CLAIM_AND_PARK
+        };
 
         for(final AutonomousProgram.FieldPosition fieldPosition : fieldPositions) {
-            opModes.put(new LinearOpMode() {
-                private AutonomousProgram program = new MainAutonomousProgram(this, fieldPosition, MainAutonomousProgram.AdditionalSteps.None);
+            for(final MainAutonomousProgram.AdditionalSteps additionalStep : additionalSteps) {
+                opModes.put(new LinearOpMode() {
+                    private AutonomousProgram program = new MainAutonomousProgram(this, fieldPosition, additionalStep);
 
-                @Override
-                public void runOpMode() throws InterruptedException {
-                    program.run();
-                }
+                    @Override
+                    public void runOpMode() throws InterruptedException {
+                        program.run();
+                    }
 
-            }, new OpModeMeta(fieldPosition.toString(),
-                    OpModeMeta.Flavor.AUTONOMOUS, "HME"));
+                }, new OpModeMeta(fieldPosition + " (" + additionalStep + ")",
+                        OpModeMeta.Flavor.AUTONOMOUS, "HME"));
+            }
         }
 
         return opModes;

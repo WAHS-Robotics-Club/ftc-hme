@@ -42,9 +42,13 @@ public class MineralDetector extends RobotComponent {
     public List<Mineral> getMineralsByCloseness() {
         update();
         Mineral[] minerals = new Mineral[recognitions.size()];
+        List<Mineral> craterMinerals = new ArrayList<>();
 
         for(int i = 0; i < minerals.length; i++) {
             minerals[i] = new Mineral(recognitions.get(i));
+            if(minerals[i].getArea() <= 7000) {
+                craterMinerals.add(minerals[i]);
+            }
         }
 
         Arrays.sort(minerals, new Comparator<Mineral>() {
@@ -58,20 +62,49 @@ public class MineralDetector extends RobotComponent {
             }
         });
 
-        return new ArrayList<>(Arrays.asList(minerals));
+        List<Mineral> sortedMinerals = new ArrayList<>(Arrays.asList(minerals));
+        sortedMinerals.removeAll(craterMinerals);
+
+        return sortedMinerals;
     }
 
     public Mineral getGoldMineral() {
         update();
 
         List<Mineral> minerals = getMineralsByCloseness();
+        List<Mineral> goldMinerals = new ArrayList<>();
+
         if(minerals != null) {
             for(Mineral m : minerals) {
+//                if(m.isGold()) goldMinerals.add(m);
                 if(m.isGold()) return m;
             }
         }
 
         return null;
+
+//        if(goldMinerals.size() == 0) {
+//            return null;
+//        } else if(goldMinerals.size() == 1) {
+//            return goldMinerals.get(0);
+//        } else {
+//            Object[] sortedMinerals = goldMinerals.toArray();
+//            Arrays.sort(sortedMinerals, new Comparator<Object>() {
+//                @Override
+//                public int compare(Object mineral, Object t1) {
+//                    Mineral m0 = (Mineral) mineral;
+//                    Mineral m1 = (Mineral) t1;
+//
+//                    if(m0.getArea() == m1.getArea()) {
+//                        return 0;
+//                    } else {
+//                        return m0.getArea() > m1.getArea() ? -1 : 1;
+//                    }
+//                }
+//            });
+//
+//            return (Mineral) sortedMinerals[0];
+//        }
     }
 
     @Override
@@ -81,12 +114,9 @@ public class MineralDetector extends RobotComponent {
             for(Mineral mineral : getMineralsByCloseness()) {
                 telemetry.addData("Type", mineral.isGold() ? "Gold" : "Silver");
                 telemetry.addData("Area", mineral.getArea());
-                telemetry.addData("Angle", mineral.getAngle());
                 telemetry.addData("Offset", mineral.getOffset());
+                telemetry.addLine();
             }
-
-            telemetry.addLine();
-            telemetry.addLine();
         }
     }
 }

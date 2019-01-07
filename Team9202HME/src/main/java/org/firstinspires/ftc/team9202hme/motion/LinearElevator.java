@@ -11,7 +11,7 @@ import org.firstinspires.ftc.team9202hme.RobotComponent;
 public class LinearElevator extends RobotComponent {
     private DcMotorEx left, right;
     private double power;
-    private final int TICKS_TO_CATCH = 11200; //TODO: Measure this
+    private final int TICKS_TO_CATCH = 25000; //initially measured as 24193, 23797
 
     private void setPower(double power) {
         left.setPower(power);

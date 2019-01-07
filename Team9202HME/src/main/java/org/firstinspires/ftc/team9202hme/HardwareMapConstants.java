@@ -14,4 +14,9 @@ public class HardwareMapConstants {
     public static final String LIFT_RIGHT = "liftR";
 
     public static final String CAMERA_PIVOT = "pivot";
+    public static final String MINERAL_SAMPLER = "sampler";
+    public static final String DEPOT_CLAIMER = "claimer";
+
+    public static final String MANMAN = "manman";
+    public static final String EXTENDER = "extender";
 }
