@@ -13,10 +13,8 @@ public class HardwareMapConstants {
     public static final String LIFT_LEFT = "liftL";
     public static final String LIFT_RIGHT = "liftR";
 
-    public static final String CAMERA_PIVOT = "pivot";
-    public static final String MINERAL_SAMPLER = "sampler";
-    public static final String DEPOT_CLAIMER = "claimer";
+    public static final String MINERAL_COLLECTOR = "collector";
+    public static final String MINERAL_DEPOSITOR = "depositor";
 
-    public static final String MANMAN = "manman";
-    public static final String EXTENDER = "extender";
+    public static final String DEPOT_CLAIMER = "claimer";
 }

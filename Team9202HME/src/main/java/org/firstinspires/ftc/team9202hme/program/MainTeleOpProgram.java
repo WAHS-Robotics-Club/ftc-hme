@@ -7,22 +7,23 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.team9202hme.RobotConstants;
 import org.firstinspires.ftc.team9202hme.motion.LinearElevator;
-import org.firstinspires.ftc.team9202hme.motion.Manman;
 import org.firstinspires.ftc.team9202hme.motion.MecanumDriveTrain;
-import org.firstinspires.ftc.team9202hme.motion.ServoComplex;
+import org.firstinspires.ftc.team9202hme.motion.DepotClaimer;
+import org.firstinspires.ftc.team9202hme.motion.MineralCollector;
 import org.firstinspires.ftc.team9202hme.util.Toggle;
 import org.firstinspires.ftc.team9202hme.util.Vector2;
 
 public class MainTeleOpProgram extends TeleOpProgram {
     private MecanumDriveTrain driveTrain = new MecanumDriveTrain(RobotConstants.WHEEL_DIAMETER, RobotConstants.ENCODER_TICKS_PER_ROTATION);
     private LinearElevator lift = new LinearElevator();
-    private ServoComplex servoComplex = new ServoComplex();
-    private Manman manman = new Manman();
+    private MineralCollector collector = new MineralCollector();
+    private DepotClaimer claimer = new DepotClaimer();
 
     private boolean dualDriver;
 
-    private Toggle samplerToggle = new Toggle();
     private Toggle controlsToggle = new Toggle();
+    private Toggle collectorToggle = new Toggle();
+    private Toggle depositorToggle = new Toggle();
     private Toggle claimerToggle = new Toggle();
 
     public MainTeleOpProgram(OpMode opMode, boolean dualDriver) {
@@ -34,11 +35,10 @@ public class MainTeleOpProgram extends TeleOpProgram {
     public void initialize() {
         driveTrain.init(opMode.hardwareMap);
         lift.init(opMode.hardwareMap);
-        servoComplex.init(opMode.hardwareMap);
-        manman.init(opMode.hardwareMap);
+        collector.init(opMode.hardwareMap);
+        claimer.init(opMode.hardwareMap);
 
-        servoComplex.raiseClaimer();
-        servoComplex.lookAway();
+        claimer.raise();
     }
 
     @Override
@@ -46,64 +46,65 @@ public class MainTeleOpProgram extends TeleOpProgram {
         Gamepad primary = opMode.gamepad1;
         Gamepad secondary = dualDriver ? opMode.gamepad2 : opMode.gamepad1;
 
-        float turnPower = primary.right_stick_x;
-        Vector2 moveDirection = new Vector2();
-        moveDirection.x = primary.left_stick_x;
-        moveDirection.y = -primary.left_stick_y;
+        processPrimaryInput(primary);
+        processSecondaryInput(secondary);
+    }
 
+    private void processPrimaryInput(Gamepad primary) {
+        //Movement control
         if(primary.x) {
             controlsToggle.toggle();
         }
 
-        if(controlsToggle.isToggled()) {
-            moveDirection.x *= -1;
-            moveDirection.y *= -1;
-        }
+        float turnPower = primary.right_stick_x;
+        Vector2 moveDirection = new Vector2();
+        moveDirection.x = primary.left_stick_x * (controlsToggle.isToggled() ? -1 : 1);
+        moveDirection.y = -primary.left_stick_y * (controlsToggle.isToggled() ? -1 : 1);
 
         driveTrain.move(moveDirection, turnPower);
 
-        if(secondary.dpad_up) {
+        //Linear actuator control
+        if(primary.dpad_up) {
             lift.lift();
-        } else if(secondary.dpad_down) {
+        } else if(primary.dpad_down) {
             lift.lower();
         } else {
             lift.stop();
         }
 
-        if(primary.a) {
-            samplerToggle.toggle();
+        //Collector control
+        if(primary.left_bumper) {
+            collectorToggle.toggle();
         }
 
-        if(primary.b) {
+        if(collectorToggle.isToggled()) {
+            collector.collect();
+        } else {
+            collector.store();
+        }
+
+        //Depot claimer control
+        if(primary.y) {
             claimerToggle.toggle();
         }
 
-        if(samplerToggle.isToggled()) {
-            servoComplex.lowerSampler();
-        } else {
-            servoComplex.raiseSampler();
-        }
-
         if(claimerToggle.isToggled()) {
-            servoComplex.lowerClaimer();
+            claimer.lower();
         } else {
-            servoComplex.raiseClaimer();
+            claimer.raise();
         }
+    }
 
+    private void processSecondaryInput(Gamepad secondary) {
+        //Depositor control
         if(secondary.right_bumper) {
-            manman.extend(1);
-        } else if(secondary.left_bumper) {
-            manman.retract(1);
-        } else {
-            manman.hold();
+            depositorToggle.toggle();
         }
 
-        if(secondary.right_trigger > 0.01) {
-            manman.rotate(secondary.right_trigger);
-        } else if(secondary.left_trigger > 0.01) {
-            manman.rotate(-secondary.left_trigger);
+        if(depositorToggle.isToggled()) {
+            collector.deposit();
         } else {
-            manman.rotate(0);
+            collector.prepareStorage();
         }
     }
 

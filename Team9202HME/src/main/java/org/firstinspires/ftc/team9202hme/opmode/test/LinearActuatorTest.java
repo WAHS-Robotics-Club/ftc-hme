@@ -9,7 +9,7 @@ import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.motion.LinearElevator;
 import org.firstinspires.ftc.team9202hme.util.Toggle;
 
-@TeleOp(name = "Linear Actuator Test", group = "Tests")
+@TeleOp(name = "Linear Actuator Calibration", group = "Tests")
 //@Disabled
 public class LinearActuatorTest extends OpMode {
     private Toggle reverseToggle = new Toggle();

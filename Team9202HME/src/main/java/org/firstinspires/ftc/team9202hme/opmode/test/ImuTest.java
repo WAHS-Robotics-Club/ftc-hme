@@ -14,9 +14,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.team9202hme.HardwareMapConstants;
 import org.firstinspires.ftc.team9202hme.RobotConstants;
 
-@TeleOp(name = "IMU Telemetry", group = "Tests")
+@TeleOp(name = "IMU Test", group = "Tests")
 @Disabled
-public class ImuTelemetry extends OpMode {
+public class ImuTest extends OpMode {
     private BNO055IMU imu;
 
     @Override

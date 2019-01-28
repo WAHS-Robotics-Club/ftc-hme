@@ -8,7 +8,7 @@ import org.firstinspires.ftc.team9202hme.motion.HolonomicDriveTrain;
 import org.firstinspires.ftc.team9202hme.motion.MecanumDriveTrain;
 
 @TeleOp(name = "Encoder Test", group = "Tests")
-//@Disabled
+@Disabled
 public class EncoderTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

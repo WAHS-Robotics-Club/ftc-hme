@@ -5,9 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.team9202hme.motion.HolonomicDriveTrain;
 import org.firstinspires.ftc.team9202hme.motion.LinearElevator;
 import org.firstinspires.ftc.team9202hme.motion.MecanumDriveTrain;
-import org.firstinspires.ftc.team9202hme.motion.ServoComplex;
+import org.firstinspires.ftc.team9202hme.motion.DepotClaimer;
 import org.firstinspires.ftc.team9202hme.sensory.Mineral;
 import org.firstinspires.ftc.team9202hme.sensory.MineralDetector;
+
+import java.util.List;
 
 public class MainAutonomousProgram extends AutonomousProgram {
     public enum AdditionalSteps {
@@ -32,11 +34,11 @@ public class MainAutonomousProgram extends AutonomousProgram {
 
     private HolonomicDriveTrain driveTrain = new MecanumDriveTrain();
     private LinearElevator lift = new LinearElevator();
-    private ServoComplex servoComplex = new ServoComplex();
+    private DepotClaimer claimer = new DepotClaimer();
 
     private MineralDetector detector = new MineralDetector(true);
     private Mineral goldMineral;
-    private int goldPosition;
+    private int goldPosition = -2; //1 is left, 0 is middle, -1 is right, -2 is unknown
 
     private AdditionalSteps additionalSteps;
 
@@ -45,55 +47,82 @@ public class MainAutonomousProgram extends AutonomousProgram {
         this.additionalSteps = additionalSteps;
     }
 
-//    private void locateGoldMineral(Mineral one, Mineral two, Mineral three) {
-//        Mineral silver1;
-//        Mineral silver2;
-//
-//        if(one.isGold()) {
-//            goldMineral = one;
-//            silver1 = two;
-//            silver2 = three;
-//        } else if(two.isGold()) {
-//            goldMineral = two;
-//            silver1 = one;
-//            silver2 = three;
-//        } else {
-//            goldMineral = three;
-//            silver1 = one;
-//            silver2 = two;
-//        }
-//
-//        double distGoldSilver1 = silver1.getOffset() - goldMineral.getOffset();
-//        double distGoldSilver2 = silver2.getOffset() - goldMineral.getOffset();
-//
-//        if(distGoldSilver1 > 0 && distGoldSilver2 > 0) {
-//            goldPosition = 2;
-//        } else if(distGoldSilver1 < 0 && distGoldSilver2 > 0) {
-//            goldPosition = 1;
-//        } else {
-//            goldPosition = 0;
-//        }
-//    }
+    private void locateGoldMineral(Mineral one, Mineral two, Mineral three) {
+        Mineral silver1;
+        Mineral silver2;
+
+        if(one.isGold()) {
+            goldMineral = one;
+            silver1 = two;
+            silver2 = three;
+        } else if(two.isGold()) {
+            goldMineral = two;
+            silver1 = one;
+            silver2 = three;
+        } else {
+            goldMineral = three;
+            silver1 = one;
+            silver2 = two;
+        }
+
+        double distGoldSilver1 = silver1.getOffset() - goldMineral.getOffset();
+        double distGoldSilver2 = silver2.getOffset() - goldMineral.getOffset();
+
+        if(distGoldSilver1 > 0 && distGoldSilver2 > 0) {
+            goldPosition = 1;
+        } else if((distGoldSilver1 < 0 && distGoldSilver2 > 0) || (distGoldSilver1 > 0 && distGoldSilver2 < 0)) {
+            goldPosition = 0;
+        } else {
+            goldPosition = -1;
+        }
+    }
 
     @Override
     protected void initialize() throws InterruptedException {
         driveTrain.init(opMode.hardwareMap);
         lift.init(opMode.hardwareMap);
-        servoComplex.init(opMode.hardwareMap);
-        servoComplex.lookAway();
-
+        claimer.init(opMode.hardwareMap);
         detector.init(opMode.hardwareMap);
+        Thread.sleep(1000);
 
-        //Locate mineral
-//        List<Mineral> minerals = detector.getMineralsByCloseness();
-//        locateGoldMineral(minerals.get(0), minerals.get(1), minerals.get(2));
-//
-//        opMode.telemetry.addData("Position", goldPosition);
-//        opMode.telemetry.addData("Type", goldMineral.isGold() ? "Gold" : "Silver");
-//        opMode.telemetry.addData("Area", goldMineral.getArea());
-//        opMode.telemetry.addData("Angle", goldMineral.getAngle());
-//        opMode.telemetry.addData("Offset", goldMineral.getOffset());
-//        opMode.telemetry.update();
+        //Watch field and track gold mineral until game starts
+        while(!opMode.isStarted()) {
+            List<Mineral> minerals = detector.getMineralsByCloseness();
+            if(minerals.size() >= 3) {
+                opMode.telemetry.addLine("Found 3 Minerals:");
+                opMode.telemetry.addData("  Mineral 1", (minerals.get(0).isGold() ? "Gold" : "Silver") + " at " + minerals.get(0).getOffset());
+                opMode.telemetry.addData("  Mineral 2", (minerals.get(1).isGold() ? "Gold" : "Silver") + " at " + minerals.get(1).getOffset());
+                opMode.telemetry.addData("  Mineral 3", (minerals.get(2).isGold() ? "Gold" : "Silver") + " at " + minerals.get(2).getOffset());
+                locateGoldMineral(minerals.get(0), minerals.get(1), minerals.get(2));
+
+                String positionString = "Unknown";
+                switch(goldPosition) {
+                    case 1:
+                        positionString = "Left";
+                        break;
+                    case 0:
+                        positionString = "Middle";
+                        break;
+                    case -1:
+                        positionString = "Right";
+                        break;
+                }
+
+                opMode.telemetry.addLine();
+                opMode.telemetry.addLine("Located Gold Mineral:");
+                opMode.telemetry.addData("Type", goldMineral.isGold() ? "Gold" : "Silver");
+                opMode.telemetry.addData("Position", positionString);
+                opMode.telemetry.addData("Area", goldMineral.getArea());
+                opMode.telemetry.addData("Offset", goldMineral.getOffset());
+                opMode.telemetry.update();
+            } else {
+                opMode.telemetry.addLine("Looking for minerals...");
+                opMode.telemetry.addLine("Only " + minerals.size() + " found.");
+                opMode.telemetry.update();
+            }
+
+            Thread.sleep(500);
+        }
     }
 
     @Override
@@ -109,46 +138,27 @@ public class MainAutonomousProgram extends AutonomousProgram {
             }
         });
 
-        //Detach from lander
+        //Lower down from lander
         lift.liftToCatch();
 
+        //Move off of hook
         driveTrain.move(0, 0.5);
-        servoComplex.prepareSampler();
         Thread.sleep(1000);
         driveTrain.stop();
 
+        //Move forward, away from lander
         driveTrain.move(90, 0.5);
         Thread.sleep(500);
         driveTrain.stop();
 
+        //Re-center and lower elevator to resting position
         driveTrain.move(180, 0.5);
         Thread.sleep(1000);
         driveTrain.stop();
-
         lowerThread.start();
-        servoComplex.lookForward();
-        driveTrain.turnToHeading(0);
-        Thread.sleep(2000);
-
-        //Locate mineral
-        goldMineral = detector.getGoldMineral();
-        goldPosition = 0;
-        if(goldMineral == null) {
-            servoComplex.lookLeft();
-            Thread.sleep(2000);
-            goldMineral = detector.getGoldMineral();
-            goldPosition = 1;
-
-            if(goldMineral == null) {
-                servoComplex.lookRight();
-                Thread.sleep(2000);
-                goldMineral = detector.getGoldMineral();
-                goldPosition = -1;
-            }
-        }
 
         //Sample mineral
-        driveTrain.rotateBy(goldPosition * 35);
+        driveTrain.turnToHeading(goldPosition * 35);
         driveTrain.moveToDisplacement(90, goldPosition == 0 ? 24 : 28, 1.0);
 
         //Perform additional steps, if requested
@@ -178,9 +188,7 @@ public class MainAutonomousProgram extends AutonomousProgram {
             case DEPOT_FACING:
                 driveTrain.rotateBy(-2 * goldPosition * 35);
                 driveTrain.moveToDisplacement(90, 20, 1.0);
-                servoComplex.lowerClaimer();
-                Thread.sleep(750);
-                servoComplex.raiseClaimer();
+                claimer.claim();
                 break;
             case DONT_CARE:
                 break;
