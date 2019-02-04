@@ -32,13 +32,14 @@ public class MainAutonomousProgram extends AutonomousProgram {
         }
     }
 
-    private HolonomicDriveTrain driveTrain = new MecanumDriveTrain();
+    private MecanumDriveTrain driveTrain = new MecanumDriveTrain();
     private LinearElevator lift = new LinearElevator();
     private DepotClaimer claimer = new DepotClaimer();
 
     private MineralDetector detector = new MineralDetector(true);
     private Mineral goldMineral;
     private int goldPosition = -2; //1 is left, 0 is middle, -1 is right, -2 is unknown
+    private double angle;
 
     private AdditionalSteps additionalSteps;
 
@@ -80,6 +81,7 @@ public class MainAutonomousProgram extends AutonomousProgram {
     @Override
     protected void initialize() throws InterruptedException {
         driveTrain.init(opMode.hardwareMap);
+        driveTrain.initImu(opMode.hardwareMap);
         lift.init(opMode.hardwareMap);
         claimer.init(opMode.hardwareMap);
         detector.init(opMode.hardwareMap);
@@ -89,12 +91,7 @@ public class MainAutonomousProgram extends AutonomousProgram {
         while(!opMode.isStarted()) {
             List<Mineral> minerals = detector.getMineralsByCloseness();
             if(minerals.size() >= 3) {
-                opMode.telemetry.addLine("Found 3 Minerals:");
-                opMode.telemetry.addData("  Mineral 1", (minerals.get(0).isGold() ? "Gold" : "Silver") + " at " + minerals.get(0).getOffset());
-                opMode.telemetry.addData("  Mineral 2", (minerals.get(1).isGold() ? "Gold" : "Silver") + " at " + minerals.get(1).getOffset());
-                opMode.telemetry.addData("  Mineral 3", (minerals.get(2).isGold() ? "Gold" : "Silver") + " at " + minerals.get(2).getOffset());
                 locateGoldMineral(minerals.get(0), minerals.get(1), minerals.get(2));
-
                 String positionString = "Unknown";
                 switch(goldPosition) {
                     case 1:
@@ -109,10 +106,10 @@ public class MainAutonomousProgram extends AutonomousProgram {
                 }
 
                 opMode.telemetry.addLine();
-                opMode.telemetry.addLine("Located Gold Mineral:");
+                opMode.telemetry.addLine("Located Target Mineral:");
                 opMode.telemetry.addData("Type", goldMineral.isGold() ? "Gold" : "Silver");
                 opMode.telemetry.addData("Position", positionString);
-                opMode.telemetry.addData("Area", goldMineral.getArea());
+                opMode.telemetry.addData("Angle", goldMineral.getAngle());
                 opMode.telemetry.addData("Offset", goldMineral.getOffset());
                 opMode.telemetry.update();
             } else {
@@ -125,13 +122,16 @@ public class MainAutonomousProgram extends AutonomousProgram {
         }
     }
 
+    private final int MINERAL_ANGLE = 38;
+    private double landedHeading;
+
     @Override
     protected void start() throws InterruptedException {
-        Thread lowerThread = new Thread(new Runnable() {
+        Thread liftThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    lift.lowerToRest();
+                    lift.liftToCollectionZone();
                 } catch(InterruptedException e) {
                     opMode.requestOpModeStop();
                 }
@@ -142,35 +142,45 @@ public class MainAutonomousProgram extends AutonomousProgram {
         lift.liftToCatch();
 
         //Move off of hook
+        driveTrain.moveToDisplacement(90, 2, 0.5);
+        Thread.sleep(500);
         driveTrain.move(0, 0.5);
-        Thread.sleep(1000);
+        Thread.sleep(550);
         driveTrain.stop();
 
         //Move forward, away from lander
-        driveTrain.move(90, 0.5);
-        Thread.sleep(500);
-        driveTrain.stop();
+        driveTrain.moveToDisplacement(90, 4, 0.5);
 
-        //Re-center and lower elevator to resting position
+        //Re-center and lower elevator to collecting position
         driveTrain.move(180, 0.5);
-        Thread.sleep(1000);
+        Thread.sleep(550);
         driveTrain.stop();
-        lowerThread.start();
+        liftThread.start();
+
+        Thread.sleep(100);
+        landedHeading = driveTrain.getHeading();
 
         //Sample mineral
-        driveTrain.turnToHeading(goldPosition * 35);
-        driveTrain.moveToDisplacement(90, goldPosition == 0 ? 24 : 28, 1.0);
+        driveTrain.rotateBy(goldPosition * MINERAL_ANGLE);
+        driveTrain.moveToDisplacement(90, goldPosition == 0 ? 24 : 38, 1.0);
 
         //Perform additional steps, if requested
         switch(additionalSteps) {
             case NONE:
+                //Wait for elevator to lower
                 Thread.sleep(10000);
                 break;
             case CLAIM_ONLY:
                 claim();
+                //Back out of depot
+                driveTrain.moveToDisplacement(270, 10, 1.0);
+                //Wait for elevator to lower
+                Thread.sleep(5000);
                 break;
             case PARK_ONLY:
                 parkAfterSampling();
+                //Wait for elevator to lower
+                Thread.sleep(5000);
                 break;
             case CLAIM_AND_PARK:
                 claim();
@@ -179,34 +189,42 @@ public class MainAutonomousProgram extends AutonomousProgram {
         }
     }
 
-    private void claim() throws InterruptedException {
+    private void parkAfterSampling() throws InterruptedException {
         switch(fieldPosition) {
             case CRATER_FACING:
-//                driveTrain.moveToDisplacement(90, goldPosition == 0 ? 24 : 28, 1.0);
-//                driveTrain.turnToHeading();
+                //Rotate to face crater
+//                driveTrain.turnToHeading(landedHeading);
+                //Drive forward onto crater edge
+                driveTrain.moveToDisplacement(90, 2 - Math.abs(goldPosition), 1.0);
                 break;
             case DEPOT_FACING:
-                driveTrain.rotateBy(-2 * goldPosition * 35);
-                driveTrain.moveToDisplacement(90, 20, 1.0);
-                claimer.claim();
+                //Don't know what to do here (TODO)
+                Thread.sleep(10000);
                 break;
             case DONT_CARE:
                 break;
         }
     }
 
-    private void parkAfterSampling() throws InterruptedException {
+    private void claim() throws InterruptedException {
         switch(fieldPosition) {
             case CRATER_FACING:
-                driveTrain.rotateBy(-2 * goldPosition * 35);
-                driveTrain.moveToDisplacement(90, 15, 1.0);
+                //Don't know what to do here (TODO)
+                Thread.sleep(10000);
                 break;
             case DEPOT_FACING:
-                driveTrain.moveToDisplacement(270, goldPosition == 0 ? 24 : 28, 1.0);
-                driveTrain.turnToHeading(-85);
-                driveTrain.moveToDisplacement(90, 60, 1.0);
-                driveTrain.turnToHeading(-135);
-                driveTrain.moveToDisplacement(90, 10, 1.0);
+                //Rotate to face depot
+                driveTrain.turnToHeading(-goldPosition * 45 + landedHeading);
+                //Drive into depot and claim
+                driveTrain.moveToDisplacement(90, goldPosition == 0 ? 15 : 28, 1.0);
+                //If on the right side, turn inwards a bit to make sure that crown is scored properly in depot. Otherwise, just drop the crown.
+                if(goldPosition == -1) {
+                    driveTrain.rotateBy(-10);
+                    claimer.claim();
+                    driveTrain.rotateBy(10);
+                } else {
+                    claimer.claim();
+                }
                 break;
             case DONT_CARE:
                 break;
@@ -214,7 +232,32 @@ public class MainAutonomousProgram extends AutonomousProgram {
     }
 
     private void parkAfterClaiming() throws InterruptedException {
-        driveTrain.turnToHeading(goldPosition <= 0 ? -135 : 135);
-        driveTrain.moveToDisplacement(90, 72, 1.0);
+        switch(fieldPosition) {
+            case CRATER_FACING:
+                //Don't know what to do here (TODO)
+                Thread.sleep(10000);
+                break;
+            case DEPOT_FACING:
+                if(goldPosition != 0) {
+                    //Strafe to wall (should already be pretty close to wall) to avoid messing up another sampling field
+                    driveTrain.move(goldPosition == 1 ? 180 : 0, 0.5);
+                    Thread.sleep(500);
+                    //Back up against crater
+                    driveTrain.moveToDisplacement(270, 72, 1.0);
+                } else {
+                    //Back up behind sampling row
+                    driveTrain.moveToDisplacement(270, 35, 1.0);
+                    //Strafe to wall
+                    driveTrain.move(0, 1.0);
+                    Thread.sleep(3000);
+                    //Rotate to face depot
+                    driveTrain.turnToHeading(45 + landedHeading);
+                    //Back up into crater
+                    driveTrain.moveToDisplacement(270, 20, 1.0);
+                }
+                break;
+            case DONT_CARE:
+                break;
+        }
     }
 }

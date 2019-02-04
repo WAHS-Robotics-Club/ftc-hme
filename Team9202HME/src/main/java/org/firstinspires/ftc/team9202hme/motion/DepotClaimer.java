@@ -16,16 +16,16 @@ public class DepotClaimer extends RobotComponent {
     }
 
     public void raise() {
-        claimer.setPosition(0);
+        claimer.setPosition(0.9);
     }
 
     public void lower() {
-        claimer.setPosition(0.6);
+        claimer.setPosition(0.2);
     }
 
     public void claim() throws InterruptedException {
         lower();
-        Thread.sleep(750);
+        Thread.sleep(500);
         raise();
     }
 

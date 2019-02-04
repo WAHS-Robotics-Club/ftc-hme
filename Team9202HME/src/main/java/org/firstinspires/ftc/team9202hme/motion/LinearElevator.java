@@ -11,7 +11,8 @@ import org.firstinspires.ftc.team9202hme.RobotComponent;
 public class LinearElevator extends RobotComponent {
     private DcMotorEx left, right;
     private double power;
-    private final int TICKS_TO_CATCH = 25000; //initially measured as 24193, 23797
+    private final int TICKS_TO_CATCH = 24450;
+    private final int TICKS_TO_COLLECTION_ZONE = 26500;
 
     private void setPower(double power) {
         left.setPower(power);
@@ -64,8 +65,12 @@ public class LinearElevator extends RobotComponent {
         runToPosition(TICKS_TO_CATCH);
     }
 
+    public void liftToCollectionZone() throws InterruptedException {
+        runToPosition(TICKS_TO_COLLECTION_ZONE);
+    }
+
     public void lowerToRest() throws InterruptedException {
-        runToPosition(-TICKS_TO_CATCH);
+        runToPosition(-(left.getCurrentPosition() + right.getCurrentPosition()) / 2);
     }
 
     public void lift() {

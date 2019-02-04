@@ -22,8 +22,8 @@ public class MainTeleOpProgram extends TeleOpProgram {
     private boolean dualDriver;
 
     private Toggle controlsToggle = new Toggle();
-    private Toggle collectorToggle = new Toggle();
     private Toggle depositorToggle = new Toggle();
+    private Toggle prepareHangToggle = new Toggle();
     private Toggle claimerToggle = new Toggle();
 
     public MainTeleOpProgram(OpMode opMode, boolean dualDriver) {
@@ -63,24 +63,11 @@ public class MainTeleOpProgram extends TeleOpProgram {
 
         driveTrain.move(moveDirection, turnPower);
 
-        //Linear actuator control
-        if(primary.dpad_up) {
-            lift.lift();
-        } else if(primary.dpad_down) {
-            lift.lower();
-        } else {
-            lift.stop();
-        }
-
         //Collector control
         if(primary.left_bumper) {
-            collectorToggle.toggle();
-        }
-
-        if(collectorToggle.isToggled()) {
-            collector.collect();
+            collector.collect(0.5);
         } else {
-            collector.store();
+            collector.store(primary.left_trigger > 0.85 ? primary.left_trigger : primary.left_trigger / 2);
         }
 
         //Depot claimer control
@@ -93,18 +80,35 @@ public class MainTeleOpProgram extends TeleOpProgram {
         } else {
             claimer.raise();
         }
-    }
 
-    private void processSecondaryInput(Gamepad secondary) {
         //Depositor control
-        if(secondary.right_bumper) {
+        if(primary.right_bumper) {
             depositorToggle.toggle();
         }
 
-        if(depositorToggle.isToggled()) {
-            collector.deposit();
+        if(primary.b) {
+            prepareHangToggle.toggle();
+        }
+
+        if(prepareHangToggle.isToggled()) {
+            collector.prepareForHanging();
         } else {
-            collector.prepareStorage();
+            if(depositorToggle.isToggled()) {
+                collector.deposit();
+            } else {
+                collector.prepareStorage();
+            }
+        }
+    }
+
+    private void processSecondaryInput(Gamepad secondary) {
+        //Linear actuator control
+        if(secondary.dpad_up) {
+            lift.lift();
+        } else if(secondary.dpad_down) {
+            lift.lower();
+        } else {
+            lift.stop();
         }
     }
 

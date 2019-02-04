@@ -46,6 +46,9 @@ public class MecanumDriveTrain extends HolonomicDriveTrain {
     @Override
     public void init(HardwareMap hardwareMap) {
         super.init(hardwareMap);
+    }
+
+    public void initImu(HardwareMap hardwareMap) {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.calibrationDataFile = RobotConstants.IMU_CALIBRATION_FILE;
         parameters.mode = BNO055IMU.SensorMode.IMU;
@@ -122,19 +125,12 @@ public class MecanumDriveTrain extends HolonomicDriveTrain {
             Thread.sleep(0, 1);
         }
 
-        Thread.sleep(50);
-
-        while(abs(getHeading() - heading) > 0.25) {
-            turn(signum(getHeading() - heading) * 0.115);
-            Thread.sleep(0, 1);
-        }
-
         stop();
     }
 
     @Override
     public void logTelemetry(Telemetry telemetry) {
-        telemetry.addData("Heading", getHeading() + " degrees");
+//        telemetry.addData("Heading", getHeading() + " degrees");
 
         telemetry.addData("FL Pos", frontLeft.getCurrentPosition());
         telemetry.addData("FR Pos", frontRight.getCurrentPosition());
