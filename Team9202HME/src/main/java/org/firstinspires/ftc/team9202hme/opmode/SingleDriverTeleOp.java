@@ -13,7 +13,6 @@ public class SingleDriverTeleOp extends OpMode {
     @Override
     public void init() {
         program.init();
-        //creeper aww man
     }
 
     @Override
