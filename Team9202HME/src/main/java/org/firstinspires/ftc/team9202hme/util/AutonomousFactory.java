@@ -16,7 +16,6 @@ public class AutonomousFactory implements OpModeFactory {
     static {
         FtcOpModeRegister.registerOpModeFactory(new AutonomousFactory());
     }
-    //hi
     @Override
     public Map<OpMode, OpModeMeta> generateOpModes() {
         Map<OpMode, OpModeMeta> opModes = new HashMap<>();
