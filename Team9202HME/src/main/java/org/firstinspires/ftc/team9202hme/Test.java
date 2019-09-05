@@ -32,7 +32,6 @@ rightBack = 0
  */
     @Override public void loop(){
 
-        telemetry.addData("Robot machine broke", gamepad1.left_stick_y);
 
 
 
