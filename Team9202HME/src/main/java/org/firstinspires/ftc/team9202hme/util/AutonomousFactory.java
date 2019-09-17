@@ -24,7 +24,7 @@ public class AutonomousFactory implements OpModeFactory {
                 AutonomousProgram.FieldPosition.CRATER_FACING,
                 AutonomousProgram.FieldPosition.DEPOT_FACING
         };
-        //You have your sins
+
         MainAutonomousProgram.AdditionalSteps[] additionalSteps = {
                 MainAutonomousProgram.AdditionalSteps.NONE,
                 MainAutonomousProgram.AdditionalSteps.CLAIM_ONLY,
