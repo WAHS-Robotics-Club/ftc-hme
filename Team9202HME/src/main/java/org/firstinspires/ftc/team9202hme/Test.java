@@ -11,7 +11,8 @@ DcMotor leftFront;
 DcMotor rightFront;
 DcMotor leftBack;
 DcMotor rightBack;
-
+Servo leftServo;
+Servo rightServo;
 
 
 
