@@ -53,6 +53,8 @@ rightBack = 0
     rightBack.setPower(rightBack1);
     rightFront.setPower(rightFront1);
 
+    leftServo.setPosition(0);
+    rightServo.setPosition(0);
 
 
 
