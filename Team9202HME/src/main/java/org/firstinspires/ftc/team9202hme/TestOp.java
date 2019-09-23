@@ -23,6 +23,7 @@ public class TestOp extends LinearOpMode {
             //Loop stuff
         while (opModeIsActive()) {
 
+
             boolean auto, detect;
             double RSB, LSB, BSB, DSB;
             double AimX, AimY;
