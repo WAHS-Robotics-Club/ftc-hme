@@ -36,10 +36,10 @@ rightBack = 0
 
 
 
-  double leftFront1 = (-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
-  double leftBack1 = (gamepad1.left_stick_x  + -gamepad1.left_stick_y);
-  double rightFront1 = (-gamepad1.left_stick_x  + gamepad1.left_stick_y);
-  double rightBack1 = (gamepad1.left_stick_x  + gamepad1.left_stick_y);
+  double leftFront1 = (0);
+  double leftBack1 = (0);
+  double rightFront1 = (0);
+  double rightBack1 = (0);
 
 
 
