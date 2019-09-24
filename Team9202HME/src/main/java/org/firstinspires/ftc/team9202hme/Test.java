@@ -23,6 +23,7 @@ Servo rightServo;
         rightFront = hardwareMap.get(DcMotor.class, "fr");
         leftBack = hardwareMap.get(DcMotor.class, "bl");
         rightBack = hardwareMap.get(DcMotor.class, "br");
+
         leftServo = hardwareMap.get(Servo.class, "ls");
         rightServo = hardwareMap.get(Servo.class, "rs");
 
