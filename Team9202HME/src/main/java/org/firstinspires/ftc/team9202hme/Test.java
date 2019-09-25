@@ -18,12 +18,12 @@ Servo rightServo;
 
     @Override
     public void init(){
-/*
+
         leftFront = hardwareMap.get(DcMotor.class, "fl");
         rightFront = hardwareMap.get(DcMotor.class, "fr");
         leftBack = hardwareMap.get(DcMotor.class, "bl");
         rightBack = hardwareMap.get(DcMotor.class, "br");
-*/
+
         leftServo = hardwareMap.get(Servo.class, "ls");
         rightServo = hardwareMap.get(Servo.class, "rs");
 
@@ -37,7 +37,6 @@ rightBack = 0
     @Override public void loop(){
 
 
-
   double leftFront1 = (-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
   double leftBack1 = (gamepad1.left_stick_x  + -gamepad1.left_stick_y);
   double rightFront1 = (-gamepad1.left_stick_x  + gamepad1.left_stick_y);
@@ -47,12 +46,12 @@ rightBack = 0
 
 
 
-/*
+
     leftBack.setPower(leftBack1);
     leftFront.setPower(leftFront1);
     rightBack.setPower(rightBack1);
     rightFront.setPower(rightFront1);
-*/
+
 
     leftServo.setPosition(0);
     rightServo.setPosition(0);
