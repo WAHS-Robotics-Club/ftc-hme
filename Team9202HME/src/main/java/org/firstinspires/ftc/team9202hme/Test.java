@@ -36,7 +36,6 @@ rightBack = 0
  */
     @Override public void loop(){
 
-//test help oh crap
 
 
   double leftFront1 = (-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
