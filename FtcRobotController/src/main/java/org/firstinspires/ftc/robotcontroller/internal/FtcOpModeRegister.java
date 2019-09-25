@@ -31,61 +31,40 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package org.firstinspires.ftc.robotcontroller.internal;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptNullOp;
-import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
-
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * {@link FtcOpModeRegister} is responsible for registering opmodes for use in an FTC game.
- *
  * @see #register(OpModeManager)
  */
 public class FtcOpModeRegister implements OpModeRegister {
-    private static List<OpModeFactory> opModeFactories = new ArrayList<>();
-
-    public static void registerOpModeFactory(OpModeFactory factory) {
-        opModeFactories.add(factory);
-    }
 
     /**
      * {@link #register(OpModeManager)} is called by the SDK game in order to register
      * OpMode classes or instances that will participate in an FTC game.
-     * <p>
+     *
      * There are two mechanisms by which an OpMode may be registered.
-     * <p>
-     * 1) The preferred method is by means of class annotations in the OpMode itself.
-     * See, for example the class annotations in {@link ConceptNullOp}.
-     * <p>
-     * 2) The other, retired,  method is to modify this {@link #register(OpModeManager)}
-     * method to include explicit calls to OpModeManager.register().
-     * This method of modifying this file directly is discouraged, as it
-     * makes updates to the SDK harder to integrate into your code.
+     *
+     *  1) The preferred method is by means of class annotations in the OpMode itself.
+     *  See, for example the class annotations in {@link ConceptNullOp}.
+     *
+     *  2) The other, retired,  method is to modify this {@link #register(OpModeManager)}
+     *  method to include explicit calls to OpModeManager.register().
+     *  This method of modifying this file directly is discouraged, as it
+     *  makes updates to the SDK harder to integrate into your code.
      *
      * @param manager the object which contains methods for carrying out OpMode registrations
+     *
      * @see com.qualcomm.robotcore.eventloop.opmode.TeleOp
      * @see com.qualcomm.robotcore.eventloop.opmode.Autonomous
      */
     public void register(OpModeManager manager) {
-        try {
-            Class c = Class.forName("org.firstinspires.ftc.team9202hme.util.AutonomousFactory");
-        } catch(ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        for(OpModeFactory factory : FtcOpModeRegister.opModeFactories) {
-            Map<OpMode, OpModeMeta> opModes = factory.generateOpModes();
-
-            for(OpMode opMode : opModes.keySet()) {
-                manager.register(opModes.get(opMode), opMode);
-            }
-        }
+        /**
+         * Any manual OpMode class registrations should go here.
+         */
     }
 }
