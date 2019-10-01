@@ -14,7 +14,7 @@ public class Test extends OpMode {
             leftServo = hardwareMap.servo.get("leftServo");
             rightServo = hardwareMap.servo.get("rightServo");
         }
-    //lord of the rings is pretty good
+    //lord of the rings is pretty good and so is star wars
         @Override public void loop(){
             if(gamepad1.right_bumper) {
                 leftServo.setPosition(1);
