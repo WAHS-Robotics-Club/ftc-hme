@@ -24,7 +24,7 @@ public class Test extends OpMode {
             }
 
             if(gamepad1.left_bumper){
-                leftServo.setPosition(0);
+                leftServo.setPosition(-0);
             }
             else{
                 leftServo.setPosition(0.5);
