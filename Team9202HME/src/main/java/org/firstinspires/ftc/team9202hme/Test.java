@@ -16,7 +16,7 @@ public class Test extends OpMode {
         }
         @Override public void loop(){
             if(gamepad1.right_bumper) {
-                leftServo.setPosition(1);
+                rightServo.setPosition(1);
             }
             else if(gamepad1.left_bumper){
                 leftServo.setPosition(1);
