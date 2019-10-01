@@ -15,15 +15,21 @@ public class Test extends OpMode {
             rightServo = hardwareMap.servo.get("rightServo");
         }
         @Override public void loop(){
+
             if(gamepad1.right_bumper) {
                 rightServo.setPosition(1);
             }
-            else if(gamepad1.left_bumper){
+            else{
+                rightServo.setPosition(0.5);
+            }
+
+            if(gamepad1.left_bumper){
                 leftServo.setPosition(0);
             }
             else{
                 leftServo.setPosition(0.5);
-                rightServo.setPosition(0.5);
             }
+
+
     }
 }
