@@ -8,18 +8,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name ="Churles's Teleop")
 public class SimpleTankDrive extends OpMode {
-    //Initializing the servo objects:
-    Servo leftServo;
-    Servo rightServo;
 
     //Initializing the dc motor objects:
     DcMotor flMotor;
     DcMotor frMotor;
     DcMotor blMotor;
     DcMotor brMotor;
-
-    DcMotor spoolMotor;
-
 
     @Override
     public void init(){
