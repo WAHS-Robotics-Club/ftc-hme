@@ -67,6 +67,8 @@ rightBack = 0
     frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y);
 
         //Spool controls
+        //Left Trigger and Right trigger move opposite directions
+        //Both triggers cancel each other out
         if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
             spoolMotor.setPower(0);
         }else if(gamepad1.left_trigger >= .1){
