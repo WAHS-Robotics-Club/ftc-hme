@@ -6,11 +6,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name ="Elijah's drive and servo test")
 public class Test extends OpMode {
-    //Making the servos:
+    //Initializing the servo objects:
     Servo leftServo;
     Servo rightServo;
 
-    //Making the dc motors:
+    //Initializing the dc motor objects:
     DcMotor flMotor;
     DcMotor frMotor;
     DcMotor blMotor;
