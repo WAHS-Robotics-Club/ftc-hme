@@ -11,10 +11,11 @@ public class Test extends OpMode {
     Servo rightServo;
 
     //Initializing the dc motor objects:
-    DcMotor flMotor;
+    /*DcMotor flMotor;
     DcMotor frMotor;
     DcMotor blMotor;
     DcMotor brMotor;
+     */
 
         @Override
         public void init(){
@@ -23,10 +24,12 @@ public class Test extends OpMode {
             rightServo = hardwareMap.servo.get("rightServo");
 
             //Hardware mapping the motors:
+            /*
             flMotor = hardwareMap.dcMotor.get("frontLeftMotor");
             frMotor = hardwareMap.dcMotor.get("frontRightMotor");
             blMotor = hardwareMap.dcMotor.get("backLeftMotor");
             brMotor = hardwareMap.dcMotor.get("backRightMotor");
+             */
         }
         @Override
         public void loop(){
