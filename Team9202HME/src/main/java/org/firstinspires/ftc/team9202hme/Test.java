@@ -57,7 +57,7 @@ rightBack = 0
             leftServo.setPosition(0);
         }
 
-    //Drive Train controls w/ math
+    //Drive Train controls w/ math for diagonal controls
     blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y);
     flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
     brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y);
