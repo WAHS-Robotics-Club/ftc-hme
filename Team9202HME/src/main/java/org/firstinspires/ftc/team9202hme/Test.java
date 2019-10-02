@@ -42,7 +42,7 @@ public class Test extends OpMode {
             else{
                 leftServo.setPosition(1);
             }
-
+            /*
             //Spool controls
             if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(0);
@@ -56,5 +56,6 @@ public class Test extends OpMode {
             else{
                 spoolMotor.setPower(0);
             }
+             */
     }
 }
