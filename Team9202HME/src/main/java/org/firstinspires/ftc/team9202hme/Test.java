@@ -32,7 +32,7 @@ public class Test extends OpMode {
         public void loop(){
             //If else statements for the right servo controls (bumpers):
             if(gamepad1.right_bumper) {
-                rightServo.setPosition(0.2);
+                rightServo.setPosition(0.25);
             }
             else{
                 rightServo.setPosition(1);
@@ -40,7 +40,7 @@ public class Test extends OpMode {
 
             //If else statements for the left servo controls (bumpers);
             if(gamepad1.left_bumper){
-                leftServo.setPosition(0.7);
+                leftServo.setPosition(0.75);
             }
             else{
                 leftServo.setPosition(0);
