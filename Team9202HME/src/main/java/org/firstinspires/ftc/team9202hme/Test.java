@@ -8,25 +8,30 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name ="Test TeleOp")
 public class Test extends OpMode {
-DcMotor leftFront;
-DcMotor rightFront;
-DcMotor leftBack;
-DcMotor rightBack;
-Servo leftServo;
-Servo rightServo;
+    //Initializing the servo objects:
+    Servo leftServo;
+    Servo rightServo;
+
+    //Initializing the dc motor objects:
+    DcMotor flMotor;
+    DcMotor frMotor;
+    DcMotor blMotor;
+    DcMotor brMotor;
 
 
 
     @Override
     public void init(){
 
-        leftFront = hardwareMap.get(DcMotor.class, "fl");
-        rightFront = hardwareMap.get(DcMotor.class, "fr");
-        leftBack = hardwareMap.get(DcMotor.class, "bl");
-        rightBack = hardwareMap.get(DcMotor.class, "br");
+        //Hardware mapping the servos:
+        leftServo = hardwareMap.servo.get("leftServo");
+        rightServo = hardwareMap.servo.get("rightServo");
 
-        leftServo = hardwareMap.get(Servo.class, "ls");
-        rightServo = hardwareMap.get(Servo.class, "rs");
+        //Hardware mapping the motors:
+        flMotor = hardwareMap.dcMotor.get("frontLeftMotor");
+        frMotor = hardwareMap.dcMotor.get("frontRightMotor");
+        blMotor = hardwareMap.dcMotor.get("backLeftMotor");
+        brMotor = hardwareMap.dcMotor.get("backRightMotor");
 
     }
 /*
@@ -36,26 +41,29 @@ rightFront = 3
 rightBack = 0
  */
     @Override public void loop(){
+        //If else statements for the right servo controls (bumpers):
+        if(gamepad1.right_bumper) {
+            rightServo.setPosition(0.25);
+        }
+        else{
+            rightServo.setPosition(1);
+        }
+
+        //If else statements for the left servo controls (bumpers);
+        if(gamepad1.left_bumper){
+            leftServo.setPosition(0.75);
+        }
+        else{
+            leftServo.setPosition(0);
+        }
+
+    //Drive Train controls w/ math
+    blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y);
+    flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
+    brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y);
+    frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y);
 
 
-  double leftFront1 = (-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
-  double leftBack1 = (gamepad1.left_stick_x  + -gamepad1.left_stick_y);
-  double rightFront1 = (-gamepad1.left_stick_x  + gamepad1.left_stick_y);
-  double rightBack1 = (gamepad1.left_stick_x  + gamepad1.left_stick_y);
-
-
-
-
-
-
-    leftBack.setPower(leftBack1);
-    leftFront.setPower(leftFront1);
-    rightBack.setPower(rightBack1);
-    rightFront.setPower(rightFront1);
-
-
-    leftServo.setPosition(0);
-    rightServo.setPosition(0);
 
 
 
