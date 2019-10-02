@@ -11,11 +11,10 @@ public class Test extends OpMode {
     Servo rightServo;
 
     //Initializing the dc motor objects:
-    /*DcMotor flMotor;
-    DcMotor frMotor;
-    DcMotor blMotor;
-    DcMotor brMotor;
-     */
+    DcMotor spoolMotor;
+
+    //Initializing some miscellaneous variables:
+    float spoolControl;
 
         @Override
         public void init(){
@@ -24,31 +23,30 @@ public class Test extends OpMode {
             rightServo = hardwareMap.servo.get("rightServo");
 
             //Hardware mapping the motors:
-            /*
-            flMotor = hardwareMap.dcMotor.get("frontLeftMotor");
-            frMotor = hardwareMap.dcMotor.get("frontRightMotor");
-            blMotor = hardwareMap.dcMotor.get("backLeftMotor");
-            brMotor = hardwareMap.dcMotor.get("backRightMotor");
-             */
+            spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
+
         }
         @Override
         public void loop(){
             //If else statements for the right servo controls (bumpers):
             if(gamepad1.right_bumper) {
-                rightServo.setPosition(0.25);
+                rightServo.setPosition(0.75);
             }
             else{
-                rightServo.setPosition(1);
+                rightServo.setPosition(0);
             }
 
             //If else statements for the left servo controls (bumpers);
             if(gamepad1.left_bumper){
-                leftServo.setPosition(0.75);
+                leftServo.setPosition(0.25);
             }
             else{
-                leftServo.setPosition(0);
+                leftServo.setPosition(1);
             }
 
-            //Drive controls will go here. Postponed because we need to get the wheels on straight.
+            //Spool controls:
+            spoolControl = gamepad1.left_trigger;
+
+            spoolMotor.setPower(spoolControl);
     }
 }
