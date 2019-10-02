@@ -55,6 +55,7 @@ public class Test extends OpMode {
             }else{
                 spoolMotor.setPower(0);
             }
+            //github stupid
 
     }
 }
