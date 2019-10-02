@@ -13,8 +13,6 @@ public class Test extends OpMode {
     //Initializing the dc motor objects:
     DcMotor spoolMotor;
 
-
-
     //Initializing some miscellaneous variables:
 
         @Override
@@ -48,14 +46,15 @@ public class Test extends OpMode {
             //Spool controls
             if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(0);
-            }else if(gamepad1.left_trigger >= .1){
+            }//Lifts up:
+            else if(gamepad1.left_trigger >= .1){
                 spoolMotor.setPower(gamepad1.right_trigger);
-            }else if(gamepad1.right_trigger >= .1){
+            }//Lets down:
+            else if(gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(-gamepad1.left_trigger);
-            }else{
+            }//Stops:
+            else{
                 spoolMotor.setPower(0);
             }
-            //github stupid
-
     }
 }
