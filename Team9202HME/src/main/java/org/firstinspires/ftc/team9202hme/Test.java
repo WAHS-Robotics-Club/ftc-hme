@@ -18,6 +18,7 @@ public class Test extends OpMode {
     DcMotor blMotor;
     DcMotor brMotor;
 
+    DcMotor spoolMotor;
 
 
     @Override
@@ -32,6 +33,8 @@ public class Test extends OpMode {
         frMotor = hardwareMap.dcMotor.get("frontRightMotor");
         blMotor = hardwareMap.dcMotor.get("backLeftMotor");
         brMotor = hardwareMap.dcMotor.get("backRightMotor");
+
+        spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
     }
 /*
@@ -63,10 +66,16 @@ rightBack = 0
     brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y);
     frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y);
 
-
-
-
-
+        //Spool controls
+        if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
+            spoolMotor.setPower(0);
+        }else if(gamepad1.left_trigger >= .1){
+            spoolMotor.setPower(gamepad1.right_trigger);
+        }else if(gamepad1.right_trigger >= .1){
+            spoolMotor.setPower(-gamepad1.left_trigger);
+        }else{
+            spoolMotor.setPower(0);
+        }
 
 
 }
