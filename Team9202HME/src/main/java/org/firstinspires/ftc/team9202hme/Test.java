@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name ="Test TeleOp")
+@TeleOp(name ="Churles's Teleop")
 public class Test extends OpMode {
     //Initializing the servo objects:
     Servo leftServo;
