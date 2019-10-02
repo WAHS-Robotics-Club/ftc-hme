@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name ="Elijah's drive and servo test")
+@TeleOp(name ="E J's drive and servo test")
 public class Test extends OpMode {
     //Initializing the servo objects:
     Servo leftServo;
@@ -13,8 +13,9 @@ public class Test extends OpMode {
     //Initializing the dc motor objects:
     DcMotor spoolMotor;
 
+
+
     //Initializing some miscellaneous variables:
-    float spoolControl;
 
         @Override
         public void init(){
@@ -44,9 +45,16 @@ public class Test extends OpMode {
                 leftServo.setPosition(1);
             }
 
-            //Spool controls:
-            spoolControl = gamepad1.left_trigger;
+            //Spool controls
+            if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
+                spoolMotor.setPower(0);
+            }else if(gamepad1.left_trigger >= .1){
+                spoolMotor.setPower(gamepad1.right_trigger);
+            }else if(gamepad1.right_trigger >= .1){
+                spoolMotor.setPower(-gamepad1.left_trigger);
+            }else{
+                spoolMotor.setPower(0);
+            }
 
-            spoolMotor.setPower(spoolControl);
     }
 }
