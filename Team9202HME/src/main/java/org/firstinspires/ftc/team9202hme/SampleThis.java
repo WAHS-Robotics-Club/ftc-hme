@@ -3,11 +3,10 @@ package org.firstinspires.ftc.team9202hme;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name ="Churles's Teleop")
-public class SimpleTankDrive extends OpMode {
+@TeleOp(name ="Charlie's Teleop Simple Tank Drive")
+public class SampleThis extends OpMode {
 
     //Initializing the dc motor objects:
     DcMotor flMotor;
@@ -25,12 +24,9 @@ public class SimpleTankDrive extends OpMode {
         brMotor = hardwareMap.dcMotor.get("backRightMotor");
 
     }
-    /*
-    leftFront = 2
-    leftBack = 1
-    rightFront = 3
-    rightBack = 0
-     */
+
+
+
     @Override public void loop(){
         //If else statements for the right servo controls (bumpers):
 
