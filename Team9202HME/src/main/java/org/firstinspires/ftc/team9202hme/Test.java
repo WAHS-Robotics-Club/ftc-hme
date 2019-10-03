@@ -13,8 +13,6 @@ public class Test extends OpMode {
     //Initializing the dc motor objects:
     DcMotor spoolMotor;
 
-    //Initializing some miscellaneous variables:
-
         @Override
         public void init(){
             //Hardware mapping the servos:
@@ -42,7 +40,7 @@ public class Test extends OpMode {
             else{
                 leftServo.setPosition(1);
             }
-            /*
+
             //Spool controls
             if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(0);
@@ -56,6 +54,5 @@ public class Test extends OpMode {
             else{
                 spoolMotor.setPower(0);
             }
-             */
     }
 }
