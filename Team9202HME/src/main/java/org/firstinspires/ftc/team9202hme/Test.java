@@ -50,16 +50,10 @@ public class Test extends OpMode {
             if(gamepad1.left_trigger >= .1){
                 spoolMotor.setPower(gamepad1.right_trigger);
             }
-            else{
-                spoolMotor.setPower(0);
-            }
 
-            //Lets down:
+            //Pushes down:
             if(gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(-gamepad1.left_trigger);
-            }//Stops:
-            else{
-                spoolMotor.setPower(0);
             }
     }
 }
