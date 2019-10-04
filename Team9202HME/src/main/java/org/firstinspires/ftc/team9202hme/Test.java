@@ -41,14 +41,21 @@ public class Test extends OpMode {
                 leftServo.setPosition(1);
             }
 
-            //Spool controls
+            //Cancels out left and right triggers if pushed at the same time:
             if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(0);
-            }//Lifts up:
-            else if(gamepad1.left_trigger >= .1){
+            }
+
+            //Lifts up:
+            if(gamepad1.left_trigger >= .1){
                 spoolMotor.setPower(gamepad1.right_trigger);
-            }//Lets down:
-            else if(gamepad1.right_trigger >= .1){
+            }
+            else{
+                spoolMotor.setPower(0);
+            }
+
+            //Lets down:
+            if(gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(-gamepad1.left_trigger);
             }//Stops:
             else{
