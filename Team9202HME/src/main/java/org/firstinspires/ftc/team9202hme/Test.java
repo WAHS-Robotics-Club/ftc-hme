@@ -6,25 +6,42 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name ="E J's drive and servo test")
 public class Test extends OpMode {
+    DcMotor frontLeft;
+    DcMotor frontRight;
+    DcMotor backLeft;
+    DcMotor backRight;
+    /*
     //Initializing the servo objects:
     Servo leftServo;
     Servo rightServo;
 
     //Initializing the dc motor objects:
     DcMotor spoolMotor;
-
+    */
         @Override
         public void init(){
+            frontLeft = hardwareMap.dcMotor.get("frontLeftMotor");
+            frontRight = hardwareMap.dcMotor.get("frontRightMotor");
+            backLeft = hardwareMap.dcMotor.get("backLeftMotor");
+            backRight = hardwareMap.dcMotor.get("backRightMotor");
+            /*
             //Hardware mapping the servos:
             leftServo = hardwareMap.servo.get("leftServo");
             rightServo = hardwareMap.servo.get("rightServo");
 
             //Hardware mapping the motors:
             spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
+            */
 
         }
         @Override
         public void loop(){
+            frontLeft.setPower(gamepad1.left_stick_y);
+            frontRight.setPower(gamepad1.right_stick_y);
+
+            backLeft.setPower(gamepad1.left_stick_y);
+            backRight.setPower(gamepad1.right_stick_y);
+            /*
             //If else statements for the right servo controls (bumpers):
             if(gamepad1.right_bumper) {
                 rightServo.setPosition(0.75);
@@ -55,5 +72,6 @@ public class Test extends OpMode {
             if(gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(-gamepad1.left_trigger);
             }
+            */
     }
 }
