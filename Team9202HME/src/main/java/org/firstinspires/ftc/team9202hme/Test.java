@@ -3,10 +3,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import java.lang.Math;
 
-@TeleOp(name ="E J's drive and servo test")
+@TeleOp(name ="Elijah's robot test")
 public class Test extends OpMode {
-    //Initializing the dc motor objects:
+    //Initializing the drive dc motor objects:
     DcMotor frontLeft;
     DcMotor frontRight;
     DcMotor backLeft;
@@ -16,16 +17,16 @@ public class Test extends OpMode {
     Servo leftServo;
     Servo rightServo;
 
-    //Initializing the dc motor objects:
+    //Initializing the miscellaneous dc motor objects:
     DcMotor spoolMotor;
 
         @Override
         public void init(){
             //Hardware mapping the drive motors:
-            frontLeft = hardwareMap.dcMotor.get("frontLeftMotor");
-            frontRight = hardwareMap.dcMotor.get("frontRightMotor");
-            backLeft = hardwareMap.dcMotor.get("backLeftMotor");
-            backRight = hardwareMap.dcMotor.get("backRightMotor");
+            frontLeft = hardwareMap.dcMotor.get("frontLeft");
+            frontRight = hardwareMap.dcMotor.get("frontRight");
+            backLeft = hardwareMap.dcMotor.get("backLeft");
+            backRight = hardwareMap.dcMotor.get("backRight");
 
             //Hardware mapping the servos:
             leftServo = hardwareMap.servo.get("leftServo");
@@ -36,11 +37,41 @@ public class Test extends OpMode {
         }
         @Override
         public void loop(){
-            //Drive code (currently tank mode with both sticks; changing to actually good alternative soon):
-            frontLeft.setPower(gamepad1.left_stick_y);
-            frontRight.setPower(gamepad1.right_stick_y);
-            backLeft.setPower(gamepad1.left_stick_y);
-            backRight.setPower(gamepad1.right_stick_y);
+            //Drive code:
+
+            //Moving forward and backward:
+            if(Math.abs(gamepad1.left_stick_y) >= 0.1){
+                frontLeft.setPower(gamepad1.left_stick_y);
+                frontRight.setPower(gamepad1.left_stick_y);
+                backLeft.setPower(gamepad1.left_stick_y);
+                backRight.setPower(gamepad1.left_stick_y);
+            }
+            else{
+                stop();
+            }
+
+            //Turning on a fixed point:
+            if(gamepad1.right_stick_x >= 0.1){
+                frontLeft.setPower(-gamepad1.right_stick_x);
+                frontRight.setPower(gamepad1.right_stick_x);
+                backLeft.setPower(-gamepad1.right_stick_x);
+                backRight.setPower(gamepad1.right_stick_x);
+            }
+            else{
+                driveStop();
+            }
+
+            //Turning on a fixed point opposite direction:
+            if(gamepad1.right_stick_x <= -0.1){
+                frontLeft.setPower(gamepad1.right_stick_x);
+                frontRight.setPower(-gamepad1.right_stick_x);
+                backLeft.setPower(gamepad1.right_stick_x);
+                backRight.setPower(-gamepad1.right_stick_x);
+            }
+            else{
+                driveStop();
+            }
+
 
             //Arm servo controls (right and left bumpers):
 
@@ -60,6 +91,7 @@ public class Test extends OpMode {
                 leftServo.setPosition(1);
             }
 
+
             //Spool motor code (left and right triggers):
 
             //Cancels out left and right triggers if pushed at the same time:
@@ -76,5 +108,12 @@ public class Test extends OpMode {
             if(gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(-gamepad1.left_trigger);
             }
+    }
+    public void driveStop(){
+        //Immediate drive stop code:
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }
