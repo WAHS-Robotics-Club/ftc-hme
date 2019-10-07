@@ -12,13 +12,9 @@ public class MainTeleOp extends OpMode {
     Servo leftServo;
     Servo rightServo;
 
-    //Initializing the dc motor objects:
-    DcMotor flMotor;
-    DcMotor frMotor;
-    DcMotor blMotor;
-    DcMotor brMotor;
-
     DcMotor spoolMotor;
+
+    DriveTrain driveTrain = new DriveTrain();
 
 
     @Override
@@ -28,11 +24,7 @@ public class MainTeleOp extends OpMode {
         leftServo = hardwareMap.servo.get("leftServo");
         rightServo = hardwareMap.servo.get("rightServo");
 
-        //Hardware mapping the motors:
-        flMotor = hardwareMap.dcMotor.get("frontLeftMotor");
-        frMotor = hardwareMap.dcMotor.get("frontRightMotor");
-        blMotor = hardwareMap.dcMotor.get("backLeftMotor");
-        brMotor = hardwareMap.dcMotor.get("backRightMotor");
+        driveTrain = DriveTrain.initDriveTrain();
 
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
@@ -61,27 +53,28 @@ public class MainTeleOp extends OpMode {
         }
 
         //Drive Train controls w/ math for diagonal controls
-        blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y);
-        flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
-        brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y);
-        frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y);
+        driveTrain.blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y);
+        driveTrain.flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
+        driveTrain.brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y);
+        driveTrain.frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y);
 
+        /*
         if(gamepad1.right_stick_x >= 0.1){
-            flMotor.setPower(-gamepad1.right_stick_x);
-            frMotor.setPower(gamepad1.right_stick_x);
-            blMotor.setPower(-gamepad1.right_stick_x);
-            brMotor.setPower(gamepad1.right_stick_x);
+            driveTrain.flMotor.setPower(-gamepad1.right_stick_x);
+            driveTrain.frMotor.setPower(gamepad1.right_stick_x);
+            driveTrain.blMotor.setPower(-gamepad1.right_stick_x);
+            driveTrain.brMotor.setPower(gamepad1.right_stick_x);
         }
 
 
         //Turning on a fixed point opposite direction:
         if(gamepad1.right_stick_x <= -0.1){
-            flMotor.setPower(gamepad1.right_stick_x);
-            frMotor.setPower(-gamepad1.right_stick_x);
-            blMotor.setPower(gamepad1.right_stick_x);
-            brMotor.setPower(-gamepad1.right_stick_x);
+            driveTrain.flMotor.setPower(gamepad1.right_stick_x);
+            driveTrain.frMotor.setPower(-gamepad1.right_stick_x);
+            driveTrain.blMotor.setPower(gamepad1.right_stick_x);
+            driveTrain.brMotor.setPower(-gamepad1.right_stick_x);
         }
-    
+    */
 
         //Spool controls
         //Left Trigger and Right trigger move opposite directions
