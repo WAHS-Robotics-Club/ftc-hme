@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.team9202hme;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class DriveTrain extends MainTeleOp {
+public class DriveTrain{
     //Initializing the dc motor objects:
 
     DcMotor flMotor;
@@ -12,7 +12,7 @@ public class DriveTrain extends MainTeleOp {
     DcMotor brMotor;
 
 
-    public DriveTrain initDriveTrain() {
+    public DriveTrain initDriveTrain(HardwareMap hardwareMap) {
         //Hardware mapping the motors:
         DriveTrain driveTrain = new DriveTrain();
 
@@ -23,4 +23,6 @@ public class DriveTrain extends MainTeleOp {
 
         return driveTrain;
     }
+
+
 }

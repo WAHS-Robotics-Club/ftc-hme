@@ -3,6 +3,7 @@ package org.firstinspires.ftc.team9202hme;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
@@ -12,7 +13,7 @@ public class MainTeleOp extends OpMode {
     Servo leftServo;
     Servo rightServo;
 
-    DcMotor spoolMotor;
+    //DcMotor spoolMotor;
 
     DriveTrain driveTrain = new DriveTrain();
 
@@ -24,9 +25,9 @@ public class MainTeleOp extends OpMode {
         leftServo = hardwareMap.servo.get("leftServo");
         rightServo = hardwareMap.servo.get("rightServo");
 
-        driveTrain = DriveTrain.initDriveTrain();
+        driveTrain.initDriveTrain(hardwareMap);
 
-        spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
+        //spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
     }
     /*
@@ -53,12 +54,13 @@ public class MainTeleOp extends OpMode {
         }
 
         //Drive Train controls w/ math for diagonal controls
+        
         driveTrain.blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y);
         driveTrain.flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
         driveTrain.brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y);
         driveTrain.frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y);
 
-        /*
+
         if(gamepad1.right_stick_x >= 0.1){
             driveTrain.flMotor.setPower(-gamepad1.right_stick_x);
             driveTrain.frMotor.setPower(gamepad1.right_stick_x);
@@ -74,8 +76,9 @@ public class MainTeleOp extends OpMode {
             driveTrain.blMotor.setPower(gamepad1.right_stick_x);
             driveTrain.brMotor.setPower(-gamepad1.right_stick_x);
         }
-    */
 
+
+        /*
         //Spool controls
         //Left Trigger and Right trigger move opposite directions
         //Both triggers cancel each other out
@@ -88,7 +91,7 @@ public class MainTeleOp extends OpMode {
         }else{
             spoolMotor.setPower(0);
         }
-
+        */
 
     }
 
