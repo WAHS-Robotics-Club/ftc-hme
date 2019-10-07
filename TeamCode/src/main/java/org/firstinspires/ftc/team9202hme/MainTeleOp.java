@@ -15,7 +15,7 @@ public class MainTeleOp extends OpMode {
 
     DcMotor spoolMotor;
 
-    DriveTrain driveTrain = DriveTrain.initDriveTrain(hardwareMap);
+    DriveTrain driveTrain;
 
 
     @Override
@@ -25,6 +25,8 @@ public class MainTeleOp extends OpMode {
         rightServo = hardwareMap.servo.get("rightServo");
 
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
+        DriveTrain driveTrain = DriveTrain.initDriveTrain(hardwareMap);
+
     }
     /*
     leftFront = 2
