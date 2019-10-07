@@ -13,7 +13,7 @@ public class MainTeleOp extends OpMode {
     Servo leftServo;
     Servo rightServo;
 
-    //DcMotor spoolMotor;
+    DcMotor spoolMotor;
 
     DriveTrain driveTrain = new DriveTrain();
 
@@ -27,7 +27,7 @@ public class MainTeleOp extends OpMode {
 
         driveTrain.initDriveTrain(hardwareMap);
 
-        //spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
+        spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
     }
     /*
@@ -54,7 +54,7 @@ public class MainTeleOp extends OpMode {
         }
 
         //Drive Train controls w/ math for diagonal controls
-        
+
         driveTrain.blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y);
         driveTrain.flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
         driveTrain.brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y);
@@ -78,7 +78,7 @@ public class MainTeleOp extends OpMode {
         }
 
 
-        /*
+
         //Spool controls
         //Left Trigger and Right trigger move opposite directions
         //Both triggers cancel each other out
@@ -91,7 +91,7 @@ public class MainTeleOp extends OpMode {
         }else{
             spoolMotor.setPower(0);
         }
-        */
+
 
     }
 
