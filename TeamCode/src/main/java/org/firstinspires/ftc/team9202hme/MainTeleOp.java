@@ -15,20 +15,16 @@ public class MainTeleOp extends OpMode {
 
     DcMotor spoolMotor;
 
-    DriveTrain driveTrain = new DriveTrain();
+    DriveTrain driveTrain = DriveTrain.initDriveTrain(hardwareMap);
 
 
     @Override
     public void init(){
-
         //Hardware mapping the servos:
         leftServo = hardwareMap.servo.get("leftServo");
         rightServo = hardwareMap.servo.get("rightServo");
 
-        driveTrain = DriveTrain.initDriveTrain(hardwareMap);
-
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
-
     }
     /*
     leftFront = 2
