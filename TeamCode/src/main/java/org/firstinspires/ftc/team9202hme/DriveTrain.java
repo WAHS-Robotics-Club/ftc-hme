@@ -12,7 +12,7 @@ public class DriveTrain{
     DcMotor brMotor;
 
 
-    public DriveTrain initDriveTrain(HardwareMap hardwareMap) {
+    public static DriveTrain initDriveTrain(HardwareMap hardwareMap) {
         //Hardware mapping the motors:
         DriveTrain driveTrain = new DriveTrain();
 

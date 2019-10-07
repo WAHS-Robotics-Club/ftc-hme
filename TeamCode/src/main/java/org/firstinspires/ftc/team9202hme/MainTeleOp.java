@@ -25,7 +25,7 @@ public class MainTeleOp extends OpMode {
         leftServo = hardwareMap.servo.get("leftServo");
         rightServo = hardwareMap.servo.get("rightServo");
 
-        driveTrain.initDriveTrain(hardwareMap);
+        driveTrain = DriveTrain.initDriveTrain(hardwareMap);
 
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
