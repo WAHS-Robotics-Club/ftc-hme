@@ -3,6 +3,7 @@ package org.firstinspires.ftc.team9202hme;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
@@ -31,13 +32,11 @@ public class MainTeleOp extends OpMode {
         //Drive Train manual control system
         DriveTrain.manualDrive(driveTrain, gamepad1);
 
-        //Grabber Controls
-        Grabber.ToggleGrabber(grabber, gamepad1);
+        //Grabber System (Servos)
+        Grabber.ManualToggleGrabber(grabber, gamepad1);
 
         //Spool controls
-        //Left Trigger and Right trigger move opposite directions
-        //Both triggers cancel each other out
-
+        Grabber.ManualSpoolMotor(grabber, gamepad1);
 
 
     }

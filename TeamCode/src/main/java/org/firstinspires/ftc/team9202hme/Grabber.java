@@ -28,12 +28,7 @@ public class Grabber {
         return grabber;
     }
 
-    public static void ToggleGrabber(Grabber grabber, Gamepad gamepad1){
-
-        if(gamepad1.right_bumper){
-            grabber.toggleGrabber.toggle();
-        }
-
+    public static void CheckToggleGrabber(Grabber grabber){
         if(grabber.toggleGrabber.isToggled()){
             grabber.rightServo.setPosition(0.25);
             grabber.leftServo.setPosition(0.75);
@@ -41,17 +36,27 @@ public class Grabber {
             grabber.rightServo.setPosition(1);
             grabber.leftServo.setPosition(0);
         }
-
     }
-    public static void UseSpoolMotor(Grabber grabber, Gamepad gamepad1){
-        //Moves the arm up and down
+    public static void ManualToggleGrabber(Grabber grabber, Gamepad gamepad1){
+        if(gamepad1.right_bumper) {
+            grabber.toggleGrabber.toggle();
+        }
+        CheckToggleGrabber(grabber);
+    }
 
+    public static void ManualSpoolMotor(Grabber grabber, Gamepad gamepad1){
+        //Moves the arm up and down
         if(gamepad1.right_trigger >= 0.1 && gamepad1.left_trigger >= 0.1){
-            grabber.spoolMotor.setPower(0);
+            SpoolMotorControl(grabber,0);
         }else if(gamepad1.right_trigger >= 0.1){
-            grabber.spoolMotor.setPower(gamepad1.right_trigger);
+            SpoolMotorControl(grabber, gamepad1.right_trigger);
         }else if(gamepad1.left_trigger >= 0.1){
-            grabber.spoolMotor.setPower(-gamepad1.left_trigger);
+            SpoolMotorControl(grabber, -gamepad1.left_trigger);
+        }
+    }
+    public static void SpoolMotorControl(Grabber grabber, float Power){
+        if(Math.abs(Power) >= 0.01) {
+            grabber.spoolMotor.setPower(Power);
         }else{
             grabber.spoolMotor.setPower(0);
         }
