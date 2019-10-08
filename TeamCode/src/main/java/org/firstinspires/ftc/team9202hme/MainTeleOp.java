@@ -53,28 +53,10 @@ public class MainTeleOp extends OpMode {
 
         //Drive Train controls w/ math for diagonal controls
 
-        driveTrain.blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y);
-        driveTrain.flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y);
-        driveTrain.brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y);
-        driveTrain.frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y);
-
-
-        if(gamepad1.right_stick_x >= 0.1){
-            driveTrain.flMotor.setPower(-gamepad1.right_stick_x);
-            driveTrain.frMotor.setPower(gamepad1.right_stick_x);
-            driveTrain.blMotor.setPower(-gamepad1.right_stick_x);
-            driveTrain.brMotor.setPower(gamepad1.right_stick_x);
-        }
-
-
-        //Turning on a fixed point opposite direction:
-        if(gamepad1.right_stick_x <= -0.1){
-            driveTrain.flMotor.setPower(gamepad1.right_stick_x);
-            driveTrain.frMotor.setPower(-gamepad1.right_stick_x);
-            driveTrain.blMotor.setPower(gamepad1.right_stick_x);
-            driveTrain.brMotor.setPower(-gamepad1.right_stick_x);
-        }
-
+        driveTrain.blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        driveTrain.flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        driveTrain.brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        driveTrain.frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
 
 
         //Spool controls
