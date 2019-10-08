@@ -37,15 +37,7 @@ public class MainTeleOp extends OpMode {
         //Spool controls
         //Left Trigger and Right trigger move opposite directions
         //Both triggers cancel each other out
-        if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
-            grabber.spoolMotor.setPower(0);
-        }else if(gamepad1.left_trigger >= .1){
-            grabber.spoolMotor.setPower(gamepad1.right_trigger);
-        }else if(gamepad1.right_trigger >= .1){
-            grabber.spoolMotor.setPower(-gamepad1.left_trigger);
-        }else{
-            grabber.spoolMotor.setPower(0);
-        }
+
 
 
     }
