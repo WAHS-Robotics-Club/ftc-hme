@@ -20,7 +20,10 @@ public class Grabber {
 
         grabber.spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
-
         return grabber;
+    }
+
+    public static void ToggleGrabber(Gamepad gamepad1){
+
     }
 }
