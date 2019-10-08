@@ -11,8 +11,11 @@ public class Grabber {
 
     DcMotor spoolMotor;
 
+    private Toggle toggleGrabber;
+
     public static Grabber initGrabber(HardwareMap hardwareMap){
         //Creates and hardware maps the grabber element
+
         Grabber grabber = new Grabber();
 
         grabber.leftServo = hardwareMap.servo.get("leftServo");
@@ -20,10 +23,24 @@ public class Grabber {
 
         grabber.spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
+        grabber.toggleGrabber = new Toggle();
+
         return grabber;
     }
 
-    public static void ToggleGrabber(Gamepad gamepad1){
+    public static void ToggleGrabber(Grabber grabber, Gamepad gamepad1){
+
+        if(gamepad1.right_bumper){
+            grabber.toggleGrabber.toggle();
+        }
+
+        if(grabber.toggleGrabber.isToggled()){
+            grabber.rightServo.setPosition(0.25);
+            grabber.leftServo.setPosition(0.75);
+        }else{
+            grabber.rightServo.setPosition(1);
+            grabber.leftServo.setPosition(0);
+        }
 
     }
 }

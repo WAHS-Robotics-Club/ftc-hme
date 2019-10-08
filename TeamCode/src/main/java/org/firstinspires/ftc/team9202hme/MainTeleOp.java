@@ -28,25 +28,11 @@ public class MainTeleOp extends OpMode {
     rightBack = 0
      */
     @Override public void loop(){
-        //If else statements for the right servo controls (bumpers):
-        if(gamepad1.right_bumper) {
-            grabber.rightServo.setPosition(0.25);
-        }
-        else{
-            grabber.rightServo.setPosition(1);
-        }
-
-        //If else statements for the left servo controls (bumpers);
-        if(gamepad1.left_bumper){
-            grabber.leftServo.setPosition(0.75);
-        }
-        else{
-            grabber.leftServo.setPosition(0);
-        }
-
-        //Drive Train controls w/ math for diagonal controls
-
+        //Drive Train manual control system
         DriveTrain.manualDrive(driveTrain, gamepad1);
+
+        //Grabber Controls
+        Grabber.ToggleGrabber(grabber, gamepad1);
 
         //Spool controls
         //Left Trigger and Right trigger move opposite directions
