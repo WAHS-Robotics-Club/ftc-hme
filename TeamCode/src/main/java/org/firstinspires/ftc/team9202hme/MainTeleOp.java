@@ -3,7 +3,6 @@ package org.firstinspires.ftc.team9202hme;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
@@ -53,11 +52,7 @@ public class MainTeleOp extends OpMode {
 
         //Drive Train controls w/ math for diagonal controls
 
-        driveTrain.blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
-        driveTrain.flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
-        driveTrain.brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
-        driveTrain.frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
-
+        DriveTrain.manualDrive(driveTrain, gamepad1);
 
         //Spool controls
         //Left Trigger and Right trigger move opposite directions

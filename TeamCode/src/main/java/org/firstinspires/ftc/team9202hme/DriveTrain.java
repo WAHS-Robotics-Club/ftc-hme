@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.team9202hme;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class DriveTrain{
@@ -24,8 +25,11 @@ public class DriveTrain{
         return driveTrain;
     }
 
-    public static void drive(){
-
+    public static void manualDrive(DriveTrain driveTrain, Gamepad gamepad1){
+        driveTrain.flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        driveTrain.frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        driveTrain.blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        driveTrain.brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
     }
 
 
