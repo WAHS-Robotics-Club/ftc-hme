@@ -18,8 +18,8 @@ public class MainTeleOp extends OpMode {
     @Override
     public void init(){
         //Hardware mapping the servos:
-        Grabber grabber = Grabber.initGrabber(hardwareMap);
-        DriveTrain driveTrain = DriveTrain.initDriveTrain(hardwareMap);
+        grabber = Grabber.initGrabber(hardwareMap);
+        driveTrain = DriveTrain.initDriveTrain(hardwareMap);
 
     }
     /*
