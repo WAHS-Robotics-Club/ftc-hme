@@ -37,15 +37,19 @@ public class Test extends OpMode {
         }
         @Override
         public void loop(){
-            //Drive code (not ready to test):
-            /*
-            frontLeft.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
-            frontRight.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
-            backLeft.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
-            backRight.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
-             */
+            //Drive code:
+            if(Math.abs(gamepad1.left_stick_x)>= 0.1 || Math.abs(gamepad1.left_stick_y)>= 0.1 || Math.abs(gamepad1.right_stick_x)>= 0.1) {
+                frontLeft.setPower(-gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+                frontRight.setPower(-gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+                backLeft.setPower(gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+                backRight.setPower(gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+            }
+            else{
+                driveStop();
+            }
+
             //Moving forward and backward:
-            if(Math.abs(gamepad1.left_stick_y) >= 0.1){
+            /*if(Math.abs(gamepad1.left_stick_y) >= 0.1){
                 frontLeft.setPower(-gamepad1.left_stick_y);
                 frontRight.setPower(gamepad1.left_stick_y);
                 backLeft.setPower(-gamepad1.left_stick_y);
@@ -76,6 +80,7 @@ public class Test extends OpMode {
             else{
                 driveStop();
             }
+             */
 
 
             //Arm servo controls (right and left bumpers):
