@@ -37,7 +37,13 @@ public class Test extends OpMode {
         }
         @Override
         public void loop(){
-            //Drive code:
+            //Drive code (not ready to test):
+            /*
+            frontLeft.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+            frontRight.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+            backLeft.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+            backRight.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+             */
             //Moving forward and backward:
             if(Math.abs(gamepad1.left_stick_y) >= 0.1){
                 frontLeft.setPower(-gamepad1.left_stick_y);
