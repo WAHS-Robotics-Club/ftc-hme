@@ -38,12 +38,11 @@ public class Test extends OpMode {
         @Override
         public void loop(){
             //Drive code:
-
             //Moving forward and backward:
             if(Math.abs(gamepad1.left_stick_y) >= 0.1){
-                frontLeft.setPower(gamepad1.left_stick_y);
+                frontLeft.setPower(-gamepad1.left_stick_y);
                 frontRight.setPower(gamepad1.left_stick_y);
-                backLeft.setPower(gamepad1.left_stick_y);
+                backLeft.setPower(-gamepad1.left_stick_y);
                 backRight.setPower(gamepad1.left_stick_y);
             }
             else{
@@ -52,9 +51,9 @@ public class Test extends OpMode {
 
             //Turning on a fixed point:
             if(gamepad1.right_stick_x >= 0.1){
-                frontLeft.setPower(-gamepad1.right_stick_x);
+                frontLeft.setPower(gamepad1.right_stick_x);
                 frontRight.setPower(gamepad1.right_stick_x);
-                backLeft.setPower(-gamepad1.right_stick_x);
+                backLeft.setPower(gamepad1.right_stick_x);
                 backRight.setPower(gamepad1.right_stick_x);
             }
             else{
@@ -63,9 +62,9 @@ public class Test extends OpMode {
 
             //Turning on a fixed point opposite direction:
             if(gamepad1.right_stick_x <= -0.1){
-                frontLeft.setPower(gamepad1.right_stick_x);
+                frontLeft.setPower(-gamepad1.right_stick_x);
                 frontRight.setPower(-gamepad1.right_stick_x);
-                backLeft.setPower(gamepad1.right_stick_x);
+                backLeft.setPower(-gamepad1.right_stick_x);
                 backRight.setPower(-gamepad1.right_stick_x);
             }
             else{
@@ -74,7 +73,6 @@ public class Test extends OpMode {
 
 
             //Arm servo controls (right and left bumpers):
-
             //Right servo:
             if(gamepad1.right_bumper) {
                 rightServo.setPosition(0.75);
@@ -93,7 +91,6 @@ public class Test extends OpMode {
 
 
             //Spool motor code (left and right triggers):
-
             //Cancels out left and right triggers if pushed at the same time:
             if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(0);
