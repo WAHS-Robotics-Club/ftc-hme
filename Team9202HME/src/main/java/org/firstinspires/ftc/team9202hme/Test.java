@@ -91,6 +91,7 @@ public class Test extends OpMode {
     }
 
     public void spoolStop(){
+        //Immediate drive stop code:
         spoolMotor.setPower(0.0);
     }
 }
