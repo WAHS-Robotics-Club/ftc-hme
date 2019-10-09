@@ -100,16 +100,15 @@ public class Test extends OpMode {
             //Cancels out left and right triggers if pushed at the same time:
             if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(0);
+            } //Lifts up
+            else if(gamepad1.left_trigger >= .1){
+                spoolMotor.setPower(gamepad1.left_trigger);
+            } //Pushes down:
+            else if(gamepad1.right_trigger >= .1){
+                spoolMotor.setPower(-gamepad1.right_trigger);
             }
-
-            //Lifts up:
-            if(gamepad1.left_trigger >= .1){
-                spoolMotor.setPower(gamepad1.right_trigger);
-            }
-
-            //Pushes down:
-            if(gamepad1.right_trigger >= .1){
-                spoolMotor.setPower(-gamepad1.left_trigger);
+            else{
+                spoolStop();
             }
     }
     public void driveStop(){
@@ -118,5 +117,8 @@ public class Test extends OpMode {
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
+    }
+    public void spoolStop(){
+        spoolMotor.setPower(0);
     }
 }
