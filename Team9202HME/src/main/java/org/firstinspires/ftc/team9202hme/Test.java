@@ -23,10 +23,10 @@ public class Test extends OpMode {
         @Override
         public void init(){
             //Hardware mapping the drive motors:
-            frontLeft = hardwareMap.dcMotor.get("frontLeft");
-            frontRight = hardwareMap.dcMotor.get("frontRight");
-            backLeft = hardwareMap.dcMotor.get("backLeft");
-            backRight = hardwareMap.dcMotor.get("backRight");
+            frontLeft = hardwareMap.dcMotor.get("frontLeftMotor");
+            frontRight = hardwareMap.dcMotor.get("frontRightMotor");
+            backLeft = hardwareMap.dcMotor.get("backLeftMotor");
+            backRight = hardwareMap.dcMotor.get("backRightMotor");
 
             //Hardware mapping the servos:
             leftServo = hardwareMap.servo.get("leftServo");
