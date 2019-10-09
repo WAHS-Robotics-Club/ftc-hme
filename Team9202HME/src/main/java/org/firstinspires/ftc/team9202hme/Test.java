@@ -37,7 +37,7 @@ public class Test extends OpMode {
         }
         @Override
         public void loop(){
-            //Drive code:
+            //Drive train code:
             if(Math.abs(gamepad1.left_stick_x)>= 0.1 || Math.abs(gamepad1.left_stick_y)>= 0.1 || Math.abs(gamepad1.right_stick_x)>= 0.1) {
                 frontLeft.setPower(-gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
                 frontRight.setPower(-gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
@@ -48,48 +48,13 @@ public class Test extends OpMode {
                 driveStop();
             }
 
-            //Moving forward and backward:
-            /*if(Math.abs(gamepad1.left_stick_y) >= 0.1){
-                frontLeft.setPower(-gamepad1.left_stick_y);
-                frontRight.setPower(gamepad1.left_stick_y);
-                backLeft.setPower(-gamepad1.left_stick_y);
-                backRight.setPower(gamepad1.left_stick_y);
-            }
-            else{
-                stop();
-            }
-
-            //Turning on a fixed point:
-            if(gamepad1.right_stick_x >= 0.1){
-                frontLeft.setPower(gamepad1.right_stick_x);
-                frontRight.setPower(gamepad1.right_stick_x);
-                backLeft.setPower(gamepad1.right_stick_x);
-                backRight.setPower(gamepad1.right_stick_x);
-            }
-            else{
-                driveStop();
-            }
-
-            //Turning on a fixed point opposite direction:
-            if(gamepad1.right_stick_x <= -0.1){
-                frontLeft.setPower(-gamepad1.right_stick_x);
-                frontRight.setPower(-gamepad1.right_stick_x);
-                backLeft.setPower(-gamepad1.right_stick_x);
-                backRight.setPower(-gamepad1.right_stick_x);
-            }
-            else{
-                driveStop();
-            }
-             */
-
-
             //Arm servo controls (right and left bumpers):
             //Right servo:
             if(gamepad1.right_bumper) {
                 rightServo.setPosition(0.75);
             }
             else{
-                rightServo.setPosition(0);
+                rightServo.setPosition(0.0);
             }
 
             //Left servo
@@ -97,7 +62,7 @@ public class Test extends OpMode {
                 leftServo.setPosition(0.25);
             }
             else{
-                leftServo.setPosition(1);
+                leftServo.setPosition(1.0);
             }
 
 
@@ -116,14 +81,16 @@ public class Test extends OpMode {
                 spoolStop();
             }
     }
+
     public void driveStop(){
         //Immediate drive stop code:
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
+        frontLeft.setPower(0.0);
+        frontRight.setPower(0.0);
+        backLeft.setPower(0.0);
+        backRight.setPower(0.0);
     }
+
     public void spoolStop(){
-        spoolMotor.setPower(0);
+        spoolMotor.setPower(0.0);
     }
 }
