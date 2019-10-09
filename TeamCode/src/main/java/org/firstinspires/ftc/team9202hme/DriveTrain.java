@@ -26,10 +26,10 @@ public class DriveTrain{
     }
 
     public static void manualDrive(DriveTrain driveTrain, Gamepad gamepad1){
-        driveTrain.flMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
-        driveTrain.frMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
-        driveTrain.blMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
-        driveTrain.brMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        driveTrain.flMotor.setPower(-gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        driveTrain.frMotor.setPower(-gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        driveTrain.blMotor.setPower(gamepad1.left_stick_x  + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        driveTrain.brMotor.setPower(gamepad1.left_stick_x  + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
     }
 
 }

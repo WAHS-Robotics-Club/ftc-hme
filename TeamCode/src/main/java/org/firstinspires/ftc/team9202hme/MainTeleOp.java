@@ -20,14 +20,15 @@ public class MainTeleOp extends OpMode {
         //Hardware mapping the servos:
         grabber = Grabber.initGrabber(hardwareMap);
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
-
     }
+
     /*
     leftFront = 2
     leftBack = 1
     rightFront = 3
     rightBack = 0
      */
+
     @Override public void loop(){
         //Drive Train manual control system
         DriveTrain.manualDrive(driveTrain, gamepad1);
