@@ -56,7 +56,7 @@ public class Grabber {
     }
     public static void SpoolMotorControl(Grabber grabber, float Power){
         grabber.spoolMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        if(Math.abs(Power) >= 0.01) {
+        if(Math.abs(Power) >= 0.1) {
             grabber.spoolMotor.setPower(Power);
         }else{
             grabber.spoolMotor.setPower(0);
