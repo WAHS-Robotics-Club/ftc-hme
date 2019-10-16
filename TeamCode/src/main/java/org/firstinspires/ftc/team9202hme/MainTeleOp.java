@@ -30,6 +30,7 @@ public class MainTeleOp extends OpMode {
         //Drive Train manual control system
         DriveTrain.manualDrive(driveTrain, gamepad1);
         DriveTrain.checkToggleSpeed(driveTrain, gamepad1);
+        DriveTrain.logTelemetry(telemetry, driveTrain);
 
         //Grabber System (Servos)
         Grabber.ManualToggleGrabber(grabber, gamepad1);
