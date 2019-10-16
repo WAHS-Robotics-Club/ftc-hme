@@ -2,9 +2,6 @@ package org.firstinspires.ftc.team9202hme;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp(name ="Main TeleOp - Charlie")
@@ -32,6 +29,7 @@ public class MainTeleOp extends OpMode {
     @Override public void loop(){
         //Drive Train manual control system
         DriveTrain.manualDrive(driveTrain, gamepad1);
+        DriveTrain.checkToggleSpeed(driveTrain, gamepad1);
 
         //Grabber System (Servos)
         Grabber.ManualToggleGrabber(grabber, gamepad1);
