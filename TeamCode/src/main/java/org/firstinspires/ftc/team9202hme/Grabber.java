@@ -52,7 +52,10 @@ public class Grabber {
             SpoolMotorControl(grabber, gamepad1.right_trigger);
         }else if(gamepad1.left_trigger >= 0.1){
             SpoolMotorControl(grabber, -gamepad1.left_trigger);
+        }else{
+            SpoolMotorControl(grabber,0);
         }
+
     }
 
     public static void SpoolMotorControl(Grabber grabber, float Power){
