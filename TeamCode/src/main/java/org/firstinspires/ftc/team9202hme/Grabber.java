@@ -22,8 +22,8 @@ public class Grabber {
         grabber.rightServo = hardwareMap.servo.get("rightServo");
 
         grabber.spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
-
         grabber.toggleGrabber = new Toggle();
+        grabber.spoolMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         return grabber;
     }
@@ -54,8 +54,8 @@ public class Grabber {
             SpoolMotorControl(grabber, -gamepad1.left_trigger);
         }
     }
+
     public static void SpoolMotorControl(Grabber grabber, float Power){
-        grabber.spoolMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         if(Math.abs(Power) >= 0.1) {
             grabber.spoolMotor.setPower(Power);
         }else{
