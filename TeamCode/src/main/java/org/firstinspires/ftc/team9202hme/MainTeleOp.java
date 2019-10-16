@@ -37,8 +37,6 @@ public class MainTeleOp extends OpMode {
 
         //Spool controls
         Grabber.ManualSpoolMotor(grabber, gamepad1);
-
-
     }
 
 }
