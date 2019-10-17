@@ -16,6 +16,7 @@ public class Test extends OpMode {
     //Initializing the servo objects:
     Servo leftServo;
     Servo rightServo;
+    //Servo foundationServo;
 
     //Initializing the miscellaneous dc motor objects:
     DcMotor spoolMotor;
@@ -31,6 +32,7 @@ public class Test extends OpMode {
             //Hardware mapping the servos:
             leftServo = hardwareMap.servo.get("leftServo");
             rightServo = hardwareMap.servo.get("rightServo");
+            //foundationServo = hardwareMap.servo.get("foundationServo");
 
             //Hardware mapping the miscellaneous motors:
             spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
@@ -69,7 +71,7 @@ public class Test extends OpMode {
             //Spool motor code (left and right triggers):
             //Cancels out left and right triggers if pushed at the same time:
             if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
-                spoolMotor.setPower(0);
+                spoolStop();
             } //Lifts up
             else if(gamepad1.left_trigger >= .1){
                 spoolMotor.setPower(gamepad1.left_trigger);
