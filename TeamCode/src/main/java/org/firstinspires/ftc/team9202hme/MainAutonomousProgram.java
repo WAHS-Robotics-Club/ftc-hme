@@ -14,6 +14,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
         grabber = Grabber.initGrabber(hardwareMap);
 
+        DriveTrain.goDirection(driveTrain, "forwards");
 
     }
 }

@@ -5,9 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-enum Direction {
-    forwards, backwards, left, right;
-}
+
 public class DriveTrain{
     //Initializing the dc motor objects:
 
@@ -60,7 +58,38 @@ public class DriveTrain{
         telemetry.addData("BR Pos", driveTrain.brMotor .getCurrentPosition());
     }
 
+    public static void goDirection(DriveTrain driveTrain, String direction){
+        switch (direction){
+            case "forwards":
+                driveTrain.flMotor.setPower(-1);
+                driveTrain.frMotor.setPower(1);
+                driveTrain.blMotor.setPower(-1);
+                driveTrain.brMotor.setPower(1);
+                break;
+            case "backwards":
+                driveTrain.flMotor.setPower(1);
+                driveTrain.frMotor.setPower(-1);
+                driveTrain.blMotor.setPower(1);
+                driveTrain.brMotor.setPower(-1);
+                break;
+            case "left":
+                driveTrain.flMotor.setPower(1);
+                driveTrain.frMotor.setPower(1);
+                driveTrain.blMotor.setPower(-1);
+                driveTrain.brMotor.setPower(-1);
+                break;
+            case "right":
+                driveTrain.flMotor.setPower(-1);
+                driveTrain.frMotor.setPower(-1);
+                driveTrain.blMotor.setPower(1);
+                driveTrain.brMotor.setPower(1);
+                break;
 
+                default:
+                    System.out.println("Error: Unreal direction ");
+                    break;
+        }
+    }
 
 
 
