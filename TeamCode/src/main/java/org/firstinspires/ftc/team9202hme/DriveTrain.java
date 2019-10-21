@@ -5,7 +5,9 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+enum Direction {
+    forwards, backwards, left, right;
+}
 public class DriveTrain{
     //Initializing the dc motor objects:
 
@@ -57,6 +59,8 @@ public class DriveTrain{
         telemetry.addData("BL Pos", driveTrain.blMotor.getCurrentPosition());
         telemetry.addData("BR Pos", driveTrain.brMotor .getCurrentPosition());
     }
+
+
 
 
 

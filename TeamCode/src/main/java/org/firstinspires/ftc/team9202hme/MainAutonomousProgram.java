@@ -15,6 +15,5 @@ public class MainAutonomousProgram extends LinearOpMode {
         grabber = Grabber.initGrabber(hardwareMap);
 
 
-        
     }
 }
