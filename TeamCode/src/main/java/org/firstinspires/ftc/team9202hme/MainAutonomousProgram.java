@@ -22,7 +22,11 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.addData("FL MODE", driveTrain.flMotor.getMode());
 
 
-        sleep(5000);
+
+        for(int i = 0; i < 10000; i++){
+            sleep(1);
+        }
+
     }
 
 
