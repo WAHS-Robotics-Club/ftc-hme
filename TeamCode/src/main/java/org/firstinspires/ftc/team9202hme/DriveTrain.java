@@ -99,9 +99,9 @@ public class DriveTrain{
     }
 
     public static void setTargetPosition(DriveTrain driveTrain, int targetPositon){
-        driveTrain.flMotor.setTargetPosition(targetPositon);
+        driveTrain.flMotor.setTargetPosition(-targetPositon);
         driveTrain.frMotor.setTargetPosition(targetPositon);
-        driveTrain.blMotor.setTargetPosition(targetPositon);
+        driveTrain.blMotor.setTargetPosition(-targetPositon);
         driveTrain.brMotor.setTargetPosition(targetPositon);
     }
 
