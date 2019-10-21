@@ -58,7 +58,7 @@ public class DriveTrain{
         telemetry.addData("BR Pos", driveTrain.brMotor .getCurrentPosition());
     }
 
-    public static void goDirection(DriveTrain driveTrain, String direction){
+    /*public static void goDirection(DriveTrain driveTrain, String direction){
         switch (direction){
             case "forwards":
                 driveTrain.flMotor.setPower(-1);
@@ -89,8 +89,21 @@ public class DriveTrain{
                     System.out.println("Error: Unreal direction ");
                     break;
         }
+    }*/
+
+    public static void setRunMode(DriveTrain driveTrain, DcMotor.RunMode runMode){
+        driveTrain.flMotor.setMode(runMode);
+        driveTrain.frMotor.setMode(runMode);
+        driveTrain.blMotor.setMode(runMode);
+        driveTrain.brMotor.setMode(runMode);
     }
 
+    public static void setTargetPosition(DriveTrain driveTrain, int targetPositon){
+        driveTrain.flMotor.setTargetPosition(targetPositon);
+        driveTrain.frMotor.setTargetPosition(targetPositon);
+        driveTrain.blMotor.setTargetPosition(targetPositon);
+        driveTrain.brMotor.setTargetPosition(targetPositon);
+    }
 
 
 }

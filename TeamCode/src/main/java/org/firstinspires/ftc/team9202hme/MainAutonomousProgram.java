@@ -15,8 +15,11 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
         grabber = Grabber.initGrabber(hardwareMap);
 
-        driveTrain.brMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveTrain.goDirection(driveTrain, "forwards");
+        DriveTrain.setRunMode(driveTrain, DcMotor.RunMode.RUN_TO_POSITION);
+        DriveTrain.setTargetPosition(driveTrain, 9000);
 
     }
+
+
+
 }
