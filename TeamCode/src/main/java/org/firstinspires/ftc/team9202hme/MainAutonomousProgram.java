@@ -2,6 +2,7 @@ package org.firstinspires.ftc.team9202hme;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Autonomous(name ="Main Autonomous - Charlie")
@@ -14,6 +15,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
         grabber = Grabber.initGrabber(hardwareMap);
 
+        driveTrain.brMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         DriveTrain.goDirection(driveTrain, "forwards");
 
     }
