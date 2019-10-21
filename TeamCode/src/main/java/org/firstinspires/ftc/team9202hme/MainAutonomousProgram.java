@@ -18,6 +18,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         DriveTrain.setRunMode(driveTrain, DcMotor.RunMode.RUN_TO_POSITION);
         DriveTrain.setTargetPosition(driveTrain, 9000);
 
+        sleep(9000);
     }
 
 
