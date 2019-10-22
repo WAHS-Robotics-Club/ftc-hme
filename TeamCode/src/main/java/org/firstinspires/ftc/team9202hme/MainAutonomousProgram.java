@@ -22,8 +22,10 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.addData("FL MODE", driveTrain.flMotor.getMode());
         telemetry.update();
 
-        for(int i = 0; i < 5000; i++){
-            DriveTrain.goDirection(driveTrain, "forwards");
+        waitForStart();
+        driveTrain.goDirection(driveTrain, "forwards");
+
+        while(driveTrain.flMotor.isBusy() && driveTrain.frMotor.isBusy() && driveTrain.blMotor.isBusy() && driveTrain.brMotor.isBusy()){
             telemetry.update();
             sleep(1);
         }
