@@ -15,7 +15,6 @@ public class DriveTrain{
     DcMotor brMotor;
     Toggle toggleSpeed;
 
-
     public static DriveTrain initDriveTrain(HardwareMap hardwareMap) {
         //Hardware mapping the motors:
         DriveTrain driveTrain = new DriveTrain();
