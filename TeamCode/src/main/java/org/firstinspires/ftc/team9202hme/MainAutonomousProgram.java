@@ -24,6 +24,7 @@ public class MainAutonomousProgram extends LinearOpMode {
 
 
         for(int i = 0; i < 10000; i++){
+            DriveTrain.goDirection(driveTrain, "forwards");
             telemetry.update();
             sleep(1);
         }
