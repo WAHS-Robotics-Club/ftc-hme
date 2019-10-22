@@ -20,10 +20,11 @@ public class MainAutonomousProgram extends LinearOpMode {
         DriveTrain.logTelemetry(telemetry, driveTrain);
         telemetry.addData("FL TARGET POSITION", driveTrain.flMotor.getTargetPosition());
         telemetry.addData("FL MODE", driveTrain.flMotor.getMode());
-
+        telemetry.update
 
 
         for(int i = 0; i < 10000; i++){
+            telemetry.update
             sleep(1);
         }
 
