@@ -21,12 +21,16 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.addData("FL TARGET POSITION", driveTrain.flMotor.getTargetPosition());
         telemetry.addData("FL MODE", driveTrain.flMotor.getMode());
         telemetry.update();
+        boolean keepGoing = true;
 
-
-        for(int i = 0; i < 5000; i++){
+        while(keepGoing){
             DriveTrain.goDirection(driveTrain, "forwards");
             telemetry.update();
             sleep(1);
+
+            if(driveTrain.flMotor.getCurrentPosition() >= driveTrain.flMotor.getTargetPosition()){
+                keepGoing = false;
+            }
         }
 
     }
