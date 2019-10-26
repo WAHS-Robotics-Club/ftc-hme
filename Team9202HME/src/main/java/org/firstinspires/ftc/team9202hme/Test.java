@@ -49,7 +49,7 @@ public class Test extends OpMode {
             frontLeft.setPower(-gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
             frontRight.setPower(-gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
             backLeft.setPower(gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
-            backRight.setPower(- (gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x));
+            backRight.setPower(gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
         }
         else{
             driveStop();
