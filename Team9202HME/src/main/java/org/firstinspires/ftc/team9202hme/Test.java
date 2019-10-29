@@ -16,7 +16,9 @@ public class Test extends OpMode {
     //Initializing the servo objects:
     Servo leftServo;
     Servo rightServo;
+
     //Servo foundationServo;
+    Servo foundationServo;
 
     //Initializing the miscellaneous dc motor objects:
     DcMotor spoolMotor;
@@ -29,13 +31,13 @@ public class Test extends OpMode {
         backLeft = hardwareMap.dcMotor.get("backLeftMotor");
         backRight = hardwareMap.dcMotor.get("backRightMotor");
 
-            //Hardware mapping the servos:
-            leftServo = hardwareMap.servo.get("leftServo");
-            rightServo = hardwareMap.servo.get("rightServo");
-            //foundationServo = hardwareMap.servo.get("foundationServo");
+        //Hardware mapping the servos:
+        leftServo = hardwareMap.servo.get("leftServo");
+        rightServo = hardwareMap.servo.get("rightServo");
 
-            //Hardware mapping the miscellaneous motors:
-            spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
+        //Hardware mapping the miscellaneous objects:
+        spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
+        foundationServo = hardwareMap.servo.get("foundationServo");
 
     }
 
@@ -84,6 +86,14 @@ public class Test extends OpMode {
             }
             else{
                 spoolStop();
+            }
+
+            //Foundation servo controls (a button):
+            if(gamepad1.a){
+                foundationServo.setPosition(1.0);
+            }
+            else{
+                foundationServo.setPosition(0.0);
             }
     }
     public void driveStop(){
