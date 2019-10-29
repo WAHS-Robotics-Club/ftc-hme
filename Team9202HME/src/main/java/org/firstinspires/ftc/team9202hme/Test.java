@@ -13,7 +13,6 @@ public class Test extends OpMode {
     DcMotor backLeft;
     DcMotor backRight;
 
-    /*
     //Initializing the servo objects:
     Servo leftServo;
     Servo rightServo;
@@ -21,7 +20,7 @@ public class Test extends OpMode {
 
     //Initializing the miscellaneous dc motor objects:
     DcMotor spoolMotor;
-    */
+
     @Override
     public void init() {
         //Hardware mapping the drive motors:
@@ -30,7 +29,6 @@ public class Test extends OpMode {
         backLeft = hardwareMap.dcMotor.get("backLeftMotor");
         backRight = hardwareMap.dcMotor.get("backRightMotor");
 
-            /*
             //Hardware mapping the servos:
             leftServo = hardwareMap.servo.get("leftServo");
             rightServo = hardwareMap.servo.get("rightServo");
@@ -38,7 +36,7 @@ public class Test extends OpMode {
 
             //Hardware mapping the miscellaneous motors:
             spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
-             */
+
     }
 
     @Override
@@ -54,10 +52,7 @@ public class Test extends OpMode {
         else{
             driveStop();
         }
-            /*
-            else{
-                driveStop();
-            }
+
             //Arm servo controls (right and left bumpers):
             //Right servo:
             if(gamepad1.right_bumper) {
@@ -90,7 +85,6 @@ public class Test extends OpMode {
             else{
                 spoolStop();
             }
-             */
     }
     public void driveStop(){
         //Immediate drive stop code:
@@ -99,10 +93,8 @@ public class Test extends OpMode {
         backLeft.setPower(0.0);
         backRight.setPower(0.0);
     }
-    /*
     public void spoolStop(){
         //Immediate drive stop code:
         spoolMotor.setPower(0.0);
     }
-    */
 }
