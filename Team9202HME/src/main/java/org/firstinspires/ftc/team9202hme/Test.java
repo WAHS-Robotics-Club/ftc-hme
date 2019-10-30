@@ -90,10 +90,10 @@ public class Test extends OpMode {
 
             //Foundation servo controls (a button):
             if(gamepad1.a){
-                foundationServo.setPosition(1.0);
+                foundationServo.setPosition(0.0);
             }
             else{
-                foundationServo.setPosition(0.0);
+                foundationServo.setPosition(1.0);
             }
     }
     public void driveStop(){
