@@ -15,16 +15,19 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
         grabber = Grabber.initGrabber(hardwareMap);
 
-        DriveTrain.setRunMode(driveTrain, DcMotor.RunMode.RUN_TO_POSITION);
-        DriveTrain.logTelemetry(telemetry, driveTrain);
         telemetry.addData("FL TARGET POSITION", driveTrain.flMotor.getTargetPosition());
         telemetry.addData("FL MODE", driveTrain.flMotor.getMode());
         telemetry.update();
 
         waitForStart();
-        DriveTrain.goForwardsTo(driveTrain, 420);
+        DriveTrain.goForwardsTo(driveTrain, 36);
+        DriveTrain.setBasePower(driveTrain, .5);
+
+        DriveTrain.setRunMode(driveTrain, DcMotor.RunMode.RUN_TO_POSITION);
+
 
         while(driveTrain.flMotor.isBusy() && driveTrain.frMotor.isBusy() && driveTrain.blMotor.isBusy() && driveTrain.brMotor.isBusy()){
+            DriveTrain.logTelemetry(telemetry, driveTrain);
             telemetry.update();
             sleep(1);
         }

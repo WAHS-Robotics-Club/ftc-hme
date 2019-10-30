@@ -61,7 +61,7 @@ public class DriveTrain{
         int targetPosition;
         double rotations;
 
-        rotations = inches / 12.6;
+        rotations = inches / (4*Math.PI);
         targetPosition = (int)(rotations * 1120);
 
         driveTrain.flMotor.setTargetPosition(-targetPosition);
@@ -75,6 +75,13 @@ public class DriveTrain{
         driveTrain.frMotor.setMode(runMode);
         driveTrain.blMotor.setMode(runMode);
         driveTrain.brMotor.setMode(runMode);
+    }
+
+    public static void setBasePower(DriveTrain driveTrain, double power){
+        driveTrain.flMotor.setPower(power);
+        driveTrain.frMotor.setPower(power);
+        driveTrain.blMotor.setPower(power);
+        driveTrain.brMotor.setPower(power);
     }
 
 
