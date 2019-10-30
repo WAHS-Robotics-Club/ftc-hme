@@ -7,20 +7,20 @@ import java.lang.Math;
 
 @TeleOp(name ="Elijah's robot test")
 public class Test extends OpMode {
-    //Initializing the drive dc motor objects:
+    //Initializing the drive train dc motor objects:
     DcMotor frontLeft;
     DcMotor frontRight;
     DcMotor backLeft;
     DcMotor backRight;
 
-    //Initializing the servo objects:
+    //Initializing the grabbing servo objects:
     Servo leftServo;
     Servo rightServo;
 
-    //Servo foundationServo;
+    //Initializing the foundation servo;
     Servo foundationServo;
 
-    //Initializing the miscellaneous dc motor objects:
+    //Initializing the spool dc motor:
     DcMotor spoolMotor;
 
     @Override
@@ -35,8 +35,10 @@ public class Test extends OpMode {
         leftServo = hardwareMap.servo.get("leftServo");
         rightServo = hardwareMap.servo.get("rightServo");
 
-        //Hardware mapping the miscellaneous objects:
+        //Hardware mapping the spool motor:
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
+
+        //Hardware mapping the foundation servo
         foundationServo = hardwareMap.servo.get("foundationServo");
 
     }
@@ -44,30 +46,31 @@ public class Test extends OpMode {
     @Override
     public void loop() {
 
-        //Drive train code:
+        //Mecanum drive train code:
+        //Won't move unless code detects movement on either stick (reduces drift):
         if (Math.abs(gamepad1.left_stick_x) >= 0.1 || Math.abs(gamepad1.left_stick_y) >= 0.1 || Math.abs(gamepad1.right_stick_x) >= 0.1) {
             frontLeft.setPower(-gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
             frontRight.setPower(-gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
             backLeft.setPower(gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
             backRight.setPower(gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
         }
-        else{
+        else{ //Stops all drive train motors through the diveStop method:
             driveStop();
         }
 
             //Arm servo controls (right and left bumpers):
-            //Right servo:
+            //Closes right servo:
             if(gamepad1.right_bumper) {
                 rightServo.setPosition(0.75);
             }
-            else{
+            else{ //Opens right servo:
                 rightServo.setPosition(0.0);
             }
 
-            //Left servo
+            //Closes left servo:
             if(gamepad1.left_bumper){
                 leftServo.setPosition(0.25);
-            }
+            } //Opens left servo:
             else{
                 leftServo.setPosition(1.0);
             }
@@ -77,34 +80,35 @@ public class Test extends OpMode {
             //Cancels out left and right triggers if pushed at the same time:
             if(gamepad1.left_trigger >= .1 && gamepad1.right_trigger >= .1){
                 spoolStop();
-            } //Lifts up
+            } //Lifts up (or down dependant on the spooling):
             else if(gamepad1.left_trigger >= .1){
                 spoolMotor.setPower(gamepad1.left_trigger);
-            } //Pushes down:
+            } //Pushes down (or up dependant on the spooling):
             else if(gamepad1.right_trigger >= .1){
                 spoolMotor.setPower(-gamepad1.right_trigger);
             }
-            else{
+            else{ //Stops the spool motor through the spoolStop method:
                 spoolStop();
             }
 
-            //Foundation servo controls (a button):
+            //Foundation servo code (a button):
+            //Pushes down:
             if(gamepad1.a){
-                foundationServo.setPosition(0.0);
-            }
+                foundationServo.setPosition(0.1);
+            } //Lifts up:
             else{
                 foundationServo.setPosition(1.0);
             }
     }
     public void driveStop(){
-        //Immediate drive stop code:
+        //Immediate drive motor stop code:
         frontLeft.setPower(0.0);
         frontRight.setPower(0.0);
         backLeft.setPower(0.0);
         backRight.setPower(0.0);
     }
     public void spoolStop(){
-        //Immediate drive stop code:
+        //Immediate spool motor stop code:
         spoolMotor.setPower(0.0);
     }
 }
