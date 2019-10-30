@@ -20,7 +20,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.update();
 
         driveTrain.resetEncoders();
- 
+
         waitForStart();
         DriveTrain.goForwardsTo(driveTrain, 36);
         DriveTrain.setBasePower(driveTrain, .7);
