@@ -19,9 +19,11 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.addData("FL MODE", driveTrain.flMotor.getMode());
         telemetry.update();
 
+        driveTrain.resetEncoders();
+ 
         waitForStart();
         DriveTrain.goForwardsTo(driveTrain, 36);
-        DriveTrain.setBasePower(driveTrain, .5);
+        DriveTrain.setBasePower(driveTrain, .7);
 
         DriveTrain.setRunMode(driveTrain, DcMotor.RunMode.RUN_TO_POSITION);
 

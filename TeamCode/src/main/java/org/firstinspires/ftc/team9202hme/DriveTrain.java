@@ -84,7 +84,12 @@ public class DriveTrain{
         driveTrain.brMotor.setPower(power);
     }
 
-
+    public void resetEncoders(){
+        flMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        blMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 
 }
 
