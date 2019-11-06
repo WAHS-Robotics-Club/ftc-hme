@@ -102,8 +102,8 @@ public class DriveTrain{
         }
     }
 
-    public void logHeading(Telemetry telemetry){
-        telemetry.addData("Hi", BNO055IMU.AngleUnit.DEGREES);
+    public static void logHeading(Telemetry telemetry){
+        telemetry.addData("Hi", BNO055IMU.SensorMode.);
     }
 }
 
