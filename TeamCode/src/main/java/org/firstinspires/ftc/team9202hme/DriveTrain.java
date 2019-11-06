@@ -91,6 +91,13 @@ public class DriveTrain{
         brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
+    public boolean isBusy(){
+        if(flMotor.isBusy() && frMotor.isBusy() && blMotor.isBusy() && brMotor.isBusy()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 
 

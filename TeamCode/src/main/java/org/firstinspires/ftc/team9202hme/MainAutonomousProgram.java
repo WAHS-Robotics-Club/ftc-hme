@@ -22,13 +22,13 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain.resetEncoders();
 
         waitForStart();
-        DriveTrain.goForwardsTo(driveTrain, 36);
+        DriveTrain.goForwardsTo(driveTrain, 69);
         DriveTrain.setBasePower(driveTrain, .7);
 
         DriveTrain.setRunMode(driveTrain, DcMotor.RunMode.RUN_TO_POSITION);
 
         //while(driveTrain.flMotor.isBusy() && driveTrain.frMotor.isBusy() && driveTrain.blMotor.isBusy() && driveTrain.brMotor.isBusy() && i < 500){
-          while(true){
+          while(driveTrain.isBusy()){
             DriveTrain.logTelemetry(telemetry, driveTrain);
             telemetry.update();
             sleep(1);
