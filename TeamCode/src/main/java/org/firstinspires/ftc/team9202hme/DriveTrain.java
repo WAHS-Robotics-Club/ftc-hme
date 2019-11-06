@@ -49,7 +49,7 @@ public class DriveTrain{
     }
 
     public static void logTelemetry(Telemetry telemetry, DriveTrain driveTrain) {
-//        telemetry.addData("Heading", getHeading() + " degrees");
+       // telemetry.addData("Heading", driveTrain.getHeading() + " degrees");
 //1120 ticks in a rotation
         telemetry.addData("FL Pos", driveTrain.flMotor.getCurrentPosition());
         telemetry.addData("FR Pos", driveTrain.frMotor.getCurrentPosition());
