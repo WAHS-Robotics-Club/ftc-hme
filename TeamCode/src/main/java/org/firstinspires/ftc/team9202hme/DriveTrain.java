@@ -98,6 +98,11 @@ public class DriveTrain{
             return false;
         }
     }
+
+    public double getHeading(){
+
+        return 1;
+    }
 }
 
 
