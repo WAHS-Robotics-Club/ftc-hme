@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.team9202hme;
 
+import android.util.Log;
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -99,9 +102,8 @@ public class DriveTrain{
         }
     }
 
-    public double getHeading(){
-
-        return 1;
+    public void logHeading(Telemetry telemetry){
+        telemetry.addData("Hi", BNO055IMU.AngleUnit.DEGREES);
     }
 }
 

@@ -17,6 +17,7 @@ public class MainAutonomousProgram extends LinearOpMode {
 
         telemetry.addData("FL TARGET POSITION", driveTrain.flMotor.getTargetPosition());
         telemetry.addData("FL MODE", driveTrain.flMotor.getMode());
+        driveTrain.logHeading(telemetry);
         //telemetry.addData("Heading", )
         telemetry.update();
 
