@@ -102,9 +102,19 @@ public class DriveTrain{
         }
     }
 
-    public static void logHeading(Telemetry telemetry){
-        telemetry.addData("Hi", BNO055IMU.SensorMode.);
+    public void initImu(HardwareMap hardwareMap) {
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+
+        IMU
+        imu = hardwareMap.get(BNO055IMU.class, HardwareMapConstants.IMU);
+        imu.initialize(parameters);
+        BNO055IMU.CalibrationData calibrationData = imu.readCalibrationData();
+        imu.writeCalibrationData(calibrationData);
     }
+
 }
 
 
