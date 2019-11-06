@@ -31,7 +31,7 @@ public class MainAutonomousProgram extends LinearOpMode {
 
         //while(driveTrain.flMotor.isBusy() && driveTrain.frMotor.isBusy() && driveTrain.blMotor.isBusy() && driveTrain.brMotor.isBusy() && i < 500){
           while(driveTrain.isBusy()){
-            DriveTrain.logHeading(telemetry);
+            //DriveTrain.logHeading(telemetry);
             DriveTrain.logTelemetry(telemetry, driveTrain);
             telemetry.update();
             sleep(1);
