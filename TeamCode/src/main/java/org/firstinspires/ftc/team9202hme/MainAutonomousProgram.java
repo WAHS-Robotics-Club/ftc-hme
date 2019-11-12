@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.team9202hme;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,7 +18,6 @@ public class MainAutonomousProgram extends LinearOpMode {
 
         telemetry.addData("FL TARGET POSITION", driveTrain.flMotor.getTargetPosition());
         telemetry.addData("FL MODE", driveTrain.flMotor.getMode());
-        driveTrain.logHeading(telemetry);
         //telemetry.addData("Heading", )
         telemetry.update();
 
