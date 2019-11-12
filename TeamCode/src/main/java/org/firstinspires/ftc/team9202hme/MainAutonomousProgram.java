@@ -34,6 +34,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.update();
         driveTrain.targetHeading = -90;
         telemetry.update();
+        //THIS FREAKING DATA BETER EXIST
         telemetry.update();
         telemetry.update();
         telemetry.update();
