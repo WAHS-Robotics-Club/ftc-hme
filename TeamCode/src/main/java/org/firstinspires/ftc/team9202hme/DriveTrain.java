@@ -103,8 +103,8 @@ public class DriveTrain{
         }
     }
 
-    public static boolean isCorrectHeading(DriveTrain driveTrain, int currentHeading){
-        if(driveTrain.targetHeading == currentHeading){
+    public boolean isCorrectHeading(int currentHeading){
+        if(targetHeading == currentHeading){
             return true;
         }else{
             return false;

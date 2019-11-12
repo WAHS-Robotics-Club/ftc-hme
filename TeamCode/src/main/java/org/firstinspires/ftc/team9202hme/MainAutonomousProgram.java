@@ -44,7 +44,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.update();
         telemetry.update();
         sleep(1);
-        while(!DriveTrain.isCorrectHeading(driveTrain, gyro.getHeading())){
+        while(!driveTrain.isCorrectHeading(gyro.getHeading())){
             driveTrain.turnToHeading(gyro.getHeading());
             telemetry.update();
             sleep(1);
