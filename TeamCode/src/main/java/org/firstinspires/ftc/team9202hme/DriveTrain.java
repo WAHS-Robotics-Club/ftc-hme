@@ -101,7 +101,7 @@ public class DriveTrain{
             return false;
         }
     }
-    public static boolean turnToHeading(DriveTrain driveTrain, float currentHeading, float targetHeading){
+    public static boolean turnToHeading(DriveTrain driveTrain, int currentHeading, int targetHeading){
         if(targetHeading < currentHeading + 5 || targetHeading < currentHeading - 5){
             driveTrain.flMotor.setPower(.25);
             driveTrain.frMotor.setPower(.25);

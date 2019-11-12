@@ -176,7 +176,7 @@ public class BananaFruit {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
-    public float getHeading(){
-        return angles.firstAngle;
+    public int getHeading(){
+        return (int)angles.firstAngle;
     }
 }
