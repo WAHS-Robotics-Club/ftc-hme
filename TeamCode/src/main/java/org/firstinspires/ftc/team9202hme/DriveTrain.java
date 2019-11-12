@@ -101,6 +101,23 @@ public class DriveTrain{
             return false;
         }
     }
+    public static boolean turnToHeading(DriveTrain driveTrain, double currentHeading, double targetHeading){
+        if(targetHeading < currentHeading){
+            driveTrain.flMotor.setPower(.25);
+            driveTrain.frMotor.setPower(.25);
+            driveTrain.blMotor.setPower(.25);
+            driveTrain.brMotor.setPower(.25);
+            return false;
+        }else if(targetHeading > currentHeading){
+            driveTrain.flMotor.setPower(-.25);
+            driveTrain.frMotor.setPower(-.25);
+            driveTrain.blMotor.setPower(-.25);
+            driveTrain.brMotor.setPower(-.25);
+            return false;
+        }else{
+            return true;
+        }
+    }
 
 }
 

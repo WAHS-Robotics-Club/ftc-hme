@@ -20,17 +20,16 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.addData("FL MODE", driveTrain.flMotor.getMode());
         //telemetry.addData("Heading", )
         telemetry.update();
-
         driveTrain.resetEncoders();
+
+        BananaFruit gyro = new BananaFruit();
+        gyro.runBananaFruit(hardwareMap, telemetry);
 
         waitForStart();
         DriveTrain.goForwardsTo(driveTrain, 69);
         DriveTrain.setBasePower(driveTrain, .7);
 
         DriveTrain.setRunMode(driveTrain, DcMotor.RunMode.RUN_TO_POSITION);
-
-        BananaFruit gyro = new BananaFruit();
-        gyro.runBananaFruit(hardwareMap, telemetry);
 
         //while(driveTrain.flMotor.isBusy() && driveTrain.frMotor.isBusy() && driveTrain.blMotor.isBusy() && driveTrain.brMotor.isBusy() && i < 500){
           while(driveTrain.isBusy()){
