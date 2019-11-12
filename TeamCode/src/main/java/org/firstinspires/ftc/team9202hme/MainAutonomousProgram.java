@@ -23,20 +23,12 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain.resetEncoders();
 
         BananaFruit gyro = new BananaFruit();
+        waitForStart();
         gyro.runBananaFruit(hardwareMap, telemetry);
 
-        waitForStart();
-        DriveTrain.goForwardsTo(driveTrain, 69);
-        DriveTrain.setBasePower(driveTrain, .7);
-
-        DriveTrain.setRunMode(driveTrain, DcMotor.RunMode.RUN_TO_POSITION);
-
-        //while(driveTrain.flMotor.isBusy() && driveTrain.frMotor.isBusy() && driveTrain.blMotor.isBusy() && driveTrain.brMotor.isBusy() && i < 500){
-          while(driveTrain.isBusy()){
-            //DriveTrain.logHeading(telemetry);
-            DriveTrain.logTelemetry(telemetry, driveTrain);
-            telemetry.update();
+        while(DriveTrain.turnToHeading(driveTrain, gyro.getHeading(), -90)){
             sleep(1);
-        }
+            telemetry.update();
+        };
     }
 }
