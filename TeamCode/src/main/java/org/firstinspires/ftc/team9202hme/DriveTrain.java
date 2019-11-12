@@ -74,11 +74,11 @@ public class DriveTrain{
         driveTrain.brMotor.setTargetPosition(targetPosition);
     }
 
-    public static void setRunMode(DriveTrain driveTrain, DcMotor.RunMode runMode){
-        driveTrain.flMotor.setMode(runMode);
-        driveTrain.frMotor.setMode(runMode);
-        driveTrain.blMotor.setMode(runMode);
-        driveTrain.brMotor.setMode(runMode);
+    public void setRunMode(DcMotor.RunMode runMode){
+        flMotor.setMode(runMode);
+        frMotor.setMode(runMode);
+        blMotor.setMode(runMode);
+        brMotor.setMode(runMode);
     }
 
     public static void setBasePower(DriveTrain driveTrain, double power){

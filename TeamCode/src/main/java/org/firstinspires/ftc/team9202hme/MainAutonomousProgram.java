@@ -21,6 +21,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         //telemetry.addData("Heading", )
         telemetry.update();
         driveTrain.resetEncoders();
+        driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
 
         BananaFruit gyro = new BananaFruit();
@@ -36,14 +37,8 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.update();
         //THIS FREAKING DATA BETER EXIST
         telemetry.update();
-        telemetry.update();
-        telemetry.update();
-        telemetry.update();
-        telemetry.update();
-        telemetry.update();
-        telemetry.update();
-        telemetry.update();
         sleep(1);
+        
         while(!driveTrain.isCorrectHeading(gyro.getHeading())){
             driveTrain.turnToHeading(gyro.getHeading());
             telemetry.update();
