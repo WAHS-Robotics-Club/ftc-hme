@@ -21,22 +21,32 @@ public class MainAutonomousProgram extends LinearOpMode {
         //telemetry.addData("Heading", )
         telemetry.update();
         driveTrain.resetEncoders();
-
         waitForStart();
 
         BananaFruit gyro = new BananaFruit();
         gyro.runBananaFruit(hardwareMap, telemetry);
-        sleep(1);
-        telemetry.update();
-        sleep(1);
-        telemetry.update();
-        sleep(1);
-        telemetry.update();
 
-
-        while(DriveTrain.turnToHeading(driveTrain, gyro.getHeading(), -90)){
-            sleep(1);
+        sleep(1);
+        telemetry.update();
+        sleep(1);
+        telemetry.update();
+        sleep(1);
+        telemetry.update();
+        driveTrain.targetHeading = -90;
+        telemetry.update();
+        telemetry.update();
+        telemetry.update();
+        telemetry.update();
+        telemetry.update();
+        telemetry.update();
+        telemetry.update();
+        telemetry.update();
+        telemetry.update();
+        sleep(1);
+        while(DriveTrain.isCorrectHeading(driveTrain, gyro.getHeading())){
+            DriveTrain.turnToHeading(driveTrain, gyro.getHeading());
             telemetry.update();
-        };
+            sleep(1);
+        }
     }
 }

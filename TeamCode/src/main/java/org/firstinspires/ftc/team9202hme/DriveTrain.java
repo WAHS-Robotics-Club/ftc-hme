@@ -16,6 +16,7 @@ public class DriveTrain{
     DcMotor frMotor;
     DcMotor blMotor;
     DcMotor brMotor;
+    int targetHeading;
     Toggle toggleSpeed;
 
     public static DriveTrain initDriveTrain(HardwareMap hardwareMap) {
@@ -101,22 +102,33 @@ public class DriveTrain{
             return false;
         }
     }
-    public static boolean turnToHeading(DriveTrain driveTrain, int currentHeading, int targetHeading){
-        if(targetHeading < currentHeading + 5 || targetHeading < currentHeading - 5){
-            driveTrain.flMotor.setPower(.25);
-            driveTrain.frMotor.setPower(.25);
-            driveTrain.blMotor.setPower(.25);
-            driveTrain.brMotor.setPower(.25);
-            return true;
-        }else if(targetHeading > currentHeading + 5 || targetHeading > currentHeading - 5){
-            driveTrain.flMotor.setPower(-.25);
-            driveTrain.frMotor.setPower(-.25);
-            driveTrain.blMotor.setPower(-.25);
-            driveTrain.brMotor.setPower(-.25);
+
+    public static boolean isCorrectHeading(DriveTrain driveTrain, int currentHeading){
+        if(driveTrain.targetHeading == currentHeading){
             return true;
         }else{
             return false;
         }
+    }
+
+    public static void turnToHeading(DriveTrain driveTrain, int currentHeading){
+        if(driveTrain.targetHeading < currentHeading + 5 || driveTrain.targetHeading < currentHeading - 5){
+            driveTrain.flMotor.setPower(.25);
+            driveTrain.frMotor.setPower(.25);
+            driveTrain.blMotor.setPower(.25);
+            driveTrain.brMotor.setPower(.25);
+        }else if(driveTrain.targetHeading > currentHeading + 5 || driveTrain.targetHeading > currentHeading - 5) {
+            driveTrain.flMotor.setPower(-.25);
+            driveTrain.frMotor.setPower(-.25);
+            driveTrain.blMotor.setPower(-.25);
+            driveTrain.brMotor.setPower(-.25);
+        }else{
+            driveTrain.flMotor.setPower(0);
+            driveTrain.frMotor.setPower(0);
+            driveTrain.blMotor.setPower(0);
+            driveTrain.brMotor.setPower(0);
+        }
+
     }
 
 }
