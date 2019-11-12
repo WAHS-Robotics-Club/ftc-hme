@@ -111,22 +111,22 @@ public class DriveTrain{
         }
     }
 
-    public static void turnToHeading(DriveTrain driveTrain, int currentHeading){
-        if(driveTrain.targetHeading < currentHeading + 5 || driveTrain.targetHeading < currentHeading - 5){
-            driveTrain.flMotor.setPower(.25);
-            driveTrain.frMotor.setPower(.25);
-            driveTrain.blMotor.setPower(.25);
-            driveTrain.brMotor.setPower(.25);
-        }else if(driveTrain.targetHeading > currentHeading + 5 || driveTrain.targetHeading > currentHeading - 5) {
-            driveTrain.flMotor.setPower(-.25);
-            driveTrain.frMotor.setPower(-.25);
-            driveTrain.blMotor.setPower(-.25);
-            driveTrain.brMotor.setPower(-.25);
+    public void turnToHeading(int currentHeading){
+        if(targetHeading < currentHeading + 5 || targetHeading < currentHeading - 5){
+            flMotor.setPower(.25);
+            frMotor.setPower(.25);
+            blMotor.setPower(.25);
+            brMotor.setPower(.25);
+        }else if(targetHeading > currentHeading + 5 || targetHeading > currentHeading - 5) {
+            flMotor.setPower(-.25);
+            frMotor.setPower(-.25);
+            blMotor.setPower(-.25);
+            brMotor.setPower(-.25);
         }else{
-            driveTrain.flMotor.setPower(0);
-            driveTrain.frMotor.setPower(0);
-            driveTrain.blMotor.setPower(0);
-            driveTrain.brMotor.setPower(0);
+            flMotor.setPower(0);
+            frMotor.setPower(0);
+            blMotor.setPower(0);
+            brMotor.setPower(0);
         }
 
     }
