@@ -112,16 +112,20 @@ public class DriveTrain{
     }
 
     public void turnToHeading(int currentHeading){
-        if(targetHeading < currentHeading - 5){
-            flMotor.setPower(-.5);
-            frMotor.setPower(-.5);
-            blMotor.setPower(-.5);
-            brMotor.setPower(-.5);
-        }else if(targetHeading > currentHeading + 5){
-            flMotor.setPower(.5);
-            frMotor.setPower(.5);
-            blMotor.setPower(.5);
-            brMotor.setPower(.5);
+        double modifier, basePower;
+        modifier = ((Math.sqrt(Math.abs(Math.abs(targetHeading) - Math.abs(currentHeading))))/2);
+        basePower = 0.5;
+
+        if(targetHeading < currentHeading - 2.5){
+            flMotor.setPower(-basePower * modifier);
+            frMotor.setPower(-basePower * modifier);
+            blMotor.setPower(-basePower * modifier);
+            brMotor.setPower(-basePower * modifier);
+        }else if(targetHeading > currentHeading + 2.5){
+            flMotor.setPower(basePower * modifier);
+            frMotor.setPower(basePower * modifier);
+            blMotor.setPower(basePower * modifier);
+            brMotor.setPower(basePower * modifier);
         }else{
             flMotor.setPower(0);
             frMotor.setPower(0);
