@@ -22,24 +22,26 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.update();
         driveTrain.resetEncoders();
         driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        waitForStart();
 
         BananaFruit gyro = new BananaFruit();
         gyro.runBananaFruit(hardwareMap, telemetry);
 
         sleep(1);
         telemetry.update();
+
+        waitForStart();
+
         sleep(1);
         telemetry.update();
         sleep(1);
-        telemetry.update();
-        driveTrain.targetHeading = -90;
-        telemetry.update();
-        //THIS FREAKING DATA BETER EXIST
+        driveTrain.targetHeading = 90;
+        //THIS FREAKING DATA BETtER EXIST
+        sleep(1);
         telemetry.update();
         sleep(1);
-        
+
         while(!driveTrain.isCorrectHeading(gyro.getHeading())){
+            telemetry.update();
             driveTrain.turnToHeading(gyro.getHeading());
             telemetry.update();
             sleep(1);

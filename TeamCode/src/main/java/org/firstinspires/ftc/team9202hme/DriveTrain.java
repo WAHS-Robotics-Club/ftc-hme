@@ -61,17 +61,17 @@ public class DriveTrain{
         telemetry.addData("BR Pos", driveTrain.brMotor .getCurrentPosition());
     }
 
-    public static void goForwardsTo(DriveTrain driveTrain, double inches){
+    public void goForwardsTo(double inches){
         int targetPosition;
         double rotations;
 
         rotations = inches / (4*Math.PI);
         targetPosition = (int)(rotations * 1120);
 
-        driveTrain.flMotor.setTargetPosition(-targetPosition);
-        driveTrain.frMotor.setTargetPosition(targetPosition);
-        driveTrain.blMotor.setTargetPosition(-targetPosition);
-        driveTrain.brMotor.setTargetPosition(targetPosition);
+        flMotor.setTargetPosition(-targetPosition);
+        frMotor.setTargetPosition(targetPosition);
+        blMotor.setTargetPosition(-targetPosition);
+        brMotor.setTargetPosition(targetPosition);
     }
 
     public void setRunMode(DcMotor.RunMode runMode){
@@ -81,11 +81,11 @@ public class DriveTrain{
         brMotor.setMode(runMode);
     }
 
-    public static void setBasePower(DriveTrain driveTrain, double power){
-        driveTrain.flMotor.setPower(power);
-        driveTrain.frMotor.setPower(power);
-        driveTrain.blMotor.setPower(power);
-        driveTrain.brMotor.setPower(power);
+    public void setBasePower(double power){
+        flMotor.setPower(power);
+        frMotor.setPower(power);
+        blMotor.setPower(power);
+        brMotor.setPower(power);
     }
 
     public void resetEncoders(){
@@ -112,7 +112,12 @@ public class DriveTrain{
     }
 
     public void turnToHeading(int currentHeading){
-        if(targetHeading > currentHeading - 5 && targetHeading < currentHeading + 5){
+        if(targetHeading < currentHeading - 5){
+            flMotor.setPower(-.5);
+            frMotor.setPower(-.5);
+            blMotor.setPower(-.5);
+            brMotor.setPower(-.5);
+        }else if(targetHeading > currentHeading + 5){
             flMotor.setPower(.5);
             frMotor.setPower(.5);
             blMotor.setPower(.5);
