@@ -63,7 +63,6 @@ public class DriveTrain{
     }
 
     public void goForwardsTo(double inches){
-        setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         int targetPosition;
         double rotations;
 
@@ -74,6 +73,7 @@ public class DriveTrain{
         frMotor.setTargetPosition(targetPosition);
         blMotor.setTargetPosition(-targetPosition);
         brMotor.setTargetPosition(targetPosition);
+        setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void setRunMode(DcMotor.RunMode runMode){
