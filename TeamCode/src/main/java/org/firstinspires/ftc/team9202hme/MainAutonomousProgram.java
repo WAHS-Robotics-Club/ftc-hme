@@ -43,6 +43,19 @@ public class MainAutonomousProgram extends LinearOpMode {
         while(!driveTrain.isCorrectHeading(gyro.getHeading())){
             telemetry.update();
             driveTrain.turnToHeading(gyro.getHeading());
+            sleep(1);
+        }
+        driveTrain.targetHeading = -90;
+        while(!driveTrain.isCorrectHeading(gyro.getHeading())){
+            telemetry.update();
+            driveTrain.turnToHeading(gyro.getHeading());
+            telemetry.update();
+            sleep(1);
+        }
+        driveTrain.goForwardsTo(12);
+        driveTrain.setBasePower(.8);
+        sleep(1);
+        while(driveTrain.isBusy()){
             telemetry.update();
             sleep(1);
         }

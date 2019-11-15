@@ -62,6 +62,7 @@ public class DriveTrain{
     }
 
     public void goForwardsTo(double inches){
+        setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         int targetPosition;
         double rotations;
 
@@ -113,15 +114,15 @@ public class DriveTrain{
 
     public void turnToHeading(int currentHeading){
         double modifier, basePower;
-        modifier = ((Math.sqrt(Math.abs(Math.abs(targetHeading) - Math.abs(currentHeading))))/2);
-        basePower = 0.5;
+        modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
+        basePower = 0.1;
 
-        if(targetHeading < currentHeading - 2.5){
+        if(targetHeading < currentHeading - .5){
             flMotor.setPower(-basePower * modifier);
             frMotor.setPower(-basePower * modifier);
             blMotor.setPower(-basePower * modifier);
             brMotor.setPower(-basePower * modifier);
-        }else if(targetHeading > currentHeading + 2.5){
+        }else if(targetHeading > currentHeading + .5){
             flMotor.setPower(basePower * modifier);
             frMotor.setPower(basePower * modifier);
             blMotor.setPower(basePower * modifier);
