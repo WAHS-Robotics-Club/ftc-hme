@@ -29,6 +29,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain.resetCooldown();
         waitForStart();
 
+        /*
         //Turning
         driveTrain.targetHeading = 90;
         driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -36,7 +37,7 @@ public class MainAutonomousProgram extends LinearOpMode {
             telemetry.update();
             driveTrain.turnToHeading(gyro.getHeading());
             sleep(1);
-        }
+        }*/
 
         //Going Forwards
         driveTrain.goForwardsTo(12);
@@ -47,6 +48,7 @@ public class MainAutonomousProgram extends LinearOpMode {
             sleep(1);
         }
 
+        /*
         //Turning
         driveTrain.targetHeading = 0;
         driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -83,7 +85,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         while(driveTrain.cooldownTimer(driveTrain.isBusy())){
             telemetry.update();
             sleep(1);
-        }
+        }*/
 
     }
 }
