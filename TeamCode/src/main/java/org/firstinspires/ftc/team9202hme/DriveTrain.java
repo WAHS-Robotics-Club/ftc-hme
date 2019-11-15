@@ -54,8 +54,8 @@ public class DriveTrain{
     }
 
     public static void logTelemetry(Telemetry telemetry, DriveTrain driveTrain) {
-       // telemetry.addData("Heading", driveTrain.getHeading() + " degrees");
-//1120 ticks in a rotation
+        // telemetry.addData("Heading", driveTrain.getHeading() + " degrees");
+        //1120 ticks in a rotation
         telemetry.addData("FL Pos", driveTrain.flMotor.getCurrentPosition());
         telemetry.addData("FR Pos", driveTrain.frMotor.getCurrentPosition());
         telemetry.addData("BL Pos", driveTrain.blMotor.getCurrentPosition());
@@ -73,6 +73,7 @@ public class DriveTrain{
         frMotor.setTargetPosition(targetPosition);
         blMotor.setTargetPosition(-targetPosition);
         brMotor.setTargetPosition(targetPosition);
+
         setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
