@@ -29,6 +29,14 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain.resetCooldown();
         waitForStart();
 
+        //Going Forwards
+        driveTrain.goForwardsTo(24);
+        driveTrain.setBasePower(.8);
+        sleep(1);
+        while(driveTrain.isBusy()){
+            telemetry.update();
+            sleep(1);
+        }
 
         //Turning
         driveTrain.targetHeading = 90;
@@ -39,32 +47,29 @@ public class MainAutonomousProgram extends LinearOpMode {
             sleep(1);
         }
 
-
         //Going Forwards
-        driveTrain.goForwardsTo(12);
+        driveTrain.goForwardsTo(24);
         driveTrain.setBasePower(.8);
         sleep(1);
-        while(driveTrain.cooldownTimer(driveTrain.isBusy())){
+        while(driveTrain.isBusy()){
             telemetry.update();
             sleep(1);
         }
 
-        /*
         //Turning
         driveTrain.targetHeading = 0;
         driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while(!driveTrain.isCorrectHeading(gyro.getHeading())){
             telemetry.update();
             driveTrain.turnToHeading(gyro.getHeading());
-            telemetry.update();
             sleep(1);
         }
 
         //Going Forwards
-        driveTrain.goForwardsTo(12);
+        driveTrain.goForwardsTo(24);
         driveTrain.setBasePower(.8);
         sleep(1);
-        while(driveTrain.cooldownTimer(driveTrain.isBusy())){
+        while(driveTrain.isBusy()){
             telemetry.update();
             sleep(1);
         }
@@ -75,18 +80,8 @@ public class MainAutonomousProgram extends LinearOpMode {
         while(!driveTrain.isCorrectHeading(gyro.getHeading())){
             telemetry.update();
             driveTrain.turnToHeading(gyro.getHeading());
-            telemetry.update();
             sleep(1);
         }
-
-        //Going Forwards
-        driveTrain.goForwardsTo(12);
-        driveTrain.setBasePower(.8);
-        sleep(1);
-        while(driveTrain.cooldownTimer(driveTrain.isBusy())){
-            telemetry.update();
-            sleep(1);
-        }*/
 
     }
 }
