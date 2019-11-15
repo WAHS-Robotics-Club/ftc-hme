@@ -141,8 +141,9 @@ public class DriveTrain{
     }
     public boolean cooldownTimer(boolean doIncrease){
         if(!doIncrease){
+            resetCooldown();
             return true;
-        }else {
+        }else{
             cooldown++;
 
             if (cooldown > 500) {
