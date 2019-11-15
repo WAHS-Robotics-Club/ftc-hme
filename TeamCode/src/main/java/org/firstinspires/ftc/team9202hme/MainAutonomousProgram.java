@@ -18,7 +18,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         int i;
 
         telemetry.addData("IsBusy", driveTrain.isBusy());
-        //telemetry.addData("Heading", )
+        driveTrain.logTelemetry(telemetry, driveTrain);
         telemetry.update();
         driveTrain.resetEncoders();
 
