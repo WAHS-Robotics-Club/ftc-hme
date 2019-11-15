@@ -21,37 +21,23 @@ public class MainAutonomousProgram extends LinearOpMode {
         //telemetry.addData("Heading", )
         telemetry.update();
         driveTrain.resetEncoders();
-        driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         BananaFruit gyro = new BananaFruit();
         gyro.runBananaFruit(hardwareMap, telemetry);
-
-        sleep(1);
         telemetry.update();
 
         waitForStart();
 
-        sleep(1);
-        telemetry.update();
-        sleep(1);
+        //Turning
         driveTrain.targetHeading = 90;
-        //THIS FREAKING DATA BETtER EXIST
-        sleep(1);
-        telemetry.update();
-        sleep(1);
+        driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        while(!driveTrain.isCorrectHeading(gyro.getHeading())){
+            telemetry.update();
+            driveTrain.turnToHeading(gyro.getHeading());
+            sleep(1);
+        }
 
-        while(!driveTrain.isCorrectHeading(gyro.getHeading())){
-            telemetry.update();
-            driveTrain.turnToHeading(gyro.getHeading());
-            sleep(1);
-        }
-        driveTrain.targetHeading = -90;
-        while(!driveTrain.isCorrectHeading(gyro.getHeading())){
-            telemetry.update();
-            driveTrain.turnToHeading(gyro.getHeading());
-            telemetry.update();
-            sleep(1);
-        }
+        //Going Forwards
         driveTrain.goForwardsTo(12);
         driveTrain.setBasePower(.8);
         sleep(1);
@@ -59,5 +45,63 @@ public class MainAutonomousProgram extends LinearOpMode {
             telemetry.update();
             sleep(1);
         }
+
+        //Turning
+        driveTrain.targetHeading = 0;
+        driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        while(!driveTrain.isCorrectHeading(gyro.getHeading())){
+            telemetry.update();
+            driveTrain.turnToHeading(gyro.getHeading());
+            telemetry.update();
+            sleep(1);
+        }
+
+        //Going Forwards
+        driveTrain.goForwardsTo(12);
+        driveTrain.setBasePower(.8);
+        sleep(1);
+        while(driveTrain.isBusy()){
+            telemetry.update();
+            sleep(1);
+        }
+
+        //Turning
+        driveTrain.targetHeading = -90;
+        driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        while(!driveTrain.isCorrectHeading(gyro.getHeading())){
+            telemetry.update();
+            driveTrain.turnToHeading(gyro.getHeading());
+            telemetry.update();
+            sleep(1);
+        }
+
+        //Going Forwards
+        driveTrain.goForwardsTo(12);
+        driveTrain.setBasePower(.8);
+        sleep(1);
+        while(driveTrain.isBusy()){
+            telemetry.update();
+            sleep(1);
+        }
+
+        //Turning
+        driveTrain.targetHeading = -180;
+        driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        while(!driveTrain.isCorrectHeading(gyro.getHeading())){
+            telemetry.update();
+            driveTrain.turnToHeading(gyro.getHeading());
+            telemetry.update();
+            sleep(1);
+        }
+
+        //Going Forwards
+        driveTrain.goForwardsTo(12);
+        driveTrain.setBasePower(.8);
+        sleep(1);
+        while(driveTrain.isBusy()){
+            telemetry.update();
+            sleep(1);
+        }
+
     }
 }
