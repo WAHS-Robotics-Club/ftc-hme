@@ -18,6 +18,7 @@ public class DriveTrain{
     DcMotor brMotor;
     int targetHeading;
     Toggle toggleSpeed;
+    private int cooldown;
 
     public static DriveTrain initDriveTrain(HardwareMap hardwareMap) {
         //Hardware mapping the motors:
@@ -134,6 +135,22 @@ public class DriveTrain{
             brMotor.setPower(0);
         }
 
+    }
+    public void resetCooldown(){
+        cooldown = 0;
+    }
+    public boolean cooldownTimer(boolean doIncrease){
+        if(!doIncrease){
+            return true;
+        }else {
+            cooldown++;
+
+            if (cooldown > 500) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
 }
