@@ -60,6 +60,16 @@ public class DriveTrain{
         telemetry.addData("FR Pos", driveTrain.frMotor.getCurrentPosition());
         telemetry.addData("BL Pos", driveTrain.blMotor.getCurrentPosition());
         telemetry.addData("BR Pos", driveTrain.brMotor .getCurrentPosition());
+
+        telemetry.addData("FL Power", driveTrain.flMotor.getPower());
+        telemetry.addData("FR Power", driveTrain.frMotor.getPower());
+        telemetry.addData("BL Power", driveTrain.blMotor.getPower());
+        telemetry.addData("BR Power", driveTrain.brMotor .getPower());
+
+        telemetry.addData("FL Power", driveTrain.flMotor.getTargetPosition());
+        telemetry.addData("FR Power", driveTrain.frMotor.getTargetPosition());
+        telemetry.addData("BL Power", driveTrain.blMotor.getTargetPosition());
+        telemetry.addData("BR Power", driveTrain.brMotor.getTargetPosition());
     }
 
     public void goForwardsTo(double inches){
