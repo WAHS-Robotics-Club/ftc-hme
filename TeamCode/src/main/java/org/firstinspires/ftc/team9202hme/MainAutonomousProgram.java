@@ -25,9 +25,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         gyro.runBananaFruit(hardwareMap, telemetry);
         telemetry.update();
 
-
         waitForStart();
-
 
         //Going Forwards
         i = 0;

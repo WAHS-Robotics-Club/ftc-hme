@@ -72,8 +72,9 @@ public class DriveTrain{
         telemetry.addData("BR Power", driveTrain.brMotor.getTargetPosition());
     }
 
-    public void goForwardsTo(double inches){
+    public void goForwardsTo(double inches) throws InterruptedException{
         resetEncoders();
+        Thread.sleep(1);
         int targetPosition;
         double rotations;
 
