@@ -1,3 +1,4 @@
+//Importing FTC packages, classes, and methods:
 package org.firstinspires.ftc.team9202hme;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -94,7 +95,7 @@ public class Test extends OpMode {
             //Foundation servo code (a button):
             //Pushes down:
             if(gamepad1.a){
-                foundationServo.setPosition(0.1);
+                foundationServo.setPosition(-1.0);
             } //Lifts up:
             else{
                 foundationServo.setPosition(1.0);
