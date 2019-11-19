@@ -180,8 +180,9 @@ public class DriveTrain{
         }
     }
 
-    public void turnToHeading(BananaFruit gyro, Telemetry telemetry, int targetHeading) throws InterruptedException{
+    public void turnToHeading(BananaFruit gyro, Telemetry telemetry, int inputTargetHeading) throws InterruptedException{
         //Turning
+        targetHeading = inputTargetHeading;
         setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while(!isCorrectHeading(gyro.getHeading())){
             telemetry.update();
