@@ -2,11 +2,10 @@ package org.firstinspires.ftc.team9202hme.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.team9202hme.Objects.DriveTrain;
 import org.firstinspires.ftc.team9202hme.Objects.Grabber;
+import org.firstinspires.ftc.team9202hme.Objects.Misc;
 
 
 @TeleOp(name ="Main TeleOp - Charlie")
@@ -15,15 +14,14 @@ public class MainTeleOp extends OpMode {
 
     Grabber grabber;
     DriveTrain driveTrain;
-    Servo foundationGrabber;
-
+    Misc misc;
 
     @Override
     public void init(){
         //Hardware mapping the servos:
         grabber = Grabber.initGrabber(hardwareMap);
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
-        foundationGrabber = hardwareMap.servo.get("foundationServo");
+        misc = Misc.initMiscellaneous(hardwareMap);
     }
 
     /*
@@ -35,8 +33,8 @@ public class MainTeleOp extends OpMode {
 
     @Override public void loop(){
         //Drive Train manual control system
-        DriveTrain.manualDrive(driveTrain, gamepad1);
-        DriveTrain.checkToggleSpeed(driveTrain, gamepad1);
+        driveTrain.manualDrive(gamepad1);
+        driveTrain.checkToggleSpeed(gamepad1);
         DriveTrain.logTelemetry(telemetry, driveTrain);
 
         //Grabber System (Servos)
@@ -45,11 +43,9 @@ public class MainTeleOp extends OpMode {
         //Spool controls
         Grabber.ManualSpoolMotor(grabber, gamepad1);
 
-        if(gamepad1.left_bumper){
-            foundationGrabber.setPosition(180);
-        }else{
-            foundationGrabber.setPosition(0);
-        }
+        //Misc controls
+        misc.checkTogglePosition(gamepad1);
+        misc.useMiscLoop();
 
 
     }
