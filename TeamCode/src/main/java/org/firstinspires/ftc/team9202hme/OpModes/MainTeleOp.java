@@ -47,7 +47,6 @@ public class MainTeleOp extends OpMode {
         misc.checkTogglePosition(gamepad1);
         misc.useMiscLoop();
 
-
     }
 
 }
