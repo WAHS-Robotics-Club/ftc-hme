@@ -21,12 +21,13 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain.logTelemetry(telemetry, driveTrain);
         telemetry.update();
         driveTrain.resetEncoders();
-//kill me
         BananaFruit gyro = new BananaFruit();
         gyro.runBananaFruit(hardwareMap, telemetry);
         telemetry.update();
 
+        
         waitForStart();
+
 
         //Going Forwards
         i = 0;
@@ -39,6 +40,8 @@ public class MainAutonomousProgram extends LinearOpMode {
             sleep(1);
         }
 
+
+        driveTrain.resetEncoders();
         //Turning
         driveTrain.targetHeading = 90;
         driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -48,6 +51,8 @@ public class MainAutonomousProgram extends LinearOpMode {
             sleep(1);
         }
 
+
+        driveTrain.resetEncoders();
         //Going Forwards
         i = 0;
         driveTrain.goForwardsTo(24);
