@@ -73,6 +73,7 @@ public class DriveTrain{
     }
 
     public void goForwardsTo(double inches){
+        resetEncoders();
         int targetPosition;
         double rotations;
 

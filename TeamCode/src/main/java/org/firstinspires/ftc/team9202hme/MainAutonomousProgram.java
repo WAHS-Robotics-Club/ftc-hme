@@ -26,9 +26,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         telemetry.update();
 
 
-        sleep(1);
         waitForStart();
-        sleep(1);
 
 
         //Going Forwards
@@ -42,10 +40,6 @@ public class MainAutonomousProgram extends LinearOpMode {
             sleep(1);
         }
 
-
-        sleep(1);
-        driveTrain.resetEncoders();
-        sleep(1);
         //Turning
         driveTrain.targetHeading = 90;
         driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -55,10 +49,6 @@ public class MainAutonomousProgram extends LinearOpMode {
             sleep(1);
         }
 
-
-        sleep(1);
-        driveTrain.resetEncoders();
-        sleep(1);
         //Going Forwards
         i = 0;
         driveTrain.goForwardsTo(24);
