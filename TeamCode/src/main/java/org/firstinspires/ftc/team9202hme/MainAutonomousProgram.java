@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.team9202hme;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Autonomous(name ="Main Autonomous - Charlie")
 public class MainAutonomousProgram extends LinearOpMode {
@@ -28,35 +25,13 @@ public class MainAutonomousProgram extends LinearOpMode {
         waitForStart();
 
         //Going Forwards
-        i = 0;
-        driveTrain.goForwardsTo(24);
-        driveTrain.setBasePower(.8);
-        sleep(1);
-        while(driveTrain.isBusy() && i < 500){
-            telemetry.update();
-            i++;
-            sleep(1);
-        }
+        driveTrain.moveForwardsBy(telemetry, 24);
 
         //Turning
-        driveTrain.targetHeading = 90;
-        driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        while(!driveTrain.isCorrectHeading(gyro.getHeading())){
-            telemetry.update();
-            driveTrain.turnToHeading(gyro.getHeading());
-            sleep(1);
-        }
+        driveTrain.turnToHeading(gyro, telemetry, 90);
 
-        //Going Forwards
-        i = 0;
-        driveTrain.goForwardsTo(24);
-        driveTrain.setBasePower(.8);
-        sleep(1);
-        while(driveTrain.isBusy() && i < 500){
-            telemetry.update();
-            i++;
-            sleep(1);
-        }
+       //Going forwards
+        driveTrain.moveForwardsBy(telemetry, 24);
 
 
     }

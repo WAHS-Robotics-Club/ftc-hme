@@ -126,7 +126,7 @@ public class DriveTrain{
         }
     }
 
-    public void turnToHeading(int currentHeading){
+    public void turnRobotToHeading(int currentHeading){
         double modifier, basePower;
         modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
         basePower = 0.1;
@@ -164,6 +164,29 @@ public class DriveTrain{
             } else {
                 return true;
             }
+        }
+    }
+
+    public void moveForwardsBy(Telemetry telemetry, int inches) throws InterruptedException{
+        //Going Forwards
+        int i = 0;
+        goForwardsTo(inches);
+        setBasePower(.8);
+        Thread.sleep(1);
+        while(isBusy() && i < 500){
+            telemetry.update();
+            i++;
+            Thread.sleep(1);
+        }
+    }
+
+    public void turnToHeading(BananaFruit gyro, Telemetry telemetry, int targetHeading) throws InterruptedException{
+        //Turning
+        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        while(!isCorrectHeading(gyro.getHeading())){
+            telemetry.update();
+            turnRobotToHeading(gyro.getHeading());
+            Thread.sleep(1);
         }
     }
 
