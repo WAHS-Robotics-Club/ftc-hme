@@ -51,7 +51,7 @@ public class MainTeleOp extends OpMode {
             foundationGrabber.setPosition(0);
         }
 
-        
+
     }
 
 }
