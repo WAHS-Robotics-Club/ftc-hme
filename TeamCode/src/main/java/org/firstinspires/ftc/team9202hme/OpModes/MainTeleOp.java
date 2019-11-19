@@ -2,6 +2,8 @@ package org.firstinspires.ftc.team9202hme.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.team9202hme.Objects.DriveTrain;
 import org.firstinspires.ftc.team9202hme.Objects.Grabber;
@@ -13,6 +15,7 @@ public class MainTeleOp extends OpMode {
 
     Grabber grabber;
     DriveTrain driveTrain;
+    Servo foundationGrabber;
 
 
     @Override
@@ -20,6 +23,7 @@ public class MainTeleOp extends OpMode {
         //Hardware mapping the servos:
         grabber = Grabber.initGrabber(hardwareMap);
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
+        foundationGrabber = hardwareMap.servo.get("foundationServo");
     }
 
     /*
@@ -40,6 +44,14 @@ public class MainTeleOp extends OpMode {
 
         //Spool controls
         Grabber.ManualSpoolMotor(grabber, gamepad1);
+
+        if(gamepad1.left_bumper){
+            foundationGrabber.setPosition(180);
+        }else{
+            foundationGrabber.setPosition(0);
+        }
+
+        
     }
 
 }

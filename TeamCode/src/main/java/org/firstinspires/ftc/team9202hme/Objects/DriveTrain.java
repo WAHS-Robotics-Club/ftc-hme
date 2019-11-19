@@ -46,7 +46,7 @@ public class DriveTrain{
     }
 
     public static void checkToggleSpeed(DriveTrain driveTrain, Gamepad gamepad1){
-        if(gamepad1.left_bumper){
+        if(gamepad1.a){
             driveTrain.toggleSpeed.toggle();
         }
     }
