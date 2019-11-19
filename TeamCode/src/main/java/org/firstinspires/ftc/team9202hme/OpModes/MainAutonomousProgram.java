@@ -1,7 +1,11 @@
-package org.firstinspires.ftc.team9202hme;
+package org.firstinspires.ftc.team9202hme.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.team9202hme.Objects.BananaFruit;
+import org.firstinspires.ftc.team9202hme.Objects.DriveTrain;
+import org.firstinspires.ftc.team9202hme.Objects.Grabber;
 
 @Autonomous(name ="Main Autonomous - Charlie")
 public class MainAutonomousProgram extends LinearOpMode {

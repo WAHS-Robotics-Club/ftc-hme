@@ -1,7 +1,10 @@
-package org.firstinspires.ftc.team9202hme;
+package org.firstinspires.ftc.team9202hme.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.team9202hme.Objects.DriveTrain;
+import org.firstinspires.ftc.team9202hme.Objects.Grabber;
 
 
 @TeleOp(name ="Main TeleOp - Charlie")

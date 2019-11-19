@@ -1,9 +1,11 @@
-package org.firstinspires.ftc.team9202hme;
+package org.firstinspires.ftc.team9202hme.Objects;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.team9202hme.Tool.Toggle;
 
 public class Grabber {
     Servo leftServo;
