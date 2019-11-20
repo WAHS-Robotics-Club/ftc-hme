@@ -17,7 +17,6 @@ public class Grabber {
 
     public static Grabber initGrabber(HardwareMap hardwareMap){
         //Creates and hardware maps the grabber element
-
         Grabber grabber = new Grabber();
 
         grabber.leftServo = hardwareMap.servo.get("leftServo");
@@ -30,20 +29,21 @@ public class Grabber {
         return grabber;
     }
 
-    public static void CheckToggleGrabber(Grabber grabber){
-        if(grabber.toggleGrabber.isToggled()){
-            grabber.rightServo.setPosition(0.25);
-            grabber.leftServo.setPosition(0.75);
+    public void CheckToggleGrabber(){
+        if(toggleGrabber.isToggled()){
+            rightServo.setPosition(0.25);
+            leftServo.setPosition(0.75);
         }else{
-            grabber.rightServo.setPosition(1);
-            grabber.leftServo.setPosition(0);
+            rightServo.setPosition(1);
+            leftServo.setPosition(0);
         }
     }
-    public static void ManualToggleGrabber(Grabber grabber, Gamepad gamepad1){
+
+    public void ManualToggleGrabber(Gamepad gamepad1){
         if(gamepad1.right_bumper) {
-            grabber.toggleGrabber.toggle();
+            toggleGrabber.toggle();
         }
-        CheckToggleGrabber(grabber);
+        CheckToggleGrabber();
     }
 
     public void ManualSpoolMotor(Gamepad gamepad1){

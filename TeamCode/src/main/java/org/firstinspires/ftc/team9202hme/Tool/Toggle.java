@@ -23,10 +23,6 @@ public class Toggle {
         }
     }
 
-    public void setToggle(boolean toggled) {
-        this.toggled = toggled;
-    }
-
     public boolean isToggled() {
         return toggled;
     }
