@@ -61,14 +61,16 @@ public class Grabber {
     }
 
     public void SpoolMotorControl(float Power) {
-        if (spoolMotor.getCurrentPosition() < 11234) {
+        if (spoolMotor.getCurrentPosition() < 11234 && spoolMotor.getCurrentPosition() > -10) {
             if (Math.abs(Power) >= 0.1) {
                 spoolMotor.setPower(Power);
             } else {
                 spoolMotor.setPower(0);
             }
-        }else{
+        }else if(spoolMotor.getCurrentPosition() > -10){
             spoolMotor.setPower(-.2);
+        }else{
+            spoolMotor.setPower(.2);
         }
     }
 
