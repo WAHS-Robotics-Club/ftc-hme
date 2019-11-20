@@ -28,7 +28,7 @@ public class DualDriverTeleOp extends OpMode {
     leftFront = 2
     leftBack = 1
     rightFront = 3
-    rightBack =  0
+    rightBack = 0
         */
 
     @Override public void loop(){
