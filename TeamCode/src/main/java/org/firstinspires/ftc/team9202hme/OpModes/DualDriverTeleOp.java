@@ -8,8 +8,8 @@ import org.firstinspires.ftc.team9202hme.Objects.Grabber;
 import org.firstinspires.ftc.team9202hme.Objects.Misc;
 
 
-@TeleOp(name ="Main TeleOp - Charlie")
-public class MainTeleOp extends OpMode {
+@TeleOp(name ="Dual Driver TeleOp - Charlie")
+public class DualDriverTeleOp extends OpMode {
     //Initializing the servo objects:
 
     Grabber grabber;
@@ -34,17 +34,17 @@ public class MainTeleOp extends OpMode {
     @Override public void loop(){
         //Drive Train manual control system
         driveTrain.manualDrive(gamepad1);
-        driveTrain.checkToggleSpeed(gamepad1);
+        driveTrain.checkToggleSpeed(gamepad1, true);
         DriveTrain.logTelemetry(telemetry, driveTrain);
 
         //Grabber System (Servos)
         Grabber.ManualToggleGrabber(grabber, gamepad1);
 
         //Spool controls
-        Grabber.ManualSpoolMotor(grabber, gamepad1);
+        Grabber.ManualSpoolMotor(grabber, gamepad2);
 
         //Misc controls
-        misc.checkTogglePosition(gamepad1);
+        misc.checkTogglePosition(gamepad2, true);
         misc.useMiscLoop();
 
     }

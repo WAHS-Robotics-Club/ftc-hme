@@ -18,19 +18,29 @@ public class Misc {
         return misc;
     }
 
-    public void checkTogglePosition(Gamepad gamepad1){
-        if(gamepad1.a){
+    public void checkTogglePosition(Gamepad gamepad){
+        if(gamepad.a){
+            toggleFoundationGrabber.toggle();
+        }
+    }
+
+    public void checkTogglePosition(Gamepad gamepad, boolean isDualDriver){
+        if(gamepad.a){
             toggleFoundationGrabber.toggle();
         }
     }
 
     public void useMiscLoop(){
+        useFoundationGrabber();
+    }
+
+    public void useFoundationGrabber(){
         if(toggleFoundationGrabber.isToggled()){
             foundationGrabber.setPosition(0);
         }else{
             foundationGrabber.setPosition(180);
         }
-
-
     }
+
+
 }

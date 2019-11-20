@@ -40,11 +40,19 @@ public class Grabber {
         }
     }
     public static void ManualToggleGrabber(Grabber grabber, Gamepad gamepad1){
+        if(gamepad1.a) {
+            grabber.toggleGrabber.toggle();
+        }
+        CheckToggleGrabber(grabber);
+    }
+
+    public static void ManualToggleGrabber(Grabber grabber, Gamepad gamepad1, boolean isDualDriver){
         if(gamepad1.right_bumper) {
             grabber.toggleGrabber.toggle();
         }
         CheckToggleGrabber(grabber);
     }
+
 
     public static void ManualSpoolMotor(Grabber grabber, Gamepad gamepad1){
         //Moves the arm up and down

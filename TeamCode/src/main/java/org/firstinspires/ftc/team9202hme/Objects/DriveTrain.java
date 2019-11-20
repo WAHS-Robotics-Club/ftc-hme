@@ -51,6 +51,12 @@ public class DriveTrain{
         }
     }
 
+    public void checkToggleSpeed(Gamepad gamepad1, boolean isDualDriver){
+        if(gamepad1.left_bumper){
+            toggleSpeed.toggle();
+        }
+    }
+
     public static void logTelemetry(Telemetry telemetry, DriveTrain driveTrain) {
         // telemetry.addData("Heading", driveTrain.getHeading() + " degrees");
         //1120 ticks in a rotation
