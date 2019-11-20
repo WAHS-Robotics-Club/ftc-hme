@@ -11,7 +11,7 @@ public class Grabber {
     Servo leftServo;
     Servo rightServo;
 
-    DcMotor spoolMotor;
+    public DcMotor spoolMotor;
 
     private Toggle toggleGrabber;
 
@@ -67,4 +67,6 @@ public class Grabber {
             grabber.spoolMotor.setPower(0);
         }
     }
+
+
 }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.team9202hme.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.team9202hme.Objects.DriveTrain;
 import org.firstinspires.ftc.team9202hme.Objects.Grabber;
@@ -47,6 +48,7 @@ public class SingleDriverTeleOp extends OpMode {
         misc.checkTogglePosition(gamepad1);
         misc.useMiscLoop();
 
+        telemetry.addData("spool motor position", grabber.spoolMotor.getCurrentPosition());
     }
 
 }
