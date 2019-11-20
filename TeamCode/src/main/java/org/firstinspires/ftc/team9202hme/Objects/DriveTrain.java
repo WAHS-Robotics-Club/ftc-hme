@@ -63,11 +63,6 @@ public class DriveTrain{
         telemetry.addData("FR Power", driveTrain.frMotor.getPower());
         telemetry.addData("BL Power", driveTrain.blMotor.getPower());
         telemetry.addData("BR Power", driveTrain.brMotor .getPower());
-
-        telemetry.addData("FL Power", driveTrain.flMotor.getTargetPosition());
-        telemetry.addData("FR Power", driveTrain.frMotor.getTargetPosition());
-        telemetry.addData("BL Power", driveTrain.blMotor.getTargetPosition());
-        telemetry.addData("BR Power", driveTrain.brMotor.getTargetPosition());
     }
 
     public void goForwardsTo(double inches) throws InterruptedException{

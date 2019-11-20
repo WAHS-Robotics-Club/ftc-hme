@@ -41,7 +41,7 @@ public class DualDriverTeleOp extends OpMode {
         Grabber.ManualToggleGrabber(grabber, gamepad1);
 
         //Spool controls
-        Grabber.ManualSpoolMotor(grabber, gamepad2);
+        grabber.ManualSpoolMotor(gamepad2);
 
         //Misc controls
         misc.checkTogglePosition(gamepad2, true);
