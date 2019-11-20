@@ -46,12 +46,6 @@ public class DriveTrain{
     }
 
     public void checkToggleSpeed(Gamepad gamepad1){
-        if(gamepad1.a){
-            toggleSpeed.toggle();
-        }
-    }
-
-    public void checkToggleSpeed(Gamepad gamepad1, boolean isDualDriver){
         if(gamepad1.left_bumper){
             toggleSpeed.toggle();
         }

@@ -25,7 +25,7 @@ public class Misc {
     }
 
     public void checkTogglePosition(Gamepad gamepad, boolean isDualDriver){
-        if(gamepad.a){
+        if(gamepad.right_bumper){
             toggleFoundationGrabber.toggle();
         }
     }

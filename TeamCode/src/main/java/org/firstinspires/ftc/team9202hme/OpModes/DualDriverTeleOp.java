@@ -34,7 +34,7 @@ public class DualDriverTeleOp extends OpMode {
     @Override public void loop(){
         //Drive Train manual control system
         driveTrain.manualDrive(gamepad1);
-        driveTrain.checkToggleSpeed(gamepad1, true);
+        driveTrain.checkToggleSpeed(gamepad1);
         DriveTrain.logTelemetry(telemetry, driveTrain);
 
         //Grabber System (Servos)
