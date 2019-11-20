@@ -2,6 +2,7 @@ package org.firstinspires.ftc.team9202hme.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.team9202hme.Objects.DriveTrain;
@@ -23,6 +24,10 @@ public class SingleDriverTeleOp extends OpMode {
         grabber = Grabber.initGrabber(hardwareMap);
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
         misc = Misc.initMiscellaneous(hardwareMap);
+
+
+        driveTrain.resetEncoders();
+        driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /*
