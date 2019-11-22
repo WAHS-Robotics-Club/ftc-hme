@@ -44,7 +44,7 @@ public class SingleDriverTeleOp extends OpMode {
         DriveTrain.logTelemetry(telemetry, driveTrain);
 
         //Grabber System (Servos)
-        Grabber.ManualToggleGrabber(grabber, gamepad1);
+        grabber.ManualToggleGrabber(gamepad1);
 
         //Spool controls
         grabber.ManualSpoolMotor(gamepad1);
