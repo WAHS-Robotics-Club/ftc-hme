@@ -119,7 +119,7 @@ public class DriveTrain{
         }
     }
 
-    public void turnRobotToHeading(int currentHeading){
+    private void turnRobotToHeading(int currentHeading){
         double modifier, basePower;
         modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
         basePower = 0.1;

@@ -41,6 +41,16 @@ public class MainAutonomousProgram extends LinearOpMode {
        //Going forwards
         driveTrain.moveForwardsBy(telemetry, 24);
 
+        //Turning Back
+        driveTrain.turnToHeading(gyro, telemetry,-90);
 
+        //Going Back
+        driveTrain.moveForwardsBy(telemetry, 24);
+
+        //Turing to face forwards again
+        driveTrain.turnToHeading(gyro,telemetry,0);
+
+        //Backing up
+        driveTrain.moveForwardsBy(telemetry, -24);
     }
 }
