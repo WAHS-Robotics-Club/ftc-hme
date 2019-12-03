@@ -37,7 +37,7 @@ public class SingleDriverTeleOp extends OpMode {
     rightBack = 0
      */
 
-    @Override public void loop(){
+    @Override public void loop() {
         //Drive Train manual control system
         driveTrain.manualDrive(gamepad1);
         driveTrain.checkToggleSpeed(gamepad1);

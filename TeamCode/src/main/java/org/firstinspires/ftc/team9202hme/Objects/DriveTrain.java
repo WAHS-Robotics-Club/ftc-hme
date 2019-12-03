@@ -119,6 +119,12 @@ public class DriveTrain{
     }
 
     private void turnRobotToHeading(int currentHeading){
+        if(currentHeading > 135 || currentHeading < -135){
+            if(currentHeading < 0){
+                currentHeading += 360;
+            }
+        }
+
         double modifier, basePower;
         modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
         basePower = 0.1;

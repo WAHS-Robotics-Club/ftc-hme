@@ -32,28 +32,19 @@ public class MainAutonomousProgram extends LinearOpMode {
 
         waitForStart();
 
-        //Set the height
-        grabber.setHeightTo(telemetry, 6000);
 
         //Going Forwards
         driveTrain.moveForwardsBy(telemetry, 24);
 
         //Turning
-        driveTrain.turnToHeading(gyro, telemetry, 90);
+        driveTrain.turnToHeading(gyro, telemetry, 179);
 
        //Going forwards
         driveTrain.moveForwardsBy(telemetry, 24);
 
-        //Turning Back
-        driveTrain.turnToHeading(gyro, telemetry,-90);
+        //Turning
+        driveTrain.turnToHeading(gyro, telemetry, 0);
 
-        //Going Back
-        driveTrain.moveForwardsBy(telemetry, 24);
 
-        //Turing to face forwards again
-        driveTrain.turnToHeading(gyro,telemetry,0);
-
-        //Backing up
-        driveTrain.moveForwardsBy(telemetry, -24);
     }
 }

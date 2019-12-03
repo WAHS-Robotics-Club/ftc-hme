@@ -62,7 +62,7 @@ public class Grabber {
         CheckToggleGrabber();
     }
 
-    public void ManualSpoolMotor(Gamepad gamepad){
+    public void ManualSpoolMotor(Gamepad gamepad) {
         //Moves the arm up and down
         if(gamepad.right_trigger >= 0.1 && gamepad.left_trigger >= 0.1){
             SpoolMotorControl(0, gamepad);
@@ -73,11 +73,10 @@ public class Grabber {
         }else{
             SpoolMotorControl(0, gamepad);
         }
-
     }
 
-    private void SpoolMotorControl(float Power, Gamepad gamepad) {
-        if (spoolMotor.getCurrentPosition() < 12345 && spoolMotor.getCurrentPosition() > -10 || gamepad.a && gamepad.b && gamepad.x && gamepad.y) {
+    private void SpoolMotorControl(float Power, Gamepad gamepad){
+        if (spoolMotor.getCurrentPosition() < 12345 && spoolMotor.getCurrentPosition() > -10 || gamepad.b && gamepad.y) {
             if (Math.abs(Power) >= 0.1) {
                 spoolMotor.setPower(Power);
             } else {
@@ -87,6 +86,12 @@ public class Grabber {
             spoolMotor.setPower(-.2);
         }else{
             spoolMotor.setPower(.2);
+        }
+
+        if(gamepad.dpad_up && gamepad.y && !gamepad.b){
+            spoolMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            for(int i = 0; i < 100; i++){/*slow down*/}
+            spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 
