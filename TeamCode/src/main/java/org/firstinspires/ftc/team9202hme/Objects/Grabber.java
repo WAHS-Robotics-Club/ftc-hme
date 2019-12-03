@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.team9202hme.Tool.Toggle;
 
 public class Grabber {
@@ -26,6 +27,7 @@ public class Grabber {
         grabber.toggleGrabber = new Toggle();
         grabber.spoolMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        grabber.spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         return grabber;
     }
 
@@ -36,6 +38,20 @@ public class Grabber {
         }else{
             rightServo.setPosition(1);
             leftServo.setPosition(0);
+        }
+    }
+    public void setHeightTo(Telemetry telemetry, int targetPosition) throws InterruptedException{
+        Thread.sleep(1);
+
+        spoolMotor.setPower(.8);
+        spoolMotor.setTargetPosition(targetPosition);
+        spoolMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        int i = 0;
+        while(spoolMotor.isBusy() && i < 500){
+            telemetry.update();
+            i++;
+            Thread.sleep(1);
         }
     }
 
