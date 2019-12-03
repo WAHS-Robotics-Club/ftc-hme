@@ -33,7 +33,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         waitForStart();
 
         //Set the height
-        grabber.setHeightTo(telemetry, 12300);
+        grabber.setHeightTo(telemetry, 6000);
 
         //Going Forwards
         driveTrain.moveForwardsBy(telemetry, 24);

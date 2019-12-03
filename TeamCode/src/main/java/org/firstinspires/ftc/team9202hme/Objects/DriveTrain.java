@@ -16,7 +16,6 @@ public class DriveTrain{
     DcMotor brMotor;
     int targetHeading;
     Toggle toggleSpeed;
-    private int cooldown;
 
     public static DriveTrain initDriveTrain(HardwareMap hardwareMap) {
         //Hardware mapping the motors:
@@ -65,7 +64,7 @@ public class DriveTrain{
         telemetry.addData("BR Power", driveTrain.brMotor .getPower());
     }
 
-    public void goForwardsTo(double inches) throws InterruptedException{
+    private void goForwardsTo(double inches) throws InterruptedException{
         resetEncoders();
         Thread.sleep(1);
         int targetPosition;
@@ -141,23 +140,6 @@ public class DriveTrain{
             brMotor.setPower(0);
         }
 
-    }
-    public void resetCooldown(){
-        cooldown = 0;
-    }
-    public boolean cooldownTimer(boolean doIncrease){
-        if(!doIncrease){
-            resetCooldown();
-            return true;
-        }else{
-            cooldown++;
-
-            if (cooldown > 500) {
-                return false;
-            } else {
-                return true;
-            }
-        }
     }
 
     public void moveForwardsBy(Telemetry telemetry, int inches) throws InterruptedException{
