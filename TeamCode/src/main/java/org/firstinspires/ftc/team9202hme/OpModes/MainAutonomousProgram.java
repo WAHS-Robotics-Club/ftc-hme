@@ -38,7 +38,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         //ONLY MODIFY STUFF AFTER THIS
         //The encoders on everything except the spool motor reset each time you run it
         //Don't set target headings to anything within .5 of 180* either way
-        //Good luck
+        //Good luck have fun
 
         //Going Forwards
         driveTrain.moveForwardsBy(telemetry, 24);
