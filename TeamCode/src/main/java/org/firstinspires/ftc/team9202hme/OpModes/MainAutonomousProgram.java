@@ -8,7 +8,7 @@ import org.firstinspires.ftc.team9202hme.Objects.DriveTrain;
 import org.firstinspires.ftc.team9202hme.Objects.Grabber;
 import org.firstinspires.ftc.team9202hme.Objects.Misc;
 
-@Autonomous(name ="Main Autonomous - Charlie")
+@Autonomous(name ="Main Autonomous - Elijah")
 public class MainAutonomousProgram extends LinearOpMode {
 
     DriveTrain driveTrain;
@@ -32,18 +32,19 @@ public class MainAutonomousProgram extends LinearOpMode {
 
         waitForStart();
 
+        //Sets the height to a safe height
+        grabber.setHeightTo(telemetry, 3000);
+
+        //ONLY MODIFY STUFF AFTER THIS
+        //The encoders on everything except the spool motor reset each time you run it
+        //Don't set target headings to anything within .5 of 180* either way
+        //Good luck
 
         //Going Forwards
         driveTrain.moveForwardsBy(telemetry, 24);
 
         //Turning
         driveTrain.turnToHeading(gyro, telemetry, 179);
-
-       //Going forwards
-        driveTrain.moveForwardsBy(telemetry, 24);
-
-        //Turning
-        driveTrain.turnToHeading(gyro, telemetry, 0);
 
 
     }
