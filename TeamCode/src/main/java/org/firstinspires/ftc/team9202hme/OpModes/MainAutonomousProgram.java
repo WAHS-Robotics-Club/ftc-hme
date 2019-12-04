@@ -40,12 +40,30 @@ public class MainAutonomousProgram extends LinearOpMode {
         //Good luck have fun
         //Hi
 
-        //Going Forwards
-        driveTrain.moveForwardsBy(telemetry, 24);
 
-        //Turning
+
+        //THIS IS ELIJAH: If I did this all correctly, it should work...at least decently...
+
+        //Going to pick up skystone
+        driveTrain.moveForwardsBy(telemetry, 38);
+        //Moving back one tile
+        driveTrain.moveForwardsBy(telemetry, -23);
+        //Turning towards the building side
+        driveTrain.turnToHeading(gyro, telemetry, 90);
+        //Moving to the build side
+        driveTrain.moveForwardsBy(telemetry, 70);
+        //Turning towards the foundation
+        driveTrain.turnToHeading(gyro, telemetry, 0);
+        //Moving to the foundation
+        driveTrain.moveForwardsBy(telemetry, 23);
+        //Turning around to face the build site
         driveTrain.turnToHeading(gyro, telemetry, 179);
-
-
+        //Driving to the build site
+        driveTrain.moveForwardsBy(telemetry, 38);
+        //Turning to park under the bridge
+        driveTrain.turnToHeading(gyro, telemetry, 270);
+        //Driving to park under the bridge
+        driveTrain.moveForwardsBy(telemetry, 47);
+        //DONE with the drive train code!
     }
 }
