@@ -119,7 +119,7 @@ public class DriveTrain{
     }
 
     private void turnRobotToHeading(int currentHeading){
-        if(currentHeading > 135 || currentHeading < -135){
+        if(currentHeading > 165 || currentHeading < -165){
             if(currentHeading < 0){
                 currentHeading += 360;
             }
