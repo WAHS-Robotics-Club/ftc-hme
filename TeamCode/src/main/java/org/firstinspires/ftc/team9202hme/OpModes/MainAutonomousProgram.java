@@ -62,6 +62,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain.moveForwardsBy(telemetry, 38);
         //Turning to park under the bridge
         driveTrain.turnToHeading(gyro, telemetry, 270);
+        sleep(1);
         //Driving to park under the bridge
         driveTrain.moveForwardsBy(telemetry, 47);
         //DONE with the drive train code!
