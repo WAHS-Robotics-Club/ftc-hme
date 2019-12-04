@@ -33,7 +33,7 @@ public class MainAutonomousProgram extends LinearOpMode {
 
         //Sets the height to a safe height
         grabber.setHeightTo(telemetry, 0);
-
+     
         //ONLY MODIFY STUFF AFTER THIS
         //The encoders on everything except the spool motor reset each time you run it
         //Don't set target headings to anything within .5 of 180* either way
