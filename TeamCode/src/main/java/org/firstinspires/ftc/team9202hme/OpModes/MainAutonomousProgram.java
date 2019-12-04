@@ -32,7 +32,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         waitForStart();
 
         //Sets the height to a safe height
-        grabber.setHeightTo(telemetry, 3000);
+        grabber.setHeightTo(telemetry, 0);
 
         //ONLY MODIFY STUFF AFTER THIS
         //The encoders on everything except the spool motor reset each time you run it
