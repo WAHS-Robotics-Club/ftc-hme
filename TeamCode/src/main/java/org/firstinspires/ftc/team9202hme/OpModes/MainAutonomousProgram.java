@@ -46,25 +46,35 @@ public class MainAutonomousProgram extends LinearOpMode {
 
         //Going to pick up skystone
         driveTrain.moveForwardsBy(telemetry, 38);
+        sleep(1000);
         //Moving back one tile
         driveTrain.moveForwardsBy(telemetry, -23);
+        sleep(1000);
         //Turning towards the building side
         driveTrain.turnToHeading(gyro, telemetry, 90);
+        sleep(1000);
         //Moving to the build side
         driveTrain.moveForwardsBy(telemetry, 70);
+        sleep(1000);
         //Turning towards the foundation
         driveTrain.turnToHeading(gyro, telemetry, 0);
+        sleep(1000);
         //Moving to the foundation
         driveTrain.moveForwardsBy(telemetry, 23);
+        sleep(1000);
         //Turning around to face the build site
         driveTrain.turnToHeading(gyro, telemetry, 179);
+        sleep(1000);
         //Driving to the build site
         driveTrain.moveForwardsBy(telemetry, 38);
+        sleep(1000);
         //Turning to park under the bridge
         driveTrain.turnToHeading(gyro, telemetry, 270);
-        sleep(1);
+        sleep(1000);
         //Driving to park under the bridge
         driveTrain.moveForwardsBy(telemetry, 47);
+        sleep(1000);
+
         //DONE with the drive train code!
     }
 }
