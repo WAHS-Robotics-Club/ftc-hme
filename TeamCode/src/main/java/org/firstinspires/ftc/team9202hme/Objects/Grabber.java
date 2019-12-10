@@ -9,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.team9202hme.Tool.Toggle;
 
 public class Grabber {
-    Servo leftServo;
-    Servo rightServo;
+    public Servo leftServo;
+    public Servo rightServo;
 
     public DcMotor spoolMotor;
 

@@ -40,41 +40,61 @@ public class MainAutonomousProgram extends LinearOpMode {
         //Good luck have fun
         //Hi
 
+        //THIS IS ELIJAH READ THIS: This is untested code, but I think it will work.
 
-
-        //THIS IS ELIJAH: If I did this all correctly, it should work...at least decently...
+        //Setting servos and motors to the correct position
+        grabber.leftServo.setPosition(0);
+        grabber.rightServo.setPosition(1);
+        misc.foundationGrabber.setPosition(180);
+        grabber.setHeightTo(telemetry, 0);
 
         //Going to pick up skystone
-        driveTrain.moveForwardsBy(telemetry, 38);
-        sleep(1000);
-        //Moving back one tile
-        driveTrain.moveForwardsBy(telemetry, -23);
-        sleep(1000);
-        //Turning towards the building side
-        driveTrain.turnToHeading(gyro, telemetry, 90);
-        sleep(1000);
-        //Moving to the build side
-        driveTrain.moveForwardsBy(telemetry, 70);
-        sleep(1000);
-        //Turning towards the foundation
-        driveTrain.turnToHeading(gyro, telemetry, 0);
-        sleep(1000);
-        //Moving to the foundation
-        driveTrain.moveForwardsBy(telemetry, 23);
-        sleep(1000);
-        //Turning around to face the build site
-        driveTrain.turnToHeading(gyro, telemetry, 179);
-        sleep(1000);
-        //Driving to the build site
-        driveTrain.moveForwardsBy(telemetry, 38);
-        sleep(1000);
-        //Turning to park under the bridge
-        driveTrain.turnToHeading(gyro, telemetry, 270);
-        sleep(1000);
-        //Driving to park under the bridge
-        driveTrain.moveForwardsBy(telemetry, 47);
+        driveTrain.moveForwardsBy(telemetry, 24);
+
+        //Picking up skystone
+        grabber.leftServo.setPosition(0.75);
+        grabber.rightServo.setPosition(0.25);
         sleep(1000);
 
-        //DONE with the drive train code!
+        //Moving back one tile
+        driveTrain.moveForwardsBy(telemetry, -4);
+
+        //Turning towards the building side
+        driveTrain.turnToHeading(gyro, telemetry, 90);
+
+        //Moving to the build side
+        driveTrain.moveForwardsBy(telemetry, 64);
+
+        //Turning towards the foundation
+        driveTrain.turnToHeading(gyro, telemetry, 0);
+
+        //Rising the drawer slides
+        grabber.setHeightTo(telemetry, 3500);
+
+        //Moving closer to the foundation
+        driveTrain.moveForwardsBy(telemetry, 9);
+
+        //Dropping the skystone
+        grabber.leftServo.setPosition(0);
+        grabber.rightServo.setPosition(1);
+
+        //Turning around to face the build site and grabbing the foundation
+        driveTrain.turnToHeading(gyro, telemetry, 179);
+        driveTrain.moveForwardsBy(telemetry, 2);
+        misc.foundationGrabber.setPosition(0);
+        sleep(3000);
+
+        //Driving to the build site
+        driveTrain.moveForwardsBy(telemetry, 30);
+        misc.foundationGrabber.setPosition(180);
+
+        //Turning to park under the bridge and lowering the drawer slides
+        driveTrain.turnToHeading(gyro, telemetry, -90);
+        grabber.setHeightTo(telemetry, 0);
+
+        //Driving to park under the bridge
+        driveTrain.moveForwardsBy(telemetry, 47);
+
+        //DONE
     }
 }
