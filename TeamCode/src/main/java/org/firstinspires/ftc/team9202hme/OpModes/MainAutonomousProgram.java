@@ -78,13 +78,13 @@ public class MainAutonomousProgram extends LinearOpMode {
         grabber.rightServo.setPosition(1);
 
         //Turning around to face the build site and grabbing the foundation
+        driveTrain.moveForwardsBy(telemetry, 1);
         driveTrain.turnToHeading(gyro, telemetry, 179);
-        driveTrain.moveForwardsBy(telemetry, 2);
         misc.foundationGrabber.setPosition(0);
         sleep(3000);
 
         //Driving to the build site
-        driveTrain.moveForwardsBy(telemetry, 30);
+        driveTrain.moveForwardsBy(telemetry, 25);
         misc.foundationGrabber.setPosition(180);
 
         //Turning to park under the bridge and lowering the drawer slides
@@ -92,7 +92,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         grabber.setHeightTo(telemetry, 0);
 
         //Driving to park under the bridge
-        driveTrain.moveForwardsBy(telemetry, 47);
+        driveTrain.moveForwardsBy(telemetry, 45);
 
         //DONE
     }
