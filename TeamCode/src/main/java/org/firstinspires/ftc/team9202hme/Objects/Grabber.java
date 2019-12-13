@@ -33,8 +33,8 @@ public class Grabber {
 
     public void CheckToggleGrabber(){
         if(toggleGrabber.isToggled()){
-            rightServo.setPosition(0.25);
-            leftServo.setPosition(0.75);
+            rightServo.setPosition(0.10);
+            leftServo.setPosition(0.90);
         }else{
             rightServo.setPosition(1);
             leftServo.setPosition(0);
