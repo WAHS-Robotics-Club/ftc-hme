@@ -76,7 +76,7 @@ public class Grabber {
     }
 
     private void SpoolMotorControl(float Power, Gamepad gamepad){
-        if (spoolMotor.getCurrentPosition() < 12345 && spoolMotor.getCurrentPosition() > -10 || gamepad.b && gamepad.y) {
+        if (spoolMotor.getCurrentPosition() < 12300 && spoolMotor.getCurrentPosition() > -10 || gamepad.b && gamepad.y) {
             if (Math.abs(Power) >= 0.1) {
                 spoolMotor.setPower(Power);
             } else {
