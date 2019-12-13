@@ -76,7 +76,7 @@ public class Grabber {
     }
 
     private void SpoolMotorControl(float Power, Gamepad gamepad){
-        if (spoolMotor.getCurrentPosition() < 12300 && spoolMotor.getCurrentPosition() > -10 || gamepad.b && gamepad.y) {
+        if (spoolMotor.getCurrentPosition() < 12300 && spoolMotor.getCurrentPosition() > -10 || gamepad.dpad_right) {
             if (Math.abs(Power) >= 0.1) {
                 spoolMotor.setPower(Power);
             } else {
@@ -88,7 +88,7 @@ public class Grabber {
             spoolMotor.setPower(.2);
         }
 
-        if(gamepad.dpad_up && gamepad.y && !gamepad.b){
+        if(gamepad.dpad_up){
             spoolMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             for(int i = 0; i < 100; i++){/*slow down*/}
             spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
