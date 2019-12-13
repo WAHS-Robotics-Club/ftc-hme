@@ -56,7 +56,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         grabber.setHeightTo(telemetry, 0);
 
         //Going to pick up skystone
-        driveTrain.moveForwardsBy(telemetry, 27);
+        driveTrain.moveForwardsBy(telemetry, 26);
 
         //Picking up skystone
         grabber.leftServo.setPosition(0.75);
@@ -64,7 +64,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         sleep(1000);
 
         //Moving back one tile
-        driveTrain.moveForwardsBy(telemetry, -6);
+        driveTrain.moveForwardsBy(telemetry, -5);
 
         //Turning towards the building side
         driveTrain.turnToHeading(gyro, telemetry, 90);
