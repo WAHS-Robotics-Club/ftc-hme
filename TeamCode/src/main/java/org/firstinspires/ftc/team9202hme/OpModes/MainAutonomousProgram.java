@@ -59,8 +59,8 @@ public class MainAutonomousProgram extends LinearOpMode {
         driveTrain.moveForwardsBy(telemetry, 26);
 
         //Picking up skystone
-        grabber.leftServo.setPosition(0.75);
-        grabber.rightServo.setPosition(0.25);
+        grabber.leftServo.setPosition(0.9);
+        grabber.rightServo.setPosition(0.1);
         sleep(1000);
 
         //Moving back one tile
