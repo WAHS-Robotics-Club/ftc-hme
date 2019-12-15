@@ -41,13 +41,7 @@ public class MainAutonomousProgram extends LinearOpMode {
         //The encoders on everything except the spool motor reset each time you run it
         //Don't set target headings to anything within .5 of 180* either way
 
-        /*READ THIS IF YOU LOOK AT THIS CODE:
-            So, this will technically get the 21 points we want, but there are a few issues.
-            We have changes the strategy a LITTLE bit, but that means I have to make changes.
-            This works for what we need for now, however. When I make the changes, I will
-            delete this passage. ~Elijah Berlin Witt, aka MutantPrince633, aka Mutant Prince,
-            aka MutntPrnce, aka EliBerW, aka Soul, aka Chief-Man, aka Hokage Boomer
-         */
+        //THIS IS THE AUTONOMOUS CODE FOR BLUE STONE SIDE
 
         //Setting servos and motors to the correct position
         grabber.leftServo.setPosition(0);
