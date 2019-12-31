@@ -78,24 +78,31 @@ public class MainAutonomousProgram extends LinearOpMode {
         //Dropping the skystone
         grabber.leftServo.setPosition(0);
         grabber.rightServo.setPosition(1);
-        driveTrain.moveForwardsBy(telemetry, -3);
-
-        //Turning around to face the build site and grabbing the foundation
         driveTrain.moveForwardsBy(telemetry, -1);
-        driveTrain.turnToHeading(gyro, telemetry, 179);
-        misc.foundationGrabber.setPosition(0);
-        sleep(3000);
 
-        //Driving to the build site
-        driveTrain.moveForwardsBy(telemetry, 24);
-        misc.foundationGrabber.setPosition(180);
-
-        //Turning to park under the bridge and lowering the drawer slides
-        driveTrain.turnToHeading(gyro, telemetry, -90);
+        //Lowering the drawer slides
         grabber.setHeightTo(telemetry, 0);
 
+        //Moving back a tile or so
+        driveTrain.moveForwardsBy(telemetry, -20);
+
+        //Turning towards the build site
+        driveTrain.turnToHeading(gyro, telemetry, 90);
+
+        //Raising the drawer slides and detaching
+        grabber.setHeightTo(telemetry, 2000);
+        driveTrain.moveForwardsBy(telemetry, -20);
+
+        //Lowering the drawer slides again
+        grabber.setHeightTo(telemetry, 0);
+
+        //Avoiding alliance partner
+        driveTrain.turnToHeading(gyro, telemetry, 0);
+        driveTrain.moveForwardsBy(telemetry, 10);
+        driveTrain.turnToHeading(gyro, telemetry, -90);
+
         //Driving to park under the bridge
-        driveTrain.moveForwardsBy(telemetry, 40);
+        driveTrain.moveForwardsBy(telemetry, 28);
 
         //DONE
     }
