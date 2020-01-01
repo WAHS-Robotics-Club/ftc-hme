@@ -79,6 +79,6 @@ public class RedFoundationSideAuto extends LinearOpMode {
         //Parking under the skybridge
         driveTrain.moveForwardsBy(telemetry, -24);
 
-        //DONE
+        //STILL REQUIRES TESTING
     }
 }
