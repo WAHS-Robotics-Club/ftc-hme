@@ -53,6 +53,8 @@ public class SingleDriverTeleOp extends OpMode {
         misc.useMiscLoop();
 
         telemetry.addData("spool motor position", grabber.spoolMotor.getCurrentPosition());
+        telemetry.addData("it actually worked", grabber.spoolMotor.getCurrentPosition());
+
     }
 
 }
