@@ -27,7 +27,6 @@ public class SingleDriverTeleOp extends OpMode {
         driveTrain.resetEncoders();
         driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
     
     /*
     leftFront = 2
