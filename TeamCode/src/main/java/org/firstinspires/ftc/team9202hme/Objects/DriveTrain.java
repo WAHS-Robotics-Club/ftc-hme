@@ -14,8 +14,8 @@ public class DriveTrain{
     DcMotor frMotor;
     DcMotor blMotor;
     DcMotor brMotor;
-    int targetHeading;
     Toggle toggleSpeed;
+    int targetHeading;
 
     public static DriveTrain initDriveTrain(HardwareMap hardwareMap) {
         //Hardware mapping the motors:
@@ -53,11 +53,6 @@ public class DriveTrain{
     public static void logTelemetry(Telemetry telemetry, DriveTrain driveTrain) {
         // telemetry.addData("Heading", driveTrain.getHeading() + " degrees");
         //1120 ticks in a rotation
-        telemetry.addData("FL Pos", driveTrain.flMotor.getCurrentPosition());
-        telemetry.addData("FR Pos", driveTrain.frMotor.getCurrentPosition());
-        telemetry.addData("BL Pos", driveTrain.blMotor.getCurrentPosition());
-        telemetry.addData("BR Pos", driveTrain.brMotor .getCurrentPosition());
-
         telemetry.addData("FL Power", driveTrain.flMotor.getPower());
         telemetry.addData("FR Power", driveTrain.frMotor.getPower());
         telemetry.addData("BL Power", driveTrain.blMotor.getPower());
