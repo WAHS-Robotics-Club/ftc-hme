@@ -11,7 +11,6 @@ import org.firstinspires.ftc.team9202hme.Objects.Misc;
 @TeleOp(name ="Dual Driver TeleOp - HME")
 public class DualDriverTeleOp extends OpMode {
     //Initializing the servo objects:
-
     Grabber grabber;
     DriveTrain driveTrain;
     Misc misc;
