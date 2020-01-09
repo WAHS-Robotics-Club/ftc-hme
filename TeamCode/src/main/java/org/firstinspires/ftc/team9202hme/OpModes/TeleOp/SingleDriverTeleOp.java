@@ -29,7 +29,7 @@ public class SingleDriverTeleOp extends OpMode {
     }
 
     /*
-    leftFront = 2 
+    leftFront = 2
     leftBack = 1
     rightFront = 3
     rightBack = 0
@@ -52,6 +52,7 @@ public class SingleDriverTeleOp extends OpMode {
         misc.checkTogglePosition(gamepad1);
         misc.useMiscLoop();
 
+        
     }
 
 }
