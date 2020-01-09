@@ -39,6 +39,7 @@ public class DualDriverTeleOp extends OpMode {
 
         //Grabber System (Servos)
         grabber.ManualToggleGrabber(gamepad1);
+        telemetry.addData("spool motor position", grabber.spoolMotor.getCurrentPosition());
 
         //Spool controls
         grabber.ManualSpoolMotor(gamepad2);
