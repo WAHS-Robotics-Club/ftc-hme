@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme.OpModes.Autonomi;
+package org.firstinspires.ftc.team9202hme.OpModes.Autonomi.BlueSide;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,8 +8,8 @@ import org.firstinspires.ftc.team9202hme.Objects.DriveTrain;
 import org.firstinspires.ftc.team9202hme.Objects.Grabber;
 import org.firstinspires.ftc.team9202hme.Objects.Misc;
 
-@Autonomous(name ="BlueFoundationSide - Autonomous")
-public class BlueFoundationSideAuto extends LinearOpMode {
+@Autonomous(name ="BlueStoneSide - Autonomous")
+public class BlueStoneSideAuto extends LinearOpMode {
 
     DriveTrain driveTrain;
     Grabber grabber;
@@ -40,7 +40,8 @@ public class BlueFoundationSideAuto extends LinearOpMode {
 
         //The encoders on everything except the spool motor reset each time you run it
 
-        //THIS IS THE AUTONOMOUS CODE FOR BLUE FOUNDATION SIDE
+
+        //THIS IS THE AUTONOMOUS CODE FOR BLUE STONE SIDE
 
         //Setting servos and motors to the correct position
         grabber.leftServo.setPosition(0);
@@ -48,17 +49,36 @@ public class BlueFoundationSideAuto extends LinearOpMode {
         misc.foundationGrabber.setPosition(180);
         grabber.setHeightTo(telemetry, 0);
 
-        //Adjusting to line up with the foundation
-        driveTrain.moveForwardsBy(telemetry, 5);
+        //Going to pick up skystone
+        driveTrain.moveForwardsBy(telemetry, 26);
+
+        //Picking up skystone
+        grabber.leftServo.setPosition(0.95);
+        grabber.rightServo.setPosition(0.05);
+        sleep(1000);
+
+        //Moving back one tile
+        driveTrain.moveForwardsBy(telemetry, -5);
+
+        //Turning towards the building side
         driveTrain.turnToHeading(gyro, telemetry, 90);
-        driveTrain.moveForwardsBy(telemetry, 24);
+
+        //Moving to the build side
+        driveTrain.moveForwardsBy(telemetry, 64);
+
+        //Turning towards the foundation
         driveTrain.turnToHeading(gyro, telemetry, 0);
 
         //Rising the drawer slides
-        grabber.setHeightTo(telemetry, 2000);
+        grabber.setHeightTo(telemetry, 3500);
 
-        //Going towards the foundation
-        driveTrain.moveForwardsBy(telemetry, 22);
+        //Moving closer to the foundation
+        driveTrain.moveForwardsBy(telemetry, 9);
+
+        //Dropping the skystone
+        grabber.leftServo.setPosition(0);
+        grabber.rightServo.setPosition(1);
+        driveTrain.moveForwardsBy(telemetry, -1);
 
         //Lowering the drawer slides
         grabber.setHeightTo(telemetry, 0);
@@ -71,13 +91,18 @@ public class BlueFoundationSideAuto extends LinearOpMode {
 
         //Raising the drawer slides and detaching
         grabber.setHeightTo(telemetry, 2000);
-        driveTrain.moveForwardsBy(telemetry, -24);
+        driveTrain.moveForwardsBy(telemetry, -20);
 
         //Lowering the drawer slides again
         grabber.setHeightTo(telemetry, 0);
 
-        //Parking under the skybridge
-        driveTrain.moveForwardsBy(telemetry, -24);
+        //Avoiding alliance partner
+        driveTrain.turnToHeading(gyro, telemetry, 0);
+        driveTrain.moveForwardsBy(telemetry, 10);
+        driveTrain.turnToHeading(gyro, telemetry, -90);
+
+        //Driving to park under the bridge
+        driveTrain.moveForwardsBy(telemetry, 28);
 
         //STILL REQUIRES TESTING
     }
