@@ -23,8 +23,7 @@ public class SingleDriverTeleOp extends OpMode {
         grabber = Grabber.initGrabber(hardwareMap);
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
         misc = Misc.initMiscellaneous(hardwareMap);
-
-
+        
         driveTrain.resetEncoders();
         driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
