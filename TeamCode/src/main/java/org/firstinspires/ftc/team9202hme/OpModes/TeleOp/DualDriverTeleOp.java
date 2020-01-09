@@ -23,7 +23,6 @@ public class DualDriverTeleOp extends OpMode {
         misc = Misc.initMiscellaneous(hardwareMap);
     }
 
-    
     /*
     leftFront = 2
     leftBack = 1
