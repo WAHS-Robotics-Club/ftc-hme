@@ -8,7 +8,7 @@ import org.firstinspires.ftc.team9202hme.Objects.DriveTrain;
 import org.firstinspires.ftc.team9202hme.Objects.Grabber;
 import org.firstinspires.ftc.team9202hme.Objects.Misc;
 
-@Autonomous(name ="RedFoundationSide - Autonomous")
+@Autonomous(name ="RedFoundationSide - Autonomous", group = "Red Side")
 public class RedFoundationSideAuto extends LinearOpMode {
 
     DriveTrain driveTrain;
