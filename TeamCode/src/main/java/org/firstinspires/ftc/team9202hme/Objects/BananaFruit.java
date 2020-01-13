@@ -95,7 +95,7 @@ public class BananaFruit {
         // Wait until we're told to go
 
         // Start the logging of measured acceleration
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 10);
     }
 
     //----------------------------------------------------------------------------------------------
