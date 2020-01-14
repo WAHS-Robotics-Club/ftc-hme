@@ -51,7 +51,7 @@ public class BlueFoundationSideAuto extends LinearOpMode {
         //Adjusting to line up with the foundation
         driveTrain.moveForwardsBy(telemetry, 5);
         driveTrain.turnToHeading(gyro, telemetry, 90);
-        driveTrain.moveForwardsBy(telemetry, 20);
+        driveTrain.moveForwardsBy(telemetry, 21);
         driveTrain.turnToHeading(gyro, telemetry, 0);
 
         //Rising the drawer slides
