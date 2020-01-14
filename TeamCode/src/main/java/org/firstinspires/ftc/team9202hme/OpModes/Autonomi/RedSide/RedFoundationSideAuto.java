@@ -52,7 +52,7 @@ public class RedFoundationSideAuto extends LinearOpMode {
         driveTrain.moveForwardsBy(telemetry, 5);
         driveTrain.turnToHeading(gyro, telemetry, 90);
         driveTrain.moveForwardsBy(telemetry, 24);
-        driveTrain.turnToHeading(gyro, telemetry, 179);
+        driveTrain.turnToHeading(gyro, telemetry, 180);
 
         //Rising the drawer slides
         grabber.setHeightTo(telemetry, 2000);

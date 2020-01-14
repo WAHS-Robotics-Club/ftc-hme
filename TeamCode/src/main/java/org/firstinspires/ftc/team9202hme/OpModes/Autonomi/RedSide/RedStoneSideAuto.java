@@ -67,7 +67,7 @@ public class RedStoneSideAuto extends LinearOpMode {
         driveTrain.moveForwardsBy(telemetry, 64);
 
         //Turning towards the foundation
-        driveTrain.turnToHeading(gyro, telemetry, 179);
+        driveTrain.turnToHeading(gyro, telemetry, 180);
 
         //Rising the drawer slides
         grabber.setHeightTo(telemetry, 3500);
@@ -97,7 +97,7 @@ public class RedStoneSideAuto extends LinearOpMode {
         grabber.setHeightTo(telemetry, 0);
 
         //Avoiding alliance partner
-        driveTrain.turnToHeading(gyro, telemetry, 179);
+        driveTrain.turnToHeading(gyro, telemetry, 180);
         driveTrain.moveForwardsBy(telemetry, 10);
         driveTrain.turnToHeading(gyro, telemetry, -90);
 
