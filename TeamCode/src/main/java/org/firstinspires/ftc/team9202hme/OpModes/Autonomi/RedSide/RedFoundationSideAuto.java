@@ -51,20 +51,20 @@ public class RedFoundationSideAuto extends LinearOpMode {
         //Adjusting to line up with the foundation
         driveTrain.moveForwardsBy(telemetry, 5);
         driveTrain.turnToHeading(gyro, telemetry, 90);
-        driveTrain.moveForwardsBy(telemetry, 24);
+        driveTrain.moveForwardsBy(telemetry, 10);
         driveTrain.turnToHeading(gyro, telemetry, 179);
 
         //Rising the drawer slides
         grabber.setHeightTo(telemetry, 2000);
 
         //Going towards the foundation
-        driveTrain.moveForwardsBy(telemetry, 22);
+        driveTrain.moveForwardsBy(telemetry, 30);
 
         //Lowering the drawer slides
         grabber.setHeightTo(telemetry, 0);
 
         //Moving back a tile or so
-        driveTrain.moveForwardsBy(telemetry, -20);
+        driveTrain.moveForwardsBy(telemetry, -8);
 
         //Turning towards the build site
         driveTrain.turnToHeading(gyro, telemetry, 90);
@@ -77,7 +77,7 @@ public class RedFoundationSideAuto extends LinearOpMode {
         grabber.setHeightTo(telemetry, 0);
 
         //Parking under the skybridge
-        driveTrain.moveForwardsBy(telemetry, -24);
+        driveTrain.moveForwardsBy(telemetry, -28);
 
         //STILL REQUIRES TESTING
     }
