@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme.OpModes.Autonomi.RedSide;
+package org.firstinspires.ftc.team9202hme.OpModes.Autonomi;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,8 +8,8 @@ import org.firstinspires.ftc.team9202hme.Objects.DriveTrain;
 import org.firstinspires.ftc.team9202hme.Objects.Grabber;
 import org.firstinspires.ftc.team9202hme.Objects.Misc;
 
-@Autonomous(name ="RedFoundationSide - Parking", group = "Red Side")
-public class RedFoundationSideParking extends LinearOpMode {
+@Autonomous(name ="Universal Parking - Autonomous")
+public class UniversalParking extends LinearOpMode {
 
     DriveTrain driveTrain;
     Grabber grabber;
@@ -31,10 +31,11 @@ public class RedFoundationSideParking extends LinearOpMode {
 
         waitForStart();
 
-        driveTrain.moveForwardsBy(telemetry, 2);
-        driveTrain.turnToHeading(gyro, telemetry, 90);
-        driveTrain.moveForwardsBy(telemetry, 20);
+
         //ONLY MODIFY STUFF AFTER THIS
 
+        driveTrain.moveForwardsBy(telemetry, 20);
+
+        //STILL REQUIRES TESTING
     }
 }
