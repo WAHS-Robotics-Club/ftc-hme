@@ -77,7 +77,7 @@ public class BlueFoundationSideAuto extends LinearOpMode {
         grabber.setHeightTo(telemetry, 0);
 
         //Parking under the skybridge
-        driveTrain.moveForwardsBy(telemetry, -24);
+        driveTrain.moveForwardsBy(telemetry, -10);
 
         //STILL REQUIRES TESTING
     }
