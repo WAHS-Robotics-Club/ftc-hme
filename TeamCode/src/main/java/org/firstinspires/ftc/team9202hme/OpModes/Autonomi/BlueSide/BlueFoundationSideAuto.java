@@ -55,7 +55,7 @@ public class BlueFoundationSideAuto extends LinearOpMode {
         driveTrain.turnToHeading(gyro, telemetry, 0);
 
         //Rising the drawer slides
-        grabber.setHeightTo(telemetry, 2000);
+        grabber.setHeightTo(telemetry, 2500);
 
         //Going towards the foundation
         driveTrain.moveForwardsBy(telemetry, 24);
@@ -70,7 +70,7 @@ public class BlueFoundationSideAuto extends LinearOpMode {
         driveTrain.turnToHeading(gyro, telemetry, 90);
 
         //Raising the drawer slides and detaching
-        grabber.setHeightTo(telemetry, 2000);
+        grabber.setHeightTo(telemetry, 2500);
         driveTrain.moveForwardsBy(telemetry, -24);
 
         //Lowering the drawer slides again

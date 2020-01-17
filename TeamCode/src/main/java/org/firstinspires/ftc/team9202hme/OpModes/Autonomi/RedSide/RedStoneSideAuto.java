@@ -61,10 +61,18 @@ public class RedStoneSideAuto extends LinearOpMode {
         driveTrain.moveForwardsBy(telemetry, -5);
 
         //Turning towards the building side
-        driveTrain.turnToHeading(gyro, telemetry, 90);
+        driveTrain.turnToHeading(gyro, telemetry, -90);
 
         //Moving to the build side
         driveTrain.moveForwardsBy(telemetry, 40);
+
+        //Letting go of skystone
+        grabber.leftServo.setPosition(0);
+        grabber.rightServo.setPosition(1);
+        sleep(1000);
+
+        //Parking
+        driveTrain.moveForwardsBy(telemetry, -14);
 
         //STILL REQUIRES TESTING
     }
