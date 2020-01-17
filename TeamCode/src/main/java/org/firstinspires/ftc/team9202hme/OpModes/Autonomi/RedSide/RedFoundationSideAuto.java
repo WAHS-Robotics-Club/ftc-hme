@@ -64,7 +64,7 @@ public class RedFoundationSideAuto extends LinearOpMode {
         grabber.setHeightTo(telemetry, 0);
 
         //Moving back a tile or so
-        driveTrain.moveForwardsBy(telemetry, -18);
+        driveTrain.moveForwardsBy(telemetry, -20);
 
         //Turning towards the build site
         driveTrain.turnToHeading(gyro, telemetry, -90);

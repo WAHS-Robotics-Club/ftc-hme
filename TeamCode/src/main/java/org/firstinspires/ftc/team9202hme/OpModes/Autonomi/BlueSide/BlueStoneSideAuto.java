@@ -72,7 +72,7 @@ public class BlueStoneSideAuto extends LinearOpMode {
         sleep(1000);
 
         //Parking
-        driveTrain.moveForwardsBy(telemetry, -14);
+        driveTrain.moveForwardsBy(telemetry, -16);
 
         //STILL REQUIRES TESTING
     }
