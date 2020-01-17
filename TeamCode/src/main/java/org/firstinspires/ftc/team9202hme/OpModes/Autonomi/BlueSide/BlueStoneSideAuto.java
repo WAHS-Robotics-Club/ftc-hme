@@ -64,45 +64,7 @@ public class BlueStoneSideAuto extends LinearOpMode {
         driveTrain.turnToHeading(gyro, telemetry, 90);
 
         //Moving to the build side
-        driveTrain.moveForwardsBy(telemetry, 64);
-
-        //Turning towards the foundation
-        driveTrain.turnToHeading(gyro, telemetry, 0);
-
-        //Rising the drawer slides
-        grabber.setHeightTo(telemetry, 3500);
-
-        //Moving closer to the foundation
-        driveTrain.moveForwardsBy(telemetry, 9);
-
-        //Dropping the skystone
-        grabber.leftServo.setPosition(0);
-        grabber.rightServo.setPosition(1);
-        driveTrain.moveForwardsBy(telemetry, -1);
-
-        //Lowering the drawer slides
-        grabber.setHeightTo(telemetry, 0);
-
-        //Moving back a tile or so
-        driveTrain.moveForwardsBy(telemetry, -20);
-
-        //Turning towards the build site
-        driveTrain.turnToHeading(gyro, telemetry, 90);
-
-        //Raising the drawer slides and detaching
-        grabber.setHeightTo(telemetry, 2000);
-        driveTrain.moveForwardsBy(telemetry, -20);
-
-        //Lowering the drawer slides again
-        grabber.setHeightTo(telemetry, 0);
-
-        //Avoiding alliance partner
-        driveTrain.turnToHeading(gyro, telemetry, 0);
-        driveTrain.moveForwardsBy(telemetry, 10);
-        driveTrain.turnToHeading(gyro, telemetry, -90);
-
-        //Driving to park under the bridge
-        driveTrain.moveForwardsBy(telemetry, 28);
+        driveTrain.moveForwardsBy(telemetry, 40);
 
         //STILL REQUIRES TESTING
     }
