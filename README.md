@@ -900,3 +900,5 @@ In this latest version of the FTC SDK (20150803_001) the following changes shoul
 
 T. Eng
 August 3, 2015
+
+Charlie was here
