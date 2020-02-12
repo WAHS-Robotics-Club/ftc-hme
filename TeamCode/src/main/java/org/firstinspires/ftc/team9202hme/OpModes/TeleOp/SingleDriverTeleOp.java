@@ -32,9 +32,9 @@ public class SingleDriverTeleOp extends OpMode {
 
     @Override public void loop() {
         //Drive Train manual control system
-        flMotor.setPower(gamepad1.left_stick_y);
+        flMotor.setPower(-gamepad1.left_stick_y);
         frMotor.setPower(gamepad1.right_stick_y);
-        blMotor.setPower(gamepad1.left_stick_y);
+        blMotor.setPower(-gamepad1.left_stick_y);
         brMotor.setPower(gamepad1.right_stick_y);
     }
 
