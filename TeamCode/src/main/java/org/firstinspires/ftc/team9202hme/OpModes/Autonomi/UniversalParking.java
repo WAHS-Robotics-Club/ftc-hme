@@ -33,7 +33,7 @@ public class UniversalParking extends LinearOpMode {
 
 
         //ONLY MODIFY STUFF AFTER THIS
-
+        sleep(20000);
         driveTrain.moveForwardsBy(telemetry, 20);
 
 
