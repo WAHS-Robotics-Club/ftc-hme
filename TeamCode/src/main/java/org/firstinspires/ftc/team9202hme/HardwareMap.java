@@ -5,10 +5,41 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class HardwareMap {
-    public HardwareMap(DcMotor fl, DcMotor bl, DcMotor fr, DcMotor br){
-        fl = hardwareMap.dcMotor.get("frontLeftMotor");
-        bl = hardwareMap.dcMotor.get("backLeftMotor");
-        fr = hardwareMap.dcMotor.get("frontRightMotor");
-        br = hardwareMap.dcMotor.get("frontRightMotor");
+    DcMotor frontLeftMotor;
+    DcMotor backLeftMotor;
+    DcMotor frontRightMotor;
+    DcMotor backRightMotor;
+    DcMotor spoolMotor;
+
+    Servo foundationGrabber;
+    Servo capstoneDropper;
+    Servo leftPaddle;
+    Servo rightPaddle;
+
+    public HardwareMap(DcMotor fl, DcMotor bl, DcMotor fr, DcMotor br, DcMotor spool, Servo fGrab, Servo capDrop, Servo lPad, Servo rPad){
+        frontLeftMotor = fl;
+        backLeftMotor = bl;
+        frontRightMotor = fr;
+        backRightMotor = br;
+        spoolMotor = spool;
+
+        foundationGrabber = fGrab;
+        capstoneDropper = capDrop;
+        leftPaddle = lPad;
+        rightPaddle = rPad;
+    }
+
+    public void motorHardware(){
+        frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
+        backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
+        frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
+        backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
+        spoolMotor = harwareMap.dcMotor.get("spoolMotor");
+
+        foundationGrabber = hardwareMap.dcMotor.get("");
+    }
+
+    public void servoHardware(){
+
     }
 }

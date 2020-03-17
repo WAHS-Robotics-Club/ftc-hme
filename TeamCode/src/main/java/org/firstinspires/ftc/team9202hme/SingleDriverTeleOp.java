@@ -10,14 +10,24 @@ public class SingleDriverTeleOp extends OpMode{
     DcMotor backLeftMotor;
     DcMotor frontRightMotor;
     DcMotor backRightMotor;
+    DcMotor spool;
+
+    Servo foundationGrabber;
+    Servo capstoneDropper;
+    Servo leftPaddle;
+    Servo rightPaddle;
 
     @Override
     public void init(){
-        HardwareMap hardware = new HardwareMap(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
+        HardwareMap initiate = new HardwareMap(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor, spool);
+        initiate.motorHardware();
     }
 
     @Override
     public void loop(){
-
+        flMotor.setPower(-gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        frMotor.setPower(-gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        blMotor.setPower(gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        brMotor.setPower(gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
     }
 }
