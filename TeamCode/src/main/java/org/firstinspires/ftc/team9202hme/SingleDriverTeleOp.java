@@ -9,11 +9,11 @@ public class SingleDriverTeleOp extends OpMode{
     DcMotor frontLeftMotor;
     DcMotor backLeftMotor;
     DcMotor frontRightMotor;
-    DcMotor backLeftMotor;
+    DcMotor backRightMotor;
 
     @Override
     public void init(){
-        
+        HardwareMap hardware = new HardwareMap(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
     }
 
     @Override
