@@ -35,11 +35,12 @@ public class HardwareMap {
         frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
         spoolMotor = harwareMap.dcMotor.get("spoolMotor");
-
-        foundationGrabber = hardwareMap.dcMotor.get("");
     }
 
     public void servoHardware(){
-
+        foundationGrabber = hardwareMap.servo.get("foundationGrabberServo");
+        capstoneDropper = hardwareMap.servo.get("capstoneDropperServo");
+        leftPaddle = hardwareMap.servo.get("leftPaddleServo");
+        rightPaddle = hardwareMap.servo.get("rightPaddleServo");
     }
 }
