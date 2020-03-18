@@ -21,6 +21,7 @@ public class SingleDriverTeleOp extends OpMode{
     public void init(){
         HardwareMap initiate = new HardwareMap(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor, spool);
         initiate.motorHardware();
+        initiate.servoHardware();
     }
 
     @Override
