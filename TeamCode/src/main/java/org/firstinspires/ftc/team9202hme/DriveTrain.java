@@ -29,7 +29,7 @@ public class DriveTrain {
         rightPaddle = rPad;
     }
 
-    public DcMotor regularDrive(){
+    public void regularDrive(){
         frontLeftMotor.setPower(-gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
         backLeftMotor.setPower(gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
         frontRightMotor.setPower(-gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
