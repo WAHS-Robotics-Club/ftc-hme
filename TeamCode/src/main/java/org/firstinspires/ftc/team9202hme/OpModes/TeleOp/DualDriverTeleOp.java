@@ -30,7 +30,7 @@ public class DualDriverTeleOp extends OpMode {
     rightBack = 0
     */
 
-    //THIS IS A TEST TO SEE IF I DID GITHUB CORRECTLY
+    //Elijah was here!
     @Override public void loop(){
         //Drive Train manual control system
         driveTrain.manualDrive(gamepad1);
