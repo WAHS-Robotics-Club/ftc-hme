@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-public class DriveTrain {
+public class beans {
     DcMotor frontLeftMotor;
     DcMotor backLeftMotor;
     DcMotor frontRightMotor;
