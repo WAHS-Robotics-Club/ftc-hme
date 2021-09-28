@@ -11,7 +11,6 @@ public class DriveTrain {
     DcMotor frontRightMotor;
     DcMotor backRightMotor;
     DcMotor spoolMotor;
-    //e
 
     Servo foundationGrabber;
     Servo capstoneDropper;
