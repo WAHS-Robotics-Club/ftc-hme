@@ -11,13 +11,17 @@ public class Test extends OpMode {
     DcMotor frontRightMotor;
     DcMotor backRightMotor;
 
+    HardwareMap hardware = new HardwareMap(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
+    DriveTrain drive = new DriveTrain(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
+
     @Override
     public void init(){
-        HardwareMap hardware = new HardwareMap(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
+        hardware.motorHardware();
+        drive.regDrive();
     }
 
     @Override
     public void loop() {
-
+        drive.regDrive();
     }
 }
