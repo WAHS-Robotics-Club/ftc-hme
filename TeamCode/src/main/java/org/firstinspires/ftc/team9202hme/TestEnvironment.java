@@ -6,10 +6,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name ="Test Environment (Auto or TeleOp)")
 public class Test extends OpMode {
+    DcMotor frontLeftMotor;
+    DcMotor backLeftMotor;
+    DcMotor frontRightMotor;
+    DcMotor backRightMotor;
 
     @Override
     public void init(){
-
+        HardwareMap hardware = new HardwareMap(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
     }
 
     @Override
