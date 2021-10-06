@@ -17,6 +17,7 @@ public class HardwareMap {
         backRightMotor = br;
     }
 
+    //general kenobi
     public motorHardware(){
         frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
         backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");

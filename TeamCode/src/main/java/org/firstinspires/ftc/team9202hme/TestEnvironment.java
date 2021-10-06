@@ -20,6 +20,7 @@ public class Test extends OpMode {
         drive.regDrive();
     }
 
+    //count goku
     @Override
     public void loop() {
         drive.regDrive();
