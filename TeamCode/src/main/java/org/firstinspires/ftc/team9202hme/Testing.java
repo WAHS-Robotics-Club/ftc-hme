@@ -5,21 +5,23 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name ="Test Environment (Auto or TeleOp)")
 public class Testing extends OpMode {
+    //Local DcMotor variables:
     DcMotor frontLeftMotor;
     DcMotor backLeftMotor;
     DcMotor frontRightMotor;
     DcMotor backRightMotor;
 
+    //Instantiation of objects:
     HardwareMap hardware = new HardwareMap(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
     DriveTrain drive = new DriveTrain(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
 
+    //Initiation process:
     @Override
     public void init(){
         hardware.motorHardware();
-        drive.regDrive();
     }
 
-    //count goku
+    //Loop process:
     @Override
     public void loop() {
         drive.regDrive();
