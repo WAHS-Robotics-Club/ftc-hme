@@ -17,7 +17,7 @@ public class DriveTrain {
         backRightMotor = br;
     }
 
-    //hello there
+    //hello there - test boi
     public void regDrive(){
         frontLeftMotor.setPower(-gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
         backLeftMotor.setPower(gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
