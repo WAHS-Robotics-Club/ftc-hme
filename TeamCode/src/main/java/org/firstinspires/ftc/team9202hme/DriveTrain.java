@@ -19,7 +19,7 @@ public class DriveTrain {
         backRightMotor = br;
     }
 
-    //regDrive method allows gamepad1 to control the drivetrain:
+    //regDrive method allows gamepad1 to control the drivetrain at full speed:
     public void regDrive(){
         frontLeftMotor.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x + -gamepad1.right_stick_x);
         backLeftMotor.setPower(gamepad1.left_stick_y + -gamepad1.left_stick_x + -gamepad1.right_stick_x);
@@ -33,5 +33,13 @@ public class DriveTrain {
         frontRightMotor.setPower(-gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
         backRightMotor.setPower(gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
         */
+    }
+
+    //regDrive method allows gamepad1 to control the drivetrain at 1/3 speed:
+    public void slowDrive(){
+        frontLeftMotor.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x + -gamepad1.right_stick_x)/3);
+        backLeftMotor.setPower((gamepad1.left_stick_y + -gamepad1.left_stick_x + -gamepad1.right_stick_x)/3);
+        frontRightMotor.setPower((-gamepad1.left_stick_y + gamepad1.left_stick_x + -gamepad1.right_stick_x)/3);
+        backRightMotor.setPower((-gamepad1.left_stick_y + -gamepad1.left_stick_x + -gamepad1.right_stick_x)/3);
     }
 }

@@ -5,6 +5,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name ="Single Driver TeleOp")
 public class Testing extends OpMode {
+    //Local misc variables:
+    boolean driveSwitch = false;
+    boolean switchProtection = false;
+
     //Local DcMotor variables:
     DcMotor frontLeftMotor;
     DcMotor backLeftMotor;
@@ -18,12 +22,38 @@ public class Testing extends OpMode {
     //Initiation process:
     @Override
     public void init(){
+        //Hardwaremap ALL motors:
         hardware.motorHardware();
     }
 
     //Loop process:
     @Override
-    public void loop() {
-        drive.regDrive();
+    public void loop(){
+        //driveSwitch control:
+        if(gamepad1.a == true && driveSwitch == false && switchProtection == false){
+            if(driveSwitch == false){
+                switchProtection = true;
+            }
+
+            driveSwitch = true;
+        }
+        else if(gampad1.a == true && driveSwitch == true && switchProtection == false){
+            if(driveSwitch == true){
+                switchProtection = true;
+            }
+
+            driveSwitch = false;
+        }
+        else{
+            switchProtection = true;
+        }
+
+        //Driving speed control:
+        if(driveSwitch == false){
+            drive.regDrive();
+        }
+        else if(driveSwitch == true){
+            drive.slowDrive();
+        }
     }
 }
