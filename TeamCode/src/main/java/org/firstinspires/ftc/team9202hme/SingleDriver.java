@@ -30,22 +30,20 @@ public class Testing extends OpMode {
     @Override
     public void loop(){
         //driveSwitch control:
-        if(gamepad1.a == true && driveSwitch == false && switchProtection == false){
-            if(driveSwitch == false){
-                switchProtection = true;
+        if(gamepad1.a == true && driveSwitch == false){
+            if(switchProtection == false){
+                driveSwitch = true;
             }
-
-            driveSwitch = true;
+            switchProtection = true;
         }
-        else if(gampad1.a == true && driveSwitch == true && switchProtection == false){
-            if(driveSwitch == true){
-                switchProtection = true;
+        else if(gampad1.a == true && driveSwitch == true){
+            if(switchProtection == false){
+                driveSwitch = false;
             }
-
-            driveSwitch = false;
+            switchProtection = true;
         }
         else{
-            switchProtection = true;
+            switchProtection = false;
         }
 
         //Driving speed control:
