@@ -3,7 +3,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name ="Test Environment (Auto or TeleOp)")
+@TeleOp(name ="Single Driver TeleOp")
 public class Testing extends OpMode {
     //Local DcMotor variables:
     DcMotor frontLeftMotor;
