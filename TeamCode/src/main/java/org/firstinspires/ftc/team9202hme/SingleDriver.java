@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-//You are on the master branch
+//You are on the shep_code branch
 
 @TeleOp(name ="Single Driver TeleOp")
 public class SingleDriver extends OpMode {
