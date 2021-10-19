@@ -32,9 +32,9 @@ public class SingleDriver extends OpMode {
     //Loop process:
     @Override
     public void loop(){
-        frontLeftMotor.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x + -gamepad1.right_stick_x);
-        backLeftMotor.setPower(gamepad1.left_stick_y + -gamepad1.left_stick_x + -gamepad1.right_stick_x);
-        frontRightMotor.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + -gamepad1.right_stick_x);
-        backRightMotor.setPower(-gamepad1.left_stick_y + -gamepad1.left_stick_x + -gamepad1.right_stick_x);
+        frontLeftMotor.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+        backLeftMotor.setPower(-gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
+        frontRightMotor.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+        backRightMotor.setPower(gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
     }
 }
