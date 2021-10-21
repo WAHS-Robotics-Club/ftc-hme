@@ -37,10 +37,12 @@ public class SingleDriver extends OpMode {
     //Loop process:
     @Override
     public void loop(){
-        frontLeftMotor.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
-        backLeftMotor.setPower(-gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
-        frontRightMotor.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
-        backRightMotor.setPower(gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
+        if(gamepad1.left_stick_y >= .01 || gamepad1.left_stick_y <= -.01 || gamepad1.left_stick_x >= .01 || gamepad1.left_stick_x <= -.01 || gamepad1.right_stick_x >= .01 || gamepad1.right_stick_x <= -.01){
+            frontLeftMotor.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+            backLeftMotor.setPower(-gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
+            frontRightMotor.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+            backRightMotor.setPower(gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
+        }
 
         if(gamepad1.right_bumper == true){
             carouselSpinner.setPower(1);
