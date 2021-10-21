@@ -20,7 +20,7 @@ public class SingleDriver extends OpMode {
     DcMotor frontRightMotor;
     DcMotor backRightMotor;
 
-    CRServo caroselSpinner;
+    CRServo carouselSpinner;
 
     //Initiation process:
     @Override
@@ -31,7 +31,7 @@ public class SingleDriver extends OpMode {
         frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
 
-        caroselSpinner = hardwareMap.crservo.get("caroselSpinner");
+        carouselSpinner = hardwareMap.crservo.get("carouselSpinner");
     }
 
     //Loop process:
@@ -43,7 +43,7 @@ public class SingleDriver extends OpMode {
         backRightMotor.setPower(gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
 
         if(gamepad1.right_bumper == true){
-            caroselSpinner.setDirection(CRServo.Direction.FORWARD);
+            carouselSpinner.setPower(1);
         }
     }
 }
