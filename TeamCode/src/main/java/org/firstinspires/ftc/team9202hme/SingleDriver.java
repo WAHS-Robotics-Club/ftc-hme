@@ -20,6 +20,7 @@ public class SingleDriver extends OpMode {
     DcMotor frontRightMotor;
     DcMotor backRightMotor;
 
+    //Local Servo & CRServo variables:
     CRServo carouselSpinner;
 
     //Initiation process:
@@ -37,6 +38,7 @@ public class SingleDriver extends OpMode {
     //Loop process:
     @Override
     public void loop(){
+        //Drive train with 0.01 deadspace:
         if(gamepad1.left_stick_y >= .01 || gamepad1.left_stick_y <= -.01 || gamepad1.left_stick_x >= .01 || gamepad1.left_stick_x <= -.01 || gamepad1.right_stick_x >= .01 || gamepad1.right_stick_x <= -.01){
             frontLeftMotor.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
             backLeftMotor.setPower(-gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
@@ -44,6 +46,7 @@ public class SingleDriver extends OpMode {
             backRightMotor.setPower(gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
         }
 
+        //Carousel spinner:
         if(gamepad1.right_bumper == true){
             carouselSpinner.setPower(1);
         }
