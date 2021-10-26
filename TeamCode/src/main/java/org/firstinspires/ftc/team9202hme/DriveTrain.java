@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.team9202hme;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -18,12 +21,16 @@ public class DriveTrain{
     DcMotor fr;
     DcMotor br;
 
-    //DriveTrain constructor method
+    //DriveTrain constructor method with hardwaremapping:
     public DriveTrain(){
-
+        fl = hardwareMap.dcMotor.get("frontLeftMotor");
+        bl= hardwareMap.dcMotor.get("backLeftMotor");
+        fr = hardwareMap.dcMotor.get("frontRightMotor");
+        br = hardwareMap.dcMotor.get("backRightMotor");
     }
 
-    public Drive(){
+
+    public void Drive(){
         if(gamepad1.left_stick_y >= .01 || gamepad1.left_stick_y <= -.01 || gamepad1.left_stick_x >= .01 || gamepad1.left_stick_x <= -.01 || gamepad1.right_stick_x >= .01 || gamepad1.right_stick_x <= -.01){
             fl.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
             bl.setPower(-gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
