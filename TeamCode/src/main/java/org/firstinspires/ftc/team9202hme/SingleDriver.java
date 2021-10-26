@@ -15,22 +15,16 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 
 @TeleOp(name ="Single Driver TeleOp")
 public class SingleDriver extends OpMode {
-    DcMotor spoolMotor;
-
-    //Local Servo & CRServo variables:
-    CRServo carouselSpinner;
-
     //Classes:
     DriveTrain driveTrain;
+    Misc misc;
 
     //Initiation process:
     @Override
     public void init(){
         //Instantiation of objects:
         driveTrain = new DriveTrain();
-
-        spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
-        carouselSpinner = hardwareMap.crservo.get("carouselSpinner");
+        misc = new Misc();
     }
 
     //Loop process:
@@ -40,14 +34,9 @@ public class SingleDriver extends OpMode {
         driveTrain.Drive();
 
         //Carousel spinner:
-        if(gamepad1.right_bumper == true){
-            carouselSpinner.setPower(1);
-        }
+        misc.carouselSpin();
 
-        //Spool wind and unwind:
-        if(gamepad1.left_trigger >= .01 || gamepad1.right_trigger >= .01){
-            spoolMotor.setPower(gamepad1.left_trigger);
-            spoolMotor.setPower(-gamepad1.right_trigger);
-        }
+        //Spool wind and unwind with 0.01 deadspace:
+        misc.spoolSpin();
     }
 }
