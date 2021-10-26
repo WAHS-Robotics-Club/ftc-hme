@@ -15,10 +15,11 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 @TeleOp(name ="Single Driver TeleOp")
 public class SingleDriver extends OpMode {
     //Local DcMotor variables:
-    DcMotor frontLeftMotor;
-    DcMotor backLeftMotor;
-    DcMotor frontRightMotor;
-    DcMotor backRightMotor;
+    DcMotor fl;
+    DcMotor bl;
+    DcMotor fr;
+    DcMotor br;
+    DcMotor spoolMotor;
 
     //Local Servo & CRServo variables:
     CRServo carouselSpinner;
@@ -31,6 +32,7 @@ public class SingleDriver extends OpMode {
         backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
         frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
+        spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
         carouselSpinner = hardwareMap.crservo.get("carouselSpinner");
     }
@@ -39,16 +41,17 @@ public class SingleDriver extends OpMode {
     @Override
     public void loop(){
         //Drive train with 0.01 deadspace:
-        if(gamepad1.left_stick_y >= .01 || gamepad1.left_stick_y <= -.01 || gamepad1.left_stick_x >= .01 || gamepad1.left_stick_x <= -.01 || gamepad1.right_stick_x >= .01 || gamepad1.right_stick_x <= -.01){
-            frontLeftMotor.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
-            backLeftMotor.setPower(-gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
-            frontRightMotor.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
-            backRightMotor.setPower(gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
-        }
+
 
         //Carousel spinner:
         if(gamepad1.right_bumper == true){
             carouselSpinner.setPower(1);
+        }
+
+        //Spool wind and unwind:
+        if(gamepad1.left_trigger >= .01 || gamepad1.right_trigger >= .01){
+            spoolMotor.setPower(gamepad1.left_trigger);
+            spoolMotor.setPower(-gamepad1.right_trigger);
         }
     }
 }
