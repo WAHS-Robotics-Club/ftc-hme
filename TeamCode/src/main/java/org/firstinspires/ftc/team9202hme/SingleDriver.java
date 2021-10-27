@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.team9202hme;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -15,28 +18,57 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 
 @TeleOp(name ="Single Driver TeleOp")
 public class SingleDriver extends OpMode {
-    //Classes:
-    DriveTrain driveTrain;
-    Misc misc;
+    //Local DcMotor variables:
+    DcMotor fl;
+    DcMotor bl;
+    DcMotor fr;
+    DcMotor br;
+    DcMotor spool;
+
+    //Local CRServo and Servo variables:
+    CRServo carousel;
 
     //Initiation process:
     @Override
     public void init(){
-        //Instantiation of objects:
-        driveTrain = new DriveTrain();
-        misc = new Misc();
+        fl = hardwareMap.dcMotor.get("frontLeftMotor");
+        bl= hardwareMap.dcMotor.get("backLeftMotor");
+        fr = hardwareMap.dcMotor.get("frontRightMotor");
+        br = hardwareMap.dcMotor.get("backRightMotor");
+
+        spool = hardwareMap.dcMotor.get("spoolMotor");
+        carousel = hardwareMap.crservo.get("carouselSpinner");
     }
 
     //Loop process:
     @Override
     public void loop(){
-        //Drive train with 0.01 deadspace:
-        driveTrain.Drive();
+        //DriveTrain:
+        if(gamepad1.left_stick_y >= .01 || gamepad1.left_stick_y <= -.01 || gamepad1.left_stick_x >= .01 || gamepad1.left_stick_x <= -.01 || gamepad1.right_stick_x >= .01 || gamepad1.right_stick_x <= -.01){
+            fl.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+            bl.setPower(-gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
+            fr.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+            br.setPower(gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
+        }
+        else{
+            fl.setPower(0);
+            bl.setPower(0);
+            fr.setPower(0);
+            br.setPower(0);
+        }
 
-        //Carousel spinner:
-        misc.carouselSpin();
+        //CarouselSpin:
+        if(gamepad1.right_bumper == true){
+            carousel.setPower(1);
+        }
+        else{
+            carousel.setPower(0);
+        }
 
-        //Spool wind and unwind with 0.01 deadspace:
-        misc.spoolSpin();
+        //SpoolSpin:
+        if(gamepad1.left_trigger >= .01 || gamepad1.right_trigger >= .01){
+            spool.setPower(gamepad1.left_trigger);
+            spool.setPower(-gamepad1.right_trigger);
+        }
     }
 }
