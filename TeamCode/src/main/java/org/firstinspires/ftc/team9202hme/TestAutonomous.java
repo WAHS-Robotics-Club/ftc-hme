@@ -24,6 +24,9 @@ public class TestAutonomous extends OpMode {
     //Local CRServo and Servo variables:
     CRServo carousel;
 
+    //Local misc variables:
+    boolean[] action = new boolean[50];
+
     //Initiation process:
     @Override
     public void init(){
@@ -34,14 +37,22 @@ public class TestAutonomous extends OpMode {
 
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.crservo.get("carouselSpinner");
+
+        for(int i = 0; i < 50; i++){
+            action[i] = false;
+        }
+
+        action[0] = true;
     }
 
     //Loop process:
     @Override
     public void loop(){
-        fl.setPower(1);
-        bl.setPower(1);
-        fr.setPower(1);
-        br.setPower(1);
+        if(action[0] == true){
+            fl.setPower(1);
+            bl.setPower(1);
+            fr.setPower(1);
+            br.setPower(1);
+        }
     }
 }
