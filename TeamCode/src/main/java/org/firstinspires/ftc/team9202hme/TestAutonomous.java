@@ -39,6 +39,9 @@ public class TestAutonomous extends OpMode {
     //Loop process:
     @Override
     public void loop(){
-                
+        fl.setPower(1);
+        bl.setPower(1);
+        fr.setPower(1);
+        br.setPower(1);
     }
 }
