@@ -37,16 +37,32 @@ public class TestAutonomous extends LinearOpMode {
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.crservo.get("carouselSpinner");
 
+        //Wait for 1 sec after start:
         waitForStart();
-
-        //ONLY MODIFY STUFF AFTER THIS
         sleep(1000);
 
+        //Move forward and raise slides for 3 sec:
         fl.setPower(1);
         bl.setPower(1);
         fr.setPower(1);
         br.setPower(1);
 
+        spool.setPower(1);
+
         sleep(5000);
+
+        //Stop all motors and spin carousel for 2 sec:
+        fl.setPower(0);
+        bl.setPower(0);
+        fr.setPower(0);
+        br.setPower(0);
+
+        spool.setPower(0);
+        carousel.setPower(1);
+
+        sleep(5000);
+
+        //Stop carousel:
+        carousel.setPower(0);
     }
 }
