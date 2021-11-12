@@ -14,7 +14,8 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 */
 
 @Autonomous(name ="Test Auto")
-public class TestAutonomous extends OpMode {
+public class TestAutonomous extends LinearOpMode {
+
     //Local DcMotor variables:
     DcMotor fl;
     DcMotor bl;
@@ -25,12 +26,9 @@ public class TestAutonomous extends OpMode {
     //Local CRServo and Servo variables:
     CRServo carousel;
 
-    //Local misc variables:
-    boolean[] action = new boolean[50];
 
-    //Initiation process:
     @Override
-    public void init(){
+    public void runOpMode() throws InterruptedException {
         fl = hardwareMap.dcMotor.get("frontLeftMotor");
         bl= hardwareMap.dcMotor.get("backLeftMotor");
         fr = hardwareMap.dcMotor.get("frontRightMotor");
@@ -39,21 +37,16 @@ public class TestAutonomous extends OpMode {
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.crservo.get("carouselSpinner");
 
-        for(int i = 0; i < 50; i++){
-            action[i] = false;
-        }
+        waitForStart();
 
-        action[0] = true;
-    }
+        //ONLY MODIFY STUFF AFTER THIS
+        sleep(1000);
 
-    //Loop process:
-    @Override
-    public void loop(){
-        if(action[0] == true){
-            fl.setPower(1);
-            bl.setPower(1);
-            fr.setPower(1);
-            br.setPower(1);
-        }
+        fl.setPower(1);
+        bl.setPower(1);
+        fr.setPower(1);
+        br.setPower(1);
+
+        sleep(5000);
     }
 }
