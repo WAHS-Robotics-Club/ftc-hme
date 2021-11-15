@@ -46,7 +46,7 @@ public class SingleDriver extends OpMode {
     @Override
     public void loop(){
         //DriveTrain:
-        if(gamepad1.left_stick_y >= .01 || gamepad1.left_stick_y <= -.01 || gamepad1.left_stick_x >= .01 || gamepad1.left_stick_x <= -.01 || gamepad1.right_stick_x >= .01 || gamepad1.right_stick_x <= -.01){
+        if(gamepad1.left_stick_y >= .05 || gamepad1.left_stick_y <= -.05 || gamepad1.left_stick_x >= .05 || gamepad1.left_stick_x <= -.05 || gamepad1.right_stick_x >= .05 || gamepad1.right_stick_x <= -.05){
             fl.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
             bl.setPower(-gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
             fr.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
@@ -68,9 +68,12 @@ public class SingleDriver extends OpMode {
         }
 
         //SpoolSpin:
-        if(gamepad1.left_trigger >= .01 || gamepad1.right_trigger >= .01){
+        if(gamepad1.left_trigger >= .05 || gamepad1.right_trigger >= .05){
             spool.setPower(gamepad1.left_trigger);
             spool.setPower(-gamepad1.right_trigger);
+        }
+        else{
+            spool.setPower(0);
         }
     }
 }

@@ -44,8 +44,8 @@ public class TestAutonomous extends LinearOpMode {
         //Move forward and raise slides for 3 sec:
         fl.setPower(1);
         bl.setPower(1);
-        fr.setPower(1);
-        br.setPower(1);
+        fr.setPower(-1);
+        br.setPower(-1);
 
         spool.setPower(1);
 
