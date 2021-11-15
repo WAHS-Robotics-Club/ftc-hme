@@ -26,6 +26,7 @@ public class SingleDriver extends OpMode {
     DcMotor fr;
     DcMotor br;
     DcMotor spool;
+    DcMotor grab;
 
     //Local CRServo and Servo variables:
     CRServo carousel;
@@ -40,6 +41,7 @@ public class SingleDriver extends OpMode {
 
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.crservo.get("carouselSpinner");
+        grab = hardwareMap.dcMotor.get("grab");
     }
 
     //Loop process:
@@ -74,6 +76,16 @@ public class SingleDriver extends OpMode {
         }
         else{
             spool.setPower(0);
+        }
+
+        if(gamepad1.dpad_up == true){
+            grab.setPower(.05);
+        }
+        else if(gamepad1.dpad_down == true){
+            grab.setPower(-.05);
+        }
+        else{
+            grab.setPower(0);
         }
     }
 }
