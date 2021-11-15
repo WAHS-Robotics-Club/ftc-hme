@@ -60,7 +60,7 @@ public class SingleDriver extends OpMode {
         }
 
         //CarouselSpin:
-        if(gamepad1.right_bumper == true){
+        if(gamepad1.left_bumper == true){
             carousel.setPower(1);
         }
         else{

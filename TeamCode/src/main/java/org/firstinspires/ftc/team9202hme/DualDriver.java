@@ -53,7 +53,7 @@ public class DualDriver extends OpMode {
         }
 
         //CarouselSpin:
-        if(gamepad2.right_bumper == true){
+        if(gamepad2.left_bumper == true){
             carousel.setPower(1);
         }
         else{
