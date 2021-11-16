@@ -79,10 +79,10 @@ public class SingleDriver extends OpMode {
         }
 
         if(gamepad1.dpad_up == true){
-            grab.setPower(.05);
+            grab.setPower(.5);
         }
         else if(gamepad1.dpad_down == true){
-            grab.setPower(-.05);
+            grab.setPower(-.5);
         }
         else{
             grab.setPower(0);
