@@ -78,11 +78,12 @@ public class SingleDriver extends OpMode {
             spool.setPower(0);
         }
 
+        //BoxGrabber:
         if(gamepad1.dpad_up == true){
-            grab.setPower(.5);
+            grab.setPower(.75);
         }
         else if(gamepad1.dpad_down == true){
-            grab.setPower(-.5);
+            grab.setPower(-.75);
         }
         else{
             grab.setPower(0);

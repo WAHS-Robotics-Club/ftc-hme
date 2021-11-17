@@ -19,6 +19,7 @@ public class DualDriver extends OpMode {
     DcMotor fr;
     DcMotor br;
     DcMotor spool;
+    DcMotor grab;
 
     //Local CRServo and Servo variables:
     CRServo carousel;
@@ -30,6 +31,7 @@ public class DualDriver extends OpMode {
         bl= hardwareMap.dcMotor.get("backLeftMotor");
         fr = hardwareMap.dcMotor.get("frontRightMotor");
         br = hardwareMap.dcMotor.get("backRightMotor");
+        grab = hardwareMap.dcMotor.get("grab");
 
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.crservo.get("carouselSpinner");
@@ -68,6 +70,16 @@ public class DualDriver extends OpMode {
         else{
             spool.setPower(0);
         }
-        //hello
+
+        //BoxGrabber:
+        if(gamepad2.dpad_up == true){
+            grab.setPower(.75);
+        }
+        else if(gamepad2.dpad_down == true){
+            grab.setPower(-.75);
+        }
+        else{
+            grab.setPower(0);
+        }
     }
 }
