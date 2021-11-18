@@ -31,8 +31,8 @@ public class DualDriver extends OpMode {
         bl= hardwareMap.dcMotor.get("backLeftMotor");
         fr = hardwareMap.dcMotor.get("frontRightMotor");
         br = hardwareMap.dcMotor.get("backRightMotor");
-        grab = hardwareMap.dcMotor.get("grab");
 
+        grab = hardwareMap.dcMotor.get("grab");
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.crservo.get("carouselSpinner");
     }

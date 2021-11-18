@@ -39,9 +39,9 @@ public class SingleDriver extends OpMode {
         fr = hardwareMap.dcMotor.get("frontRightMotor");
         br = hardwareMap.dcMotor.get("backRightMotor");
 
+        grab = hardwareMap.dcMotor.get("grab");
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.crservo.get("carouselSpinner");
-        grab = hardwareMap.dcMotor.get("grab");
     }
 
     //Loop process:
