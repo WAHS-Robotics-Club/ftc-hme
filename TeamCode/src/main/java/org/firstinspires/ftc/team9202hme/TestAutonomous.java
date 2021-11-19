@@ -39,7 +39,7 @@ public class TestAutonomous extends LinearOpMode {
 
         //Wait for 1 sec after start:
         waitForStart();
-        sleep(1000);
+        sleep(500);
 
         //Move forward and raise slides for 3 sec:
         fl.setPower(1);
