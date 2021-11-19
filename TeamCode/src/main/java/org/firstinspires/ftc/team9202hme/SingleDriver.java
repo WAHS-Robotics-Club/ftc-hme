@@ -8,8 +8,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /*
@@ -29,7 +31,7 @@ public class SingleDriver extends OpMode {
     DcMotor grab;
 
     //Local CRServo and Servo variables:
-    CRServo carousel;
+    CRServoImplEx carousel;
 
     //Initiation process:
     @Override
@@ -41,7 +43,8 @@ public class SingleDriver extends OpMode {
 
         grab = hardwareMap.dcMotor.get("grab");
         spool = hardwareMap.dcMotor.get("spoolMotor");
-        carousel = hardwareMap.crservo.get("carouselSpinner");
+        carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
+        carousel.setPwmRange(PwmControl.PwmRange.defaultRange);
     }
 
     //Loop process:
