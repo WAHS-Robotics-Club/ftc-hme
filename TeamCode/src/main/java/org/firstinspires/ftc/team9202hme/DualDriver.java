@@ -73,10 +73,10 @@ public class DualDriver extends OpMode {
 
         //BoxGrabber:
         if(gamepad2.dpad_up == true){
-            grab.setPower(.75);
+            grab.setPower(.25);
         }
         else if(gamepad2.dpad_down == true){
-            grab.setPower(-.75);
+            grab.setPower(-.25);
         }
         else{
             grab.setPower(0);
