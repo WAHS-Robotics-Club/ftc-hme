@@ -5,7 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.PwmControl;
 
 /*
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
@@ -24,7 +26,7 @@ public class TestAutonomous extends LinearOpMode {
     DcMotor spool;
 
     //Local CRServo and Servo variables:
-    CRServo carousel;
+    CRServoImplEx carousel;
 
 
     @Override
@@ -35,7 +37,8 @@ public class TestAutonomous extends LinearOpMode {
         br = hardwareMap.dcMotor.get("backRightMotor");
 
         spool = hardwareMap.dcMotor.get("spoolMotor");
-        carousel = hardwareMap.crservo.get("carouselSpinner");
+        carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
+        carousel.setPwmRange(PwmControl.PwmRange.defaultRange);
 
         //Wait for 1 sec after start:
         waitForStart();

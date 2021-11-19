@@ -3,7 +3,9 @@ package org.firstinspires.ftc.team9202hme;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.PwmControl;
 
 /*
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
@@ -22,7 +24,7 @@ public class DualDriver extends OpMode {
     DcMotor grab;
 
     //Local CRServo and Servo variables:
-    CRServo carousel;
+    CRServoImplEx carousel;
 
     //Initiation process:
     @Override
@@ -34,7 +36,8 @@ public class DualDriver extends OpMode {
 
         grab = hardwareMap.dcMotor.get("grab");
         spool = hardwareMap.dcMotor.get("spoolMotor");
-        carousel = hardwareMap.crservo.get("carouselSpinner");
+        carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
+        carousel.setPwmRange(PwmControl.PwmRange.defaultRange);
     }
 
     //Loop process:
