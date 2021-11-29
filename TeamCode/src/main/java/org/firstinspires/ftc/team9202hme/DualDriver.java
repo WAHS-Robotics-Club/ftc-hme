@@ -44,7 +44,7 @@ public class DualDriver extends OpMode {
     @Override
     public void loop(){
         //DriveTrain:
-        if(gamepad1.left_stick_y >= .05 || gamepad1.left_stick_y <= -.05 || gamepad1.left_stick_x >= .05 || gamepad1.left_stick_x <= -.05 || gamepad1.right_stick_x >= .05 || gamepad1.right_stick_x <= -.05){
+        if(gamepad1.left_stick_y >= .03 || gamepad1.left_stick_y <= -.03 || gamepad1.left_stick_x >= .03 || gamepad1.left_stick_x <= -.03 || gamepad1.right_stick_x >= .03 || gamepad1.right_stick_x <= -.03){
             fl.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
             bl.setPower(-gamepad1.left_stick_y + -gamepad1.left_stick_x + gamepad1.right_stick_x);
             fr.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
@@ -58,7 +58,7 @@ public class DualDriver extends OpMode {
         }
 
         //CarouselSpin:
-        if(gamepad2.left_bumper == true){
+        if(gamepad2.dpad_down == true){
             carousel.setPower(1);
         }
         else{
@@ -66,7 +66,7 @@ public class DualDriver extends OpMode {
         }
 
         //SpoolSpin:
-        if(gamepad2.left_trigger >= .05 || gamepad2.right_trigger >= .05){
+        if(gamepad2.left_trigger >= .03 || gamepad2.right_trigger >= .03){
             spool.setPower(gamepad2.left_trigger);
             spool.setPower(-gamepad2.right_trigger);
         }
@@ -75,10 +75,10 @@ public class DualDriver extends OpMode {
         }
 
         //BoxGrabber:
-        if(gamepad2.dpad_up == true){
+        if(gamepad2.left_bumper == true){
             grab.setPower(.25);
         }
-        else if(gamepad2.dpad_down == true){
+        else if(gamepad2.right_bumper == true){
             grab.setPower(-.25);
         }
         else{
