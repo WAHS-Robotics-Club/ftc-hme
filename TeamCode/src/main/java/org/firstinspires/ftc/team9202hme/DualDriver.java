@@ -75,10 +75,10 @@ public class DualDriver extends OpMode {
         }
 
         //BoxGrabber:
-        if(gamepad2.left_bumper == true){
+        if(gamepad1.left_bumper == true){
             grab.setPower(.25);
         }
-        else if(gamepad2.right_bumper == true){
+        else if(gamepad1.right_bumper == true){
             grab.setPower(-.25);
         }
         else{
