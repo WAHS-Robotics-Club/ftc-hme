@@ -6,24 +6,25 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name ="Test Environment (Auto or TeleOp)")
 public class TestEnvironment extends OpMode {
-    DcMotor frontLeftMotor;
-    DcMotor backLeftMotor;
-    DcMotor frontRightMotor;
-    DcMotor backRightMotor;
+    DcMotor fl;
+    DcMotor bl;
+    DcMotor fr;
+    DcMotor br;
+
+    Servo carousel;
 
     @Override
     public void init(){
-        frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
-        backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
-        frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
-        backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
+        fl = hardwareMap.dcMotor.get("frontLeftMotor");
+        bl = hardwareMap.dcMotor.get("backLeftMotor");
+        fr = hardwareMap.dcMotor.get("frontRightMotor");
+        br = hardwareMap.dcMotor.get("backRightMotor");
+
+        carousel = hardwareMap.servo.get("carouselSpinner");
     }
 
     @Override
     public void loop() {
-        frontLeftMotor.setPower(-gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
-        backLeftMotor.setPower(gamepad1.left_stick_x + gamepad1.left_stick_y + -gamepad1.right_stick_x);
-        frontRightMotor.setPower(-gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
-        backRightMotor.setPower(gamepad1.left_stick_x + -gamepad1.left_stick_y + -gamepad1.right_stick_x);
+        
     }
 }
