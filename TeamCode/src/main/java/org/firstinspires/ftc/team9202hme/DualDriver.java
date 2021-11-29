@@ -37,7 +37,7 @@ public class DualDriver extends OpMode {
         grab = hardwareMap.dcMotor.get("grab");
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
-        carousel.setPwmRange(PwmControl.PwmRange.defaultRange);
+        carousel.setPwmRange(new PwmControl.PwmRange(553,2520));
     }
 
     //Loop process:

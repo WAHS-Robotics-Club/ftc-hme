@@ -38,7 +38,7 @@ public class TestAutonomous extends LinearOpMode {
 
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
-        carousel.setPwmRange(PwmControl.PwmRange.defaultRange);
+        carousel.setPwmRange(new PwmControl.PwmRange(553,2520));
 
         //Wait for 1 sec after start:
         waitForStart();
