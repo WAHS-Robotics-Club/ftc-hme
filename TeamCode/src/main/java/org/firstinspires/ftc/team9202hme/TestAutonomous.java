@@ -35,37 +35,26 @@ public class TestAutonomous extends LinearOpMode {
         bl= hardwareMap.dcMotor.get("backLeftMotor");
         fr = hardwareMap.dcMotor.get("frontRightMotor");
         br = hardwareMap.dcMotor.get("backRightMotor");
-
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
         carousel.setPwmRange(new PwmControl.PwmRange(553,2520));
 
-        //Wait for 1 sec after start:
+        telemetry.addData("FL Power", fl.getPower());
+        telemetry.addData("FR Power", bl.getPower());
+        telemetry.addData("BL Power", fr.getPower());
+        telemetry.addData("BR Power", br.getPower());
+
+        telemetry.update();
+
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Wait for .5 secs after start:
         waitForStart();
         sleep(500);
 
-        //Move forward and raise slides for 3 sec:
-        fl.setPower(1);
-        bl.setPower(1);
-        fr.setPower(-1);
-        br.setPower(-1);
-
-        spool.setPower(1);
-
-        sleep(5000);
-
-        //Stop all motors and spin carousel for 2 sec:
-        fl.setPower(0);
-        bl.setPower(0);
-        fr.setPower(0);
-        br.setPower(0);
-
-        spool.setPower(0);
-        carousel.setPower(1);
-
-        sleep(5000);
-
-        //Stop carousel:
-        carousel.setPower(0);
+        
     }
 }
