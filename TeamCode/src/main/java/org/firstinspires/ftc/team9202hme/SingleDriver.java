@@ -45,6 +45,11 @@ public class SingleDriver extends OpMode {
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
         carousel.setPwmRange(new PwmControl.PwmRange(553,2520));
+
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     //Loop process:
