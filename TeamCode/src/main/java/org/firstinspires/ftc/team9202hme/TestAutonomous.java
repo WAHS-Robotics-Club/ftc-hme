@@ -50,22 +50,5 @@ public class TestAutonomous extends LinearOpMode {
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        org.firstinspires.ftc.team9202hme.Objects.BananaFruit gyro = new org.firstinspires.ftc.team9202hme.Objects.BananaFruit();
-        gyro.runBananaFruit(hardwareMap, telemetry);
-        telemetry.update();
-
-        waitForStart();
-
-        //Going Forwards
-        int i = 0;
-        goForwardsTo(inches);
-        setBasePower(.8);
-        Thread.sleep(1);
-        while(isBusy() && i < 500){
-            telemetry.update();
-            i++;
-            Thread.sleep(1);
-        }
     }
 }
