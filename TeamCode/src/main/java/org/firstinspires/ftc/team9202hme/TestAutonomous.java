@@ -56,5 +56,16 @@ public class TestAutonomous extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
+
+        //Going Forwards
+        int i = 0;
+        goForwardsTo(inches);
+        setBasePower(.8);
+        Thread.sleep(1);
+        while(isBusy() && i < 500){
+            telemetry.update();
+            i++;
+            Thread.sleep(1);
+        }
     }
 }
