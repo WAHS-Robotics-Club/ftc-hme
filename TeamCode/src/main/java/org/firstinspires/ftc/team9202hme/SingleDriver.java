@@ -50,6 +50,11 @@ public class SingleDriver extends OpMode {
     //Loop process:
     @Override
     public void loop(){
+        telemetry.addData("FL Power", fl.getPower());
+        telemetry.addData("FR Power", bl.getPower());
+        telemetry.addData("BL Power", fr.getPower());
+        telemetry.addData("BR Power", br.getPower());
+
         //DriveTrain:
         if(gamepad1.left_stick_y >= .03 || gamepad1.left_stick_y <= -.03 || gamepad1.left_stick_x >= .03 || gamepad1.left_stick_x <= -.03 || gamepad1.right_stick_x >= .03 || gamepad1.right_stick_x <= -.03){
             fl.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
