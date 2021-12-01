@@ -28,29 +28,16 @@ public class TestAutonomous extends LinearOpMode {
     //Local CRServo and Servo variables:
     CRServoImplEx carousel;
 
+    DriveTrain driveTrain;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        fl = hardwareMap.dcMotor.get("frontLeftMotor");
-        bl= hardwareMap.dcMotor.get("backLeftMotor");
-        fr = hardwareMap.dcMotor.get("frontRightMotor");
-        br = hardwareMap.dcMotor.get("backRightMotor");
-        spool = hardwareMap.dcMotor.get("spoolMotor");
-        carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
-        carousel.setPwmRange(new PwmControl.PwmRange(553,2520));
+        driveTrain = DriveTrain.initDriveTrain(hardwareMap);
 
-        telemetry.addData("FL Power", fl.getPower());
-        telemetry.addData("FR Power", bl.getPower());
-        telemetry.addData("BL Power", fr.getPower());
-        telemetry.addData("BR Power", br.getPower());
-
+        telemetry.addData("IsBusy", driveTrain.isBusy());
+        driveTrain.logTelemetry(telemetry, driveTrain);
         telemetry.update();
-
-        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+        driveTrain.resetEncoders();
         BananaFruit gyro = new BananaFruit();
         gyro.runBananaFruit(hardwareMap, telemetry);
         telemetry.update();
@@ -61,6 +48,5 @@ public class TestAutonomous extends LinearOpMode {
         //ONLY MODIFY STUFF AFTER THIS
         sleep(20000);
         driveTrain.moveForwardsBy(telemetry, 20);
-
     }
 }
