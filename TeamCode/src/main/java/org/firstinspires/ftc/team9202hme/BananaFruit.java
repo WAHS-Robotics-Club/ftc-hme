@@ -2,7 +2,6 @@ package org.firstinspires.ftc.team9202hme;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PwmControl;
@@ -14,7 +13,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 */
 
 @TeleOp(name ="Dual Driver TeleOp")
-public class DualDriver extends OpMode {
+public class BananaFruit extends OpMode {
     //Local DcMotor variables:
     DcMotor fl;
     DcMotor bl;
