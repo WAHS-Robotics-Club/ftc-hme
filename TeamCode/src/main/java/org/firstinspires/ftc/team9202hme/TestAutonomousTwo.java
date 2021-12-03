@@ -41,8 +41,28 @@ public class TestAutonomousTwo extends LinearOpMode {
         waitForStart();
 
         //ONLY MODIFY STUFF AFTER THIS
+
+        //waits 1 second and does a quarter square:
         sleep(1000);
         driveTrain.moveForwardsBy(telemetry, 20);
-        driveTrain.turnToHeading(gyro, telemetry,180);
+        driveTrain.turnToHeading(gyro, telemetry,90);
+
+        //waits 1 second and does a quarter square:
+        sleep(1000);
+        driveTrain.moveForwardsBy(telemetry, 20);
+        driveTrain.turnToHeading(gyro, telemetry,90);
+
+        //waits 1 second and does a quarter square:
+        sleep(1000);
+        driveTrain.moveForwardsBy(telemetry, 20);
+        driveTrain.turnToHeading(gyro, telemetry,90);
+
+        //waits 1 second and turns 90 degrees:
+        sleep(1000);
+        driveTrain.turnToHeading(gyro, telemetry,90);
+
+        //wait 1 sec and turn 360:
+        sleep(1000);
+        driveTrain.turnToHeading(gyro, telemetry,355);
     }
 }
