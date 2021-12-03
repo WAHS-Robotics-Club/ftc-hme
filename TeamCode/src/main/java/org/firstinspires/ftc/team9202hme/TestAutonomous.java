@@ -44,9 +44,8 @@ public class TestAutonomous extends LinearOpMode {
 
         waitForStart();
 
-
         //ONLY MODIFY STUFF AFTER THIS
-        sleep(20000);
+        sleep(1000);
         driveTrain.moveForwardsBy(telemetry, 20);
     }
 }
