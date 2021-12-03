@@ -13,7 +13,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 */
 
 @TeleOp(name ="Dual Driver TeleOp")
-public class BananaFruit extends OpMode {
+public class TestAutonomous extends OpMode {
     //Local DcMotor variables:
     DcMotor fl;
     DcMotor bl;
