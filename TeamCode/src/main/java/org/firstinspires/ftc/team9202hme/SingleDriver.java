@@ -68,6 +68,9 @@ public class SingleDriver extends OpMode {
         if(gamepad1.dpad_down == true){
             carousel.setPower(1);
         }
+        else if (gamepad1.dpad_up == true){
+            carousel.setPower(-1);
+        }
         else{
             carousel.setPower(0);
         }

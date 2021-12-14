@@ -61,6 +61,9 @@ public class DualDriver extends OpMode {
         if(gamepad2.dpad_down == true){
             carousel.setPower(1);
         }
+        else if(gamepad2.dpad_up == true){
+            carousel.setPower(-1);
+        }
         else{
             carousel.setPower(0);
         }

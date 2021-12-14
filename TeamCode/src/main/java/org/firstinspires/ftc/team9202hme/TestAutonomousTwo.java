@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.PwmControl;
 
 /*
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
@@ -20,6 +21,7 @@ public class TestAutonomousTwo extends LinearOpMode {
     DcMotor fr;
     DcMotor br;
     DcMotor spool;
+    DcMotor grab;
 
     //Local CRServo and Servo variables:
     CRServoImplEx carousel;
@@ -29,6 +31,10 @@ public class TestAutonomousTwo extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
+        grab = hardwareMap.dcMotor.get("grab");
+        spool = hardwareMap.dcMotor.get("spoolMotor");
+        carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
+        carousel.setPwmRange(new PwmControl.PwmRange(553,2520));
 
         telemetry.addData("IsBusy", driveTrain.isBusy());
         driveTrain.logTelemetry(telemetry, driveTrain);
@@ -42,23 +48,23 @@ public class TestAutonomousTwo extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-        //waits 1 second, goes forward 20 in, turns left 90 deg:
-        sleep(1000);
+        //waits .25 seconds, goes forward 20 in, turns left 90 deg:
+        sleep(250);
         driveTrain.moveForwardsBy(telemetry, -20);
         driveTrain.turnToHeading(gyro, telemetry,90);
 
-        //waits 1 second, goes forward 20 in, turns left 90 deg:
-        sleep(1000);
+        //waits .25 seconds, goes forward 20 in, turns left 90 deg:
+        sleep(250);
         driveTrain.moveForwardsBy(telemetry, -20);
         driveTrain.turnToHeading(gyro, telemetry,180);
 
-        //waits 1 second, goes forward 20 in, turns left 90 deg:
-        sleep(1000);
+        //waits .25 seconds, goes forward 20 in, turns left 90 deg:
+        sleep(250);
         driveTrain.moveForwardsBy(telemetry, -20);
         driveTrain.turnToHeading(gyro, telemetry,270);
 
-        //waits 1 second, goes forward 20 in, completes square by turning 90 deg:
-        sleep(1000);
+        //waits .25 seconds, goes forward 20 in, completes square by turning 90 deg:
+        sleep(250);
         driveTrain.moveForwardsBy(telemetry, -20);
         driveTrain.turnToHeading(gyro, telemetry, 0);
     }
