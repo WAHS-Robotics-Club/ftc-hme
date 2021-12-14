@@ -122,14 +122,14 @@ public class  DriveTrain{
 
         double modifier, basePower;
         modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
-        basePower = 0.2;
+        basePower = 0.15;
 
-        if(targetHeading < currentHeading - .5){
+        if(targetHeading < currentHeading - .75){
             flMotor.setPower(basePower * modifier);
             frMotor.setPower(basePower * modifier);
             blMotor.setPower(basePower * modifier);
             brMotor.setPower(basePower * modifier);
-        }else if(targetHeading > currentHeading + .5){
+        }else if(targetHeading > currentHeading + .75){
             flMotor.setPower(-basePower * modifier);
             frMotor.setPower(-basePower * modifier);
             blMotor.setPower(-basePower * modifier);
