@@ -106,7 +106,7 @@ public class  DriveTrain{
     }
 
     public boolean isCorrectHeading(int currentHeading){
-        if(targetHeading == currentHeading){
+        if(targetHeading < currentHeading + 1.25 && targetHeading > currentHeading - 1.25){
             return true;
         }else{
             return false;
@@ -122,24 +122,24 @@ public class  DriveTrain{
 
         double modifier, basePower;
         modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
-        basePower = 0.15;
+        basePower = 0.1;
 
-        if(targetHeading < currentHeading - .75){
+        if(targetHeading < currentHeading - 1.25){
             flMotor.setPower(basePower * modifier);
             frMotor.setPower(basePower * modifier);
             blMotor.setPower(basePower * modifier);
             brMotor.setPower(basePower * modifier);
-        }else if(targetHeading > currentHeading + .75){
+        }else if(targetHeading > currentHeading + 1.25){
             flMotor.setPower(-basePower * modifier);
             frMotor.setPower(-basePower * modifier);
             blMotor.setPower(-basePower * modifier);
             brMotor.setPower(-basePower * modifier);
-        }else{
-            flMotor.setPower(0);
-            frMotor.setPower(0);
-            blMotor.setPower(0);
-            brMotor.setPower(0);
-        }
+        }//else{
+            //flMotor.setPower(0);
+            //frMotor.setPower(0);
+            //blMotor.setPower(0);
+            //brMotor.setPower(0);
+        //}
 
     }
 

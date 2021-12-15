@@ -56,16 +56,16 @@ public class TestAutonomousTwo extends LinearOpMode {
         //waits .25 seconds, goes forward 20 in, turns left 90 deg:
         sleep(250);
         driveTrain.moveForwardsBy(telemetry, -20);
-        driveTrain.turnToHeading(gyro, telemetry,180);
+        driveTrain.turnToHeading(gyro, telemetry,175);
 
         //waits .25 seconds, goes forward 20 in, turns left 90 deg:
         sleep(250);
         driveTrain.moveForwardsBy(telemetry, -20);
-        driveTrain.turnToHeading(gyro, telemetry,270);
+        driveTrain.turnToHeading(gyro, telemetry,-90);
 
         //waits .25 seconds, goes forward 20 in, completes square by turning 90 deg:
         sleep(250);
         driveTrain.moveForwardsBy(telemetry, -20);
-        driveTrain.turnToHeading(gyro, telemetry, 0);
+        driveTrain.turnToHeading(gyro, telemetry, 5);
     }
 }
