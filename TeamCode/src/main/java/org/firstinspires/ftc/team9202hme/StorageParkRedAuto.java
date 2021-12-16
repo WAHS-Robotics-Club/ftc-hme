@@ -53,9 +53,8 @@ public class StorageParkRedAuto extends LinearOpMode {
         driveTrain.moveForwardsBy(telemetry, -22);
         driveTrain.turnToHeading(gyro, telemetry,90);
 
-        //waits .25 seconds, goes forward 20 in, turns left 90 deg:
+        //waits .25 seconds, goes forward 72 in:
         sleep(250);
         driveTrain.moveForwardsBy(telemetry, -70);
-        driveTrain.turnToHeading(gyro, telemetry,175);
     }
 }
