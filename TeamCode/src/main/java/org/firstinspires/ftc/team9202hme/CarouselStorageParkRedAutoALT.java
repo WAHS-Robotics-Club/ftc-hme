@@ -13,7 +13,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 */
 
 @Autonomous(name ="Carousel Storage Park RED RIGHT")
-public class CarouselStorageParkBlueAutoALT extends LinearOpMode {
+public class CarouselStorageParkRedAutoALT extends LinearOpMode {
 
     //Local DcMotor variables:
     DcMotor fl;
@@ -59,11 +59,9 @@ public class CarouselStorageParkBlueAutoALT extends LinearOpMode {
         driveTrain.moveForwardsBy(telemetry, 20);
 
         //turns carousel for 5 secs and parks:
-        driveTrain.turnToHeading(gyro, telemetry, 90);
         carousel.setPower(1);
         sleep(5000);
         carousel.setPower(0);
-        driveTrain.turnToHeading(gyro, telemetry, 0);
         driveTrain.moveForwardsBy(telemetry, 22);
     }
 }
