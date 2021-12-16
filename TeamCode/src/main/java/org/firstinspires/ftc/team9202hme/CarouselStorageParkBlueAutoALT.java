@@ -12,8 +12,8 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Storage Park BLU RIGHT")
-public class StorageParkBlueAutoALT extends LinearOpMode {
+@Autonomous(name ="Carousel Storage Park BLU RIGHT")
+public class CarouselStorageParkBlueAutoALT extends LinearOpMode {
 
     //Local DcMotor variables:
     DcMotor fl;
@@ -48,12 +48,20 @@ public class StorageParkBlueAutoALT extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-        //waits .25 seconds, goes forward 24 in, turns right 90 deg:
+        //waits .25 seconds, goes forward 22 in, turns right, forward 72 in:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, -22);
-        driveTrain.turnToHeading(gyro, telemetry,-90);
+        driveTrain.moveForwardsBy(telemetry, -20);
+        driveTrain.turnToHeading(gyro, telemetry, -90);
+        driveTrain.moveForwardsBy(telemetry, -70);
 
-        //goes forward 24 in:
-        driveTrain.moveForwardsBy(telemetry, -22);
+        //turns to 0, goes back 24 in:
+        driveTrain.turnToHeading(gyro, telemetry, 0);
+        driveTrain.moveForwardsBy(telemetry, 20);
+
+        //turns carousel for 5 secs and parks:
+        carousel.setPower(1);
+        sleep(5000);
+        carousel.setPower(0);
+        driveTrain.moveForwardsBy(telemetry, 22);
     }
 }

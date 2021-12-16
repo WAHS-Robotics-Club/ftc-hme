@@ -48,13 +48,12 @@ public class StorageParkRedAutoALT extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-        //waits .25 seconds, goes forward 20 in, turns left 90 deg:
+        //waits .25 seconds, goes forward 24 in, turns left 90 deg:
         sleep(250);
         driveTrain.moveForwardsBy(telemetry, -22);
         driveTrain.turnToHeading(gyro, telemetry,90);
 
-        //waits .25 seconds, goes forward 24 in:
-        sleep(250);
+        //goes forward 24 in:
         driveTrain.moveForwardsBy(telemetry, -22);
     }
 }
