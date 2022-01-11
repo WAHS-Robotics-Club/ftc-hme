@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.team9202hme;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.team9202hme.Toggle;
 
 public class  DriveTrain{
     //Initializing the dc motor objects:
@@ -156,7 +155,7 @@ public class  DriveTrain{
         }
     }
 
-    public void turnToHeading(org.firstinspires.ftc.team9202hme.BananaFruit gyro, Telemetry telemetry, int inputTargetHeading) throws InterruptedException{
+    public void turnToHeading(org.firstinspires.ftc.teamcode.BananaFruit gyro, Telemetry telemetry, int inputTargetHeading) throws InterruptedException{
         //Turning
         targetHeading = inputTargetHeading;
         setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);

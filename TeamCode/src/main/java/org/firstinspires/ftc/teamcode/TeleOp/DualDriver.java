@@ -1,18 +1,10 @@
-package org.firstinspires.ftc.team9202hme;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.PwmControl;
-import com.qualcomm.robotcore.hardware.Servo;
 
 /*
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
@@ -20,8 +12,8 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@TeleOp(name ="Single Driver TeleOp")
-public class SingleDriver extends OpMode {
+@TeleOp(name ="Dual Driver TeleOp")
+public class DualDriver extends OpMode {
     //Local DcMotor variables:
     DcMotor fl;
     DcMotor bl;
@@ -65,10 +57,10 @@ public class SingleDriver extends OpMode {
         }
 
         //CarouselSpin:
-        if(gamepad1.dpad_down == true){
+        if(gamepad2.dpad_down == true){
             carousel.setPower(1);
         }
-        else if (gamepad1.dpad_up == true){
+        else if(gamepad2.dpad_up == true){
             carousel.setPower(-1);
         }
         else{
@@ -76,9 +68,9 @@ public class SingleDriver extends OpMode {
         }
 
         //SpoolSpin:
-        if(gamepad1.left_trigger >= .03 || gamepad1.right_trigger >= .03){
-            spool.setPower(gamepad1.left_trigger);
-            spool.setPower(-gamepad1.right_trigger);
+        if(gamepad2.left_trigger >= .03 || gamepad2.right_trigger >= .03){
+            spool.setPower(gamepad2.left_trigger);
+            spool.setPower(-gamepad2.right_trigger);
         }
         else{
             spool.setPower(0);

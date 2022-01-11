@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme;
+package org.firstinspires.ftc.teamcode.RedAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -6,14 +6,17 @@ import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PwmControl;
 
+import org.firstinspires.ftc.teamcode.BananaFruit;
+import org.firstinspires.ftc.teamcode.DriveTrain;
+
 /*
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Carousel Storage Park RED RIGHT")
-public class CarouselStorageParkRedAutoALT extends LinearOpMode {
+@Autonomous(name ="Carousel Storage Park RED LEFT")
+public class CarouselStorageParkRedAuto extends LinearOpMode {
 
     //Local DcMotor variables:
     DcMotor fl;
@@ -48,22 +51,16 @@ public class CarouselStorageParkRedAutoALT extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-        //waits .25 seconds, goes forward 22 in, turns right, forward 72 in:
+        //waits .25 seconds, goes backward 24 in, turns carousel for 5 seconds:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, -20);
-        driveTrain.turnToHeading(gyro, telemetry, 90);
-        driveTrain.moveForwardsBy(telemetry, -70);
-
-        //turns to 0, goes back 22 in:
-        driveTrain.turnToHeading(gyro, telemetry, 0);
-        driveTrain.moveForwardsBy(telemetry, 20);
-
-        //turns carousel for 5 secs and parks:
-        driveTrain.turnToHeading(gyro, telemetry, -90);
+        driveTrain.moveForwardsBy(telemetry, 22);
         carousel.setPower(1);
         sleep(5000);
         carousel.setPower(0);
-        driveTrain.turnToHeading(gyro, telemetry, 0);
+
+        //turns to -90, goes forward 24 in:
+        sleep(250);
+        driveTrain.turnToHeading(gyro, telemetry, 90);
         driveTrain.moveForwardsBy(telemetry, -22);
     }
 }

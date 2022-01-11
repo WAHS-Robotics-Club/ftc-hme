@@ -1,8 +1,7 @@
-package org.firstinspires.ftc.team9202hme;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PwmControl;
@@ -13,8 +12,8 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@TeleOp(name ="Dual Driver TeleOp")
-public class DualDriver extends OpMode {
+@TeleOp(name ="Single Driver TeleOp")
+public class SingleDriver extends OpMode {
     //Local DcMotor variables:
     DcMotor fl;
     DcMotor bl;
@@ -58,10 +57,10 @@ public class DualDriver extends OpMode {
         }
 
         //CarouselSpin:
-        if(gamepad2.dpad_down == true){
+        if(gamepad1.dpad_down == true){
             carousel.setPower(1);
         }
-        else if(gamepad2.dpad_up == true){
+        else if (gamepad1.dpad_up == true){
             carousel.setPower(-1);
         }
         else{
@@ -69,9 +68,9 @@ public class DualDriver extends OpMode {
         }
 
         //SpoolSpin:
-        if(gamepad2.left_trigger >= .03 || gamepad2.right_trigger >= .03){
-            spool.setPower(gamepad2.left_trigger);
-            spool.setPower(-gamepad2.right_trigger);
+        if(gamepad1.left_trigger >= .03 || gamepad1.right_trigger >= .03){
+            spool.setPower(gamepad1.left_trigger);
+            spool.setPower(-gamepad1.right_trigger);
         }
         else{
             spool.setPower(0);

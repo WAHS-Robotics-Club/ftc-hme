@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme;
+package org.firstinspires.ftc.teamcode.RedAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -6,14 +6,17 @@ import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PwmControl;
 
+import org.firstinspires.ftc.teamcode.BananaFruit;
+import org.firstinspires.ftc.teamcode.DriveTrain;
+
 /*
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Storage Park RED RIGHT")
-public class StorageParkRedAuto extends LinearOpMode {
+@Autonomous(name ="Carousel Storage Park RED RIGHT")
+public class CarouselStorageParkRedAutoALT extends LinearOpMode {
 
     //Local DcMotor variables:
     DcMotor fl;
@@ -48,12 +51,22 @@ public class StorageParkRedAuto extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-        //waits .25 seconds, goes forward 22 in, turns left 90 deg:
+        //waits .25 seconds, goes forward 22 in, turns right, forward 72 in:
         sleep(250);
         driveTrain.moveForwardsBy(telemetry, -20);
-        driveTrain.turnToHeading(gyro, telemetry,90);
-
-        //goes forward 72 in:
+        driveTrain.turnToHeading(gyro, telemetry, 90);
         driveTrain.moveForwardsBy(telemetry, -70);
+
+        //turns to 0, goes back 22 in:
+        driveTrain.turnToHeading(gyro, telemetry, 0);
+        driveTrain.moveForwardsBy(telemetry, 20);
+
+        //turns carousel for 5 secs and parks:
+        driveTrain.turnToHeading(gyro, telemetry, -90);
+        carousel.setPower(1);
+        sleep(5000);
+        carousel.setPower(0);
+        driveTrain.turnToHeading(gyro, telemetry, 0);
+        driveTrain.moveForwardsBy(telemetry, -22);
     }
 }

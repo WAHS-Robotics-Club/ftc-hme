@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team9202hme;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,8 +12,8 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Carousel Storage Park RED LEFT")
-public class CarouselStorageParkRedAuto extends LinearOpMode {
+@Autonomous(name ="Test Auto 2")
+public class TestAutonomousTwo extends LinearOpMode {
 
     //Local DcMotor variables:
     DcMotor fl;
@@ -48,16 +48,24 @@ public class CarouselStorageParkRedAuto extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-        //waits .25 seconds, goes backward 24 in, turns carousel for 5 seconds:
+        //waits .25 seconds, goes forward 20 in, turns left 90 deg:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, 22);
-        carousel.setPower(1);
-        sleep(5000);
-        carousel.setPower(0);
+        driveTrain.moveForwardsBy(telemetry, -20);
+        driveTrain.turnToHeading(gyro, telemetry,90);
 
-        //turns to -90, goes forward 24 in:
+        //waits .25 seconds, goes forward 20 in, turns left 90 deg:
         sleep(250);
-        driveTrain.turnToHeading(gyro, telemetry, 90);
-        driveTrain.moveForwardsBy(telemetry, -22);
+        driveTrain.moveForwardsBy(telemetry, -20);
+        driveTrain.turnToHeading(gyro, telemetry,175);
+
+        //waits .25 seconds, goes forward 20 in, turns left 90 deg:
+        sleep(250);
+        driveTrain.moveForwardsBy(telemetry, -20);
+        driveTrain.turnToHeading(gyro, telemetry,-90);
+
+        //waits .25 seconds, goes forward 20 in, completes square by turning 90 deg:
+        sleep(250);
+        driveTrain.moveForwardsBy(telemetry, -20);
+        driveTrain.turnToHeading(gyro, telemetry, 5);
     }
 }
