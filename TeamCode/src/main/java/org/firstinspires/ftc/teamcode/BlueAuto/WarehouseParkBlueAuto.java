@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RedAuto;
+package org.firstinspires.ftc.teamcode.BlueAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,8 +15,8 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Storage RED RITE")
-public class StorageParkRedAuto extends LinearOpMode {
+@Autonomous(name ="Warehouse BLU LEFT")
+public class WarehouseParkBlueAuto extends LinearOpMode {
 
     //Local DcMotor variables:
     DcMotor fl;
@@ -51,12 +51,8 @@ public class StorageParkRedAuto extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-        //waits .25 seconds, goes forward 22 in, turns left 90 deg:
+        //waits .25 seconds, goes backward 24 in, turns carousel for 5 seconds:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, -20);
-        driveTrain.turnToHeading(gyro, telemetry,90);
-
-        //goes forward 72 in:
-        driveTrain.moveForwardsBy(telemetry, -70);
+        driveTrain.moveForwardsBy(telemetry, 30);
     }
 }

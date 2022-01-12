@@ -15,7 +15,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Storage Park BLU LEFT")
+@Autonomous(name ="Storage BLU LEFT")
 public class StorageParkBlueAuto extends LinearOpMode {
 
     //Local DcMotor variables:

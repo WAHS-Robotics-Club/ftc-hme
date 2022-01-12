@@ -15,7 +15,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Storage Park RED LEFT")
+@Autonomous(name ="Storage RED LEFT")
 public class StorageParkRedAutoALT extends LinearOpMode {
 
     //Local DcMotor variables:
