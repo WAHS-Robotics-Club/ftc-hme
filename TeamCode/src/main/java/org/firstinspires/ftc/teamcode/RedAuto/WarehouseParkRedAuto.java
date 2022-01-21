@@ -15,7 +15,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="CarouselStorage Red RITE")
+@Autonomous(name ="Warehouse RED")
 public class WarehouseParkRedAuto extends LinearOpMode {
 
     //Local DcMotor variables:
@@ -51,8 +51,8 @@ public class WarehouseParkRedAuto extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-        //waits .25 seconds, goes backward 24 in, turns carousel for 5 seconds:
+        //waits .25 seconds, goes forward 24 in, turns carousel for 5 seconds:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, 30);
+        driveTrain.moveForwardsBy(telemetry, -30);
     }
 }

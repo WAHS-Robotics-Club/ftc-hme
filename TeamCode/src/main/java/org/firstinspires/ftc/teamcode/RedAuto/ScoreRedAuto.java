@@ -16,7 +16,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 */
 
 @Autonomous(name ="Warehouse Score RED")
-public class WarehouseParkScoreRedAuto extends LinearOpMode {
+public class ScoreRedAuto extends LinearOpMode {
 
     //Local DcMotor variables:
     DcMotor fl;

@@ -15,8 +15,8 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Warehouse Red")
-public class WarehouseParkRedAuto extends LinearOpMode {
+@Autonomous(name ="Score RED")
+public class WarehouseParkScoreRedAuto extends LinearOpMode {
 
     //Local DcMotor variables:
     DcMotor fl;
@@ -53,6 +53,15 @@ public class WarehouseParkRedAuto extends LinearOpMode {
 
         //waits .25 seconds, goes forward 24 in, turns carousel for 5 seconds:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, -30);
+        driveTrain.moveForwardsBy(telemetry, -34);
+
+        driveTrain.turnToHeading(gyro, telemetry,90);
+        driveTrain.moveForwardsBy(telemetry, -4);
+        grab.setPower(.25);
+        sleep(500);
+        grab.setPower(-.25);
+        sleep(500);
+        
+        driveTrain.moveForwardsBy(telemetry, 4);
     }
 }
