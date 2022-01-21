@@ -15,7 +15,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="CarouselStorage BLU RITE")
+@Autonomous(name ="CarouselStorage BLU")
 public class CarouselStorageParkBlueAuto extends LinearOpMode {
 
     //Local DcMotor variables:

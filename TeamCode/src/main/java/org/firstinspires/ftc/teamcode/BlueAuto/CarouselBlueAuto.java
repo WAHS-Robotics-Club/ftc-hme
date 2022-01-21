@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RedAuto;
+package org.firstinspires.ftc.teamcode.BlueAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,8 +15,8 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Score RED")
-public class WarehouseParkScoreRedAuto extends LinearOpMode {
+@Autonomous(name ="Carousel BLU")
+public class CarouselBlueAuto extends LinearOpMode {
 
     //Local DcMotor variables:
     DcMotor fl;
@@ -51,17 +51,11 @@ public class WarehouseParkScoreRedAuto extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-        //waits .25 seconds, goes forward 24 in, turns carousel for 5 seconds:
+        //waits .25 seconds, goes backward 24 in, turns carousel for 5 seconds:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, -34);
-
-        driveTrain.turnToHeading(gyro, telemetry,90);
-        driveTrain.moveForwardsBy(telemetry, -4);
-        grab.setPower(.25);
-        sleep(500);
-        grab.setPower(-.25);
-        sleep(500);
-
-        driveTrain.moveForwardsBy(telemetry, -4);
+        driveTrain.moveForwardsBy(telemetry, 22);
+        carousel.setPower(1);
+        sleep(5000);
+        carousel.setPower(0);
     }
 }

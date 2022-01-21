@@ -15,8 +15,8 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="CarouselStorage BLU LEFT")
-public class CarouselStorageParkBlueAutoALT extends LinearOpMode {
+@Autonomous(name ="Score RED")
+public class WarehouseParkScoreBlueAuto extends LinearOpMode {
 
     //Local DcMotor variables:
     DcMotor fl;
@@ -51,22 +51,17 @@ public class CarouselStorageParkBlueAutoALT extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-        //waits .25 seconds, goes forward 22 in, turns right, forward 72 in:
+        //waits .25 seconds, goes forward 24 in, turns carousel for 5 seconds:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, -20);
-        driveTrain.turnToHeading(gyro, telemetry, -90);
-        driveTrain.moveForwardsBy(telemetry, -70);
+        driveTrain.moveForwardsBy(telemetry, -34);
 
-        //turns to 0, goes back 22 in:
-        driveTrain.turnToHeading(gyro, telemetry, 0);
-        driveTrain.moveForwardsBy(telemetry, 20);
+        driveTrain.turnToHeading(gyro, telemetry,-90);
+        driveTrain.moveForwardsBy(telemetry, -4);
+        grab.setPower(.25);
+        sleep(500);
+        grab.setPower(-.25);
+        sleep(500);
 
-        //turns carousel for 5 secs and parks:
-        driveTrain.turnToHeading(gyro, telemetry, 90);
-        carousel.setPower(1);
-        sleep(5000);
-        carousel.setPower(0);
-        driveTrain.turnToHeading(gyro, telemetry, 0);
-        driveTrain.moveForwardsBy(telemetry, 22);
+        driveTrain.moveForwardsBy(telemetry, 4);
     }
 }

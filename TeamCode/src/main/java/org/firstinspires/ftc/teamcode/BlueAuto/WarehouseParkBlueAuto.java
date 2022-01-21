@@ -15,7 +15,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Warehouse BLU LEFT")
+@Autonomous(name ="Warehouse BLU")
 public class WarehouseParkBlueAuto extends LinearOpMode {
 
     //Local DcMotor variables:

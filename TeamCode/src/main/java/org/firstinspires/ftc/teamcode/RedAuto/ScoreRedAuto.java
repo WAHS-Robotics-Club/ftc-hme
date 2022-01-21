@@ -66,6 +66,6 @@ public class ScoreRedAuto extends LinearOpMode {
         driveTrain.turnToHeading(gyro, telemetry, 0);
         driveTrain.moveForwardsBy(telemetry, 32);
         driveTrain.turnToHeading(gyro, telemetry, -90);
-        driveTrain.moveForwardsBy(telemetry, 30);
+        driveTrain.moveForwardsBy(telemetry, -30);
     }
 }
