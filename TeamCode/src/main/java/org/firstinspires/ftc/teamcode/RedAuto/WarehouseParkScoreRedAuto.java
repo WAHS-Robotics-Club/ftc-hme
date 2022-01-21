@@ -61,7 +61,7 @@ public class WarehouseParkScoreRedAuto extends LinearOpMode {
         sleep(500);
         grab.setPower(-.25);
         sleep(500);
-        
+
         driveTrain.moveForwardsBy(telemetry, 4);
     }
 }
