@@ -27,7 +27,7 @@ public class CarouselBlueAuto extends LinearOpMode {
     DcMotor grab;
 
     //Local CRServo and Servo variables:
-    CRServoImplEx carousel;
+    DcMotor carousel;
 
     DriveTrain driveTrain;
 
@@ -36,8 +36,7 @@ public class CarouselBlueAuto extends LinearOpMode {
         driveTrain = DriveTrain.initDriveTrain(hardwareMap);
         grab = hardwareMap.dcMotor.get("grab");
         spool = hardwareMap.dcMotor.get("spoolMotor");
-        carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
-        carousel.setPwmRange(new PwmControl.PwmRange(553,2520));
+        carousel = hardwareMap.dcMotor.get("carouselSpinner");
 
         telemetry.addData("IsBusy", driveTrain.isBusy());
         driveTrain.logTelemetry(telemetry, driveTrain);
