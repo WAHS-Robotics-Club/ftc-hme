@@ -23,7 +23,7 @@ public class DualDriver extends OpMode {
     DcMotor grab;
 
     //Local CRServo and Servo variables:
-    CRServoImplEx carousel;
+    DcMotor carousel;
 
     //Initiation process:
     @Override
@@ -35,8 +35,7 @@ public class DualDriver extends OpMode {
 
         grab = hardwareMap.dcMotor.get("grab");
         spool = hardwareMap.dcMotor.get("spoolMotor");
-        carousel = (CRServoImplEx) hardwareMap.crservo.get("carouselSpinner");
-        carousel.setPwmRange(new PwmControl.PwmRange(553,2520));
+        carousel = hardwareMap.dcMotor.get("carouselSpinner");
     }
 
     //Loop process:
@@ -58,10 +57,10 @@ public class DualDriver extends OpMode {
 
         //CarouselSpin:
         if(gamepad2.dpad_down == true){
-            carousel.setPower(1);
+            carousel.setPower(.25);
         }
         else if(gamepad2.dpad_up == true){
-            carousel.setPower(-1);
+            carousel.setPower(-.25);
         }
         else{
             carousel.setPower(0);
