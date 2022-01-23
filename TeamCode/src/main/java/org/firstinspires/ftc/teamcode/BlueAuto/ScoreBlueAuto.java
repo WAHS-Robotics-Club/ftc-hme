@@ -52,7 +52,7 @@ public class ScoreBlueAuto extends LinearOpMode {
 
         //waits .25 seconds, goes forward 24 in, turns carousel for 5 seconds:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, -34);
+        driveTrain.moveForwardsBy(telemetry, -36);
 
         driveTrain.turnToHeading(gyro, telemetry,-90);
         driveTrain.moveForwardsBy(telemetry, -3);
@@ -63,8 +63,8 @@ public class ScoreBlueAuto extends LinearOpMode {
 
         driveTrain.moveForwardsBy(telemetry, 3);
         driveTrain.turnToHeading(gyro, telemetry, 0);
-        driveTrain.moveForwardsBy(telemetry, 30);
+        driveTrain.moveForwardsBy(telemetry, 24);
         driveTrain.turnToHeading(gyro, telemetry, 90);
-        driveTrain.moveForwardsBy(telemetry, -30);
+        driveTrain.moveForwardsBy(telemetry, -40);
     }
 }
