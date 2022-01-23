@@ -56,10 +56,11 @@ public class CarouselStorageParkBlueAuto extends LinearOpMode {
         carousel.setPower(1);
         sleep(5000);
         carousel.setPower(0);
+        driveTrain.moveForwardsBy(telemetry, -5);
 
         //turns to -90, goes forward 24 in:
         sleep(250);
-        driveTrain.turnToHeading(gyro, telemetry, -90);
+        driveTrain.turnToHeading(gyro, telemetry, -100);
         driveTrain.moveForwardsBy(telemetry, -22);
     }
 }

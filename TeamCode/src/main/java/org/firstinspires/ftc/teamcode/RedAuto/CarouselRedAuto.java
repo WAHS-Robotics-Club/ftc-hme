@@ -52,8 +52,8 @@ public class CarouselRedAuto extends LinearOpMode {
 
         //waits .25 seconds, goes backward 24 in, turns carousel for 5 seconds:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, 22);
-        carousel.setPower(1);
+        driveTrain.moveForwardsBy(telemetry, 17);
+        carousel.setPower(.5);
         sleep(5000);
         carousel.setPower(0);
     }

@@ -52,6 +52,6 @@ public class WarehouseParkRedAuto extends LinearOpMode {
 
         //waits .25 seconds, goes forward 24 in, turns carousel for 5 seconds:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, -30);
+        driveTrain.moveForwardsBy(telemetry, -40);
     }
 }

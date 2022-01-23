@@ -52,7 +52,7 @@ public class WarehouseParkScoreRedAuto extends LinearOpMode {
 
         //waits .25 seconds, goes forward 24 in, turns carousel for 5 seconds:
         sleep(250);
-        driveTrain.moveForwardsBy(telemetry, -34);
+        driveTrain.moveForwardsBy(telemetry, -36);
 
         driveTrain.turnToHeading(gyro, telemetry,90);
         driveTrain.moveForwardsBy(telemetry, -3);
@@ -61,6 +61,6 @@ public class WarehouseParkScoreRedAuto extends LinearOpMode {
         grab.setPower(-.25);
         sleep(500);
 
-        driveTrain.moveForwardsBy(telemetry, -3);
+        driveTrain.moveForwardsBy(telemetry, 3);
     }
 }

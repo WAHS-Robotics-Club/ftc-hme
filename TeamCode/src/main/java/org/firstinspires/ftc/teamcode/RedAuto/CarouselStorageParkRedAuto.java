@@ -59,7 +59,7 @@ public class CarouselStorageParkRedAuto extends LinearOpMode {
 
         //turns to -90, goes forward 24 in:
         sleep(250);
-        driveTrain.turnToHeading(gyro, telemetry, 90);
+        driveTrain.turnToHeading(gyro, telemetry, 100);
         driveTrain.moveForwardsBy(telemetry, -22);
     }
 }

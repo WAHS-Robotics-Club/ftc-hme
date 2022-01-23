@@ -56,5 +56,6 @@ public class CarouselBlueAuto extends LinearOpMode {
         carousel.setPower(1);
         sleep(5000);
         carousel.setPower(0);
+        driveTrain.moveForwardsBy(telemetry, -5);
     }
 }
