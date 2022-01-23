@@ -55,7 +55,7 @@ public class WarehouseParkScoreBlueAuto extends LinearOpMode {
         driveTrain.moveForwardsBy(telemetry, -34);
 
         driveTrain.turnToHeading(gyro, telemetry,-90);
-        driveTrain.moveForwardsBy(telemetry, -4);
+        driveTrain.moveForwardsBy(telemetry, -3);
         grab.setPower(.25);
         sleep(500);
         grab.setPower(-.25);
