@@ -56,11 +56,8 @@ public class DualDriver extends OpMode {
         }
 
         //CarouselSpin:
-        if(gamepad2.dpad_down == true){
-            carousel.setPower(.25);
-        }
-        else if(gamepad2.dpad_up == true){
-            carousel.setPower(-.25);
+        if(gamepad2.left_stick_y >= .03 || gamepad2.left_stick_y <= -.03 ){
+            carousel.setPower(gamepad2.left_stick_y);
         }
         else{
             carousel.setPower(0);
@@ -77,10 +74,10 @@ public class DualDriver extends OpMode {
 
         //BoxGrabber:
         if(gamepad1.left_bumper == true){
-            grab.setPower(.25);
+            grab.setPower(.5);
         }
         else if(gamepad1.right_bumper == true){
-            grab.setPower(-.25);
+            grab.setPower(-.5);
         }
         else{
             grab.setPower(0);
