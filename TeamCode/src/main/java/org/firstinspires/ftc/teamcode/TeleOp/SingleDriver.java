@@ -77,10 +77,10 @@ public class SingleDriver extends OpMode {
 
         //BoxGrabber:
         if(gamepad1.left_bumper == true){
-            grab.setPower(.25);
+            grab.setPower(.5);
         }
         else if(gamepad1.right_bumper == true){
-            grab.setPower(-.25);
+            grab.setPower(-.5);
         }
         else{
             grab.setPower(0);
