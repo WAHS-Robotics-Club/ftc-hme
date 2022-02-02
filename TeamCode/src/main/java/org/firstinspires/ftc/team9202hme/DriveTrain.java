@@ -100,7 +100,7 @@ public class  DriveTrain{
     public boolean isBusy(){
         if(flMotor.isBusy() && frMotor.isBusy() && blMotor.isBusy() && brMotor.isBusy()){
             return true;
-        }else{
+        }else {
             return false;
         }
     }
