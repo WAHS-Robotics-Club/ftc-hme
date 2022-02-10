@@ -24,6 +24,14 @@ public class Testing extends OpMode {
     DcMotor door;
     DcMotor carousel;
 
+    double spoolSpeed = 1;
+    double doorSpeed = 1;
+    double carouselSpeed = 1;
+
+    lastAInput = false;
+    speedToggle = false;
+
+
     @Override
     public void init(){
         fl = hardwareMap.dcMotor.get("frontLeftMotor");
@@ -35,9 +43,47 @@ public class Testing extends OpMode {
         carousel = hardwareMap.dcMotor.get("carousel");
     }
 
+    public double DZone(double rawInput, double deadzone){
+        double output = rawInput;
+        if(-deadzone < rawInput < deadzone){
+            output = 0;
+        }
+        return output;
+    }
+    public double DZone(double rawInput){
+        return DZone(rawInput, 0.01);
+    }
+
+
     //Loop process:
     @Override
     public void loop(){
-        
+        double s = 1;
+        if(speedToggle){
+            s = 0.5;
+        }
+        fl.setPower(s*DZone(-gamepad1.left_stick_y) + s*DZone(gamepad1.left_stick_x) + s*DZone(gamepad1.right_stick_x));
+        bl.setPower(s*DZone(-gamepad1.left_stick_y) + s*DZone(-gamepad1.left_stick_x) + s*DZone(gamepad1.right_stick_x));
+        fr.setPower(s*DZone(gamepad1.left_stick_y) + s*DZone(gamepad1.left_stick_x) + s*DZone(gamepad1.right_stick_x));
+        br.setPower(s*DZone(gamepad1.left_stick_y) + s*DZone(-gamepad1.left_stick_x) + s*DZone(gamepad1.right_stick_x));
+
+        spool.setPower(DZone(gamepad2.left_stick_y)*spoolSpeed);
+
+        carousel.setPower(DZone(gamepad2.right_stick_y)*carouselSpeed);
+
+        double doorPower = doorSpeed * DZone(gamepad2.right_trigger) + DZone(-gamepad2.left_trigger);
+        door.setPower(doorPower);
+
+        if(gamepad1.a){
+            lastAInput = true;
+        }
+        else{
+            if(lastAInput){
+                speedToggle = !speedToggle;
+            }
+            lastAInput = false;
+
+        }
+
     }
 }
