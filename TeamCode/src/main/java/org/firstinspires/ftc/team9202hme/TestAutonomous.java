@@ -15,33 +15,36 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 @Autonomous(name ="Warehouse RED")
 public class TestAutonomous extends LinearOpMode {
 
-    //Local DcMotor variables:
+    //DriveTrain DcMotors:
     DcMotor fl;
     DcMotor bl;
     DcMotor fr;
     DcMotor br;
+
+    //Appendage DcMotors:
     DcMotor spool;
     DcMotor grab;
-
-    //Local CRServo and Servo variables:
     DcMotor carousel;
 
     @Override
     public void runOpMode() throws InterruptedException {
+        //INIT PHASE BUTTON PRESSED
+        //HardwareMap DcMotors:
         fl = hardwareMap.dcMotor.get("frontLeftMotor");
         bl = hardwareMap.dcMotor.get("backLeftMotor");
         fr = hardwareMap.dcMotor.get("frontRightMotor");
         br = hardwareMap.dcMotor.get("backRightMotor");
 
-        spool = hardwareMap.dcMotor.get("spoolSpinner");
         grab = hardwareMap.dcMotor.get("grab");
+        spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.dcMotor.get("carouselSpinner");
 
-
+        //PLAY PHASE BUTTON PRESSED
+        //Wait for the button and subsequently wait 1/4 secs to start the program:
         waitForStart();
         sleep(250);
 
         //ONLY MODIFY STUFF AFTER THIS
-
+        
     }
 }
