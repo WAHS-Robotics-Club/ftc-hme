@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name ="Single Driver - Testing")
+@TeleOp(name ="Single Driver - BenTest")
 public class Testing extends OpMode {
     DcMotor fl;
     DcMotor fr;
@@ -25,11 +25,11 @@ public class Testing extends OpMode {
     DcMotor carousel;
 
     double spoolSpeed = 1;
-    double doorSpeed = 1;
+    double doorSpeed = 0.2;
     double carouselSpeed = 1;
 
-    lastAInput = false;
-    speedToggle = false;
+    boolean lastAInput = false;
+    boolean speedToggle = false;
 
 
     @Override
@@ -38,14 +38,14 @@ public class Testing extends OpMode {
         fr = hardwareMap.dcMotor.get("frontRightMotor");
         bl = hardwareMap.dcMotor.get("backLeftMotor");
         br = hardwareMap.dcMotor.get("backRightMotor");
-        spool = hardwareMap.dcMotor.get("spool");
-        door = hardwareMap.dcMotor.get("door");
-        carousel = hardwareMap.dcMotor.get("carousel");
+        spool = hardwareMap.dcMotor.get("spoolMotor");
+        door = hardwareMap.dcMotor.get("grab");
+        carousel = hardwareMap.dcMotor.get("carouselSpinner");
     }
 
     public double DZone(double rawInput, double deadzone){
         double output = rawInput;
-        if(-deadzone < rawInput < deadzone){
+        if(-deadzone < rawInput && rawInput < deadzone){
             output = 0;
         }
         return output;
@@ -71,7 +71,7 @@ public class Testing extends OpMode {
 
         carousel.setPower(DZone(gamepad2.right_stick_y)*carouselSpeed);
 
-        double doorPower = doorSpeed * DZone(gamepad2.right_trigger) + DZone(-gamepad2.left_trigger);
+        double doorPower = doorSpeed * DZone(gamepad2.right_trigger) + doorSpeed * DZone(-gamepad2.left_trigger);
         door.setPower(doorPower);
 
         if(gamepad1.a){
