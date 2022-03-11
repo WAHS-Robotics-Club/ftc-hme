@@ -5,16 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PwmControl;
-
-/*
-YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
-YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
-YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
-*/
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Autonomous(name ="Warehouse RED")
 public class TestAutonomous extends LinearOpMode {
-
     //DriveTrain DcMotors:
     DcMotor fl;
     DcMotor bl;
@@ -25,6 +19,11 @@ public class TestAutonomous extends LinearOpMode {
     DcMotor spool;
     DcMotor grab;
     DcMotor carousel;
+
+    double inches;
+    double rotations;
+
+    int targetPosition;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -39,12 +38,27 @@ public class TestAutonomous extends LinearOpMode {
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.dcMotor.get("carouselSpinner");
 
-        //PLAY PHASE BUTTON PRESSED
+        telemetry.addData("FL Power: ", fl.getPower());
+        telemetry.addData("BL Power: ", bl.getPower());
+        telemetry.addData("FR Power", fr.getPower());
+        telemetry.addData("BR Power", br.getPower());
+        telemetry.update();
+
+        //PLAY PHASE BUTTON PRESSED ||| ONLY MODIFY STUFF AFTER THIS
         //Wait for the button and subsequently wait 1/4 secs to start the program:
         waitForStart();
         sleep(250);
 
-        //ONLY MODIFY STUFF AFTER THIS
-        
+        rotations = inches / (4*Math.PI);
+        targetPosition = (int)(rotations*1120);
+        fl.setTargetPosition(-targetPosition);
+        bl.setTargetPosition(-targetPosition);
+        fr.setTargetPosition(targetPosition);
+        br.setTargetPosition(targetPosition);
+
+        fl.setMode(runMode);
+        bl.setMode(runMode);
+        fr.setMode(runMode);
+        br.setMode(runMode);
     }
 }
