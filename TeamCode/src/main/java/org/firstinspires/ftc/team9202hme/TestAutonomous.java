@@ -55,10 +55,5 @@ public class TestAutonomous extends LinearOpMode {
         bl.setTargetPosition(-targetPosition);
         fr.setTargetPosition(targetPosition);
         br.setTargetPosition(targetPosition);
-
-        fl.setMode(runMode);
-        bl.setMode(runMode);
-        fr.setMode(runMode);
-        br.setMode(runMode);
     }
 }
