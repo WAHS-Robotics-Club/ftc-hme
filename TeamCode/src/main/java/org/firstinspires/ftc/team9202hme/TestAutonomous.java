@@ -34,6 +34,7 @@ public class TestAutonomous extends LinearOpMode {
         fr = hardwareMap.dcMotor.get("frontRightMotor");
         br = hardwareMap.dcMotor.get("backRightMotor");
 
+        //hello
         grab = hardwareMap.dcMotor.get("grab");
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.dcMotor.get("carouselSpinner");
