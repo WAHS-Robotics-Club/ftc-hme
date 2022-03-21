@@ -24,6 +24,9 @@ public class TestAutonomous extends LinearOpMode {
     double rotations;
 
     int targetPosition;
+    int i = 0;
+
+    boolean isBusy;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -61,5 +64,23 @@ public class TestAutonomous extends LinearOpMode {
         bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        fl.setPower(.8);
+        bl.setPower(.8);
+        fr.setPower(.8);
+        br.setPower(.8);
+        Thread.sleep(1);
+
+        if(fl.isBusy() && fr.isBusy() && bl.isBusy() && br.isBusy()){
+            isBusy = true;
+        }else{
+            isBusy = false;
+        }
+
+        while(isBusy == true && i < 500){
+            telemetry.update();
+            i++;
+            Thread.sleep(1);
+        }
     }
 }
