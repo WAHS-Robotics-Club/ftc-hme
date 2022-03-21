@@ -9,44 +9,86 @@ import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PwmControl;
 
-/*
-YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
-YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
-YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
-*/
 
-@Autonomous(name ="Test Auto")
+@Autonomous(name ="TestAuto")
 public class TestAutonomous extends LinearOpMode {
-
-    //Local DcMotor variables:
+    //DriveTrain DcMotors:
     DcMotor fl;
     DcMotor bl;
     DcMotor fr;
     DcMotor br;
+
+    //Appendage DcMotors:
     DcMotor spool;
+    DcMotor grab;
+    DcMotor carousel;
 
-    //Local CRServo and Servo variables:
-    CRServoImplEx carousel;
+    double inches = 12;
+    double rotations;
 
-    DriveTrain driveTrain;
+    int targetPosition;
+    int i = 0;
+
+    boolean isBusy;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        driveTrain = DriveTrain.initDriveTrain(hardwareMap);
+        //INIT PHASE BUTTON PRESSED
+        //HardwareMap DcMotors:
+        fl = hardwareMap.dcMotor.get("frontLeftMotor");
+        bl = hardwareMap.dcMotor.get("backLeftMotor");
+        fr = hardwareMap.dcMotor.get("frontRightMotor");
+        br = hardwareMap.dcMotor.get("backRightMotor");
 
-        telemetry.addData("IsBusy", driveTrain.isBusy());
-        driveTrain.logTelemetry(telemetry, driveTrain);
-        telemetry.update();
-        driveTrain.resetEncoders();
-        BananaFruit gyro = new BananaFruit();
-        gyro.runBananaFruit(hardwareMap, telemetry);
+        //hello
+        grab = hardwareMap.dcMotor.get("grab");
+        spool = hardwareMap.dcMotor.get("spoolMotor");
+        carousel = hardwareMap.dcMotor.get("carouselSpinner");
+
+        telemetry.addData("FL Power: ", fl.getPower());
+        telemetry.addData("BL Power: ", bl.getPower());
+        telemetry.addData("FR Power", fr.getPower());
+        telemetry.addData("BR Power", br.getPower());
         telemetry.update();
 
+        //PLAY PHASE BUTTON PRESSED ||| ONLY MODIFY STUFF AFTER THIS
+        //Wait for the button and subsequently wait 1/4 secs to start the program:
         waitForStart();
+        sleep(250);
 
-        //ONLY MODIFY STUFF AFTER THIS
-        sleep(1000);
-        driveTrain.moveForwardsBy(telemetry, 20);
-        driveTrain.turnToHeading(gyro, telemetry,180);
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        rotations = inches / (4*Math.PI);
+        targetPosition = (int)(rotations*1120);
+        fl.setTargetPosition(-targetPosition);
+        bl.setTargetPosition(-targetPosition);
+        fr.setTargetPosition(targetPosition);
+        br.setTargetPosition(targetPosition);
+
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        fl.setPower(.8);
+        bl.setPower(.8);
+        fr.setPower(.8);
+        br.setPower(.8);
+        Thread.sleep(1);
+
+        if(fl.isBusy() && fr.isBusy() && bl.isBusy() && br.isBusy()){
+            isBusy = true;
+        }else{
+            isBusy = false;
+        }
+
+        while(isBusy == true && i < 500){
+            telemetry.update();
+            i++;
+            Thread.sleep(1);
+        }
     }
 }
