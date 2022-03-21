@@ -13,7 +13,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
 */
 
-@Autonomous(name ="Carousel BLU")
+@Autonomous(name ="TestAuto")
 public class TestAuto extends LinearOpMode {
     //DriveTrain DcMotors:
     DcMotor fl;
@@ -58,6 +58,11 @@ public class TestAuto extends LinearOpMode {
         //Wait for the button and subsequently wait 1/4 secs to start the program:
         waitForStart();
         sleep(250);
+
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         rotations = inches / (4*Math.PI);
         targetPosition = (int)(rotations*1120);
