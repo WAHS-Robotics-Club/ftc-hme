@@ -20,7 +20,7 @@ public class TestAutonomous extends LinearOpMode {
     DcMotor grab;
     DcMotor carousel;
 
-    double inches;
+    double inches = 12;
     double rotations;
 
     int targetPosition;
@@ -56,5 +56,10 @@ public class TestAutonomous extends LinearOpMode {
         bl.setTargetPosition(-targetPosition);
         fr.setTargetPosition(targetPosition);
         br.setTargetPosition(targetPosition);
+
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 }
