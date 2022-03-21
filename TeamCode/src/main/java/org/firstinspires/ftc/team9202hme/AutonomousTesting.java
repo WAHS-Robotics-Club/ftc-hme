@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name ="Warehouse RED")
+@Autonomous(name ="Ben Auto")
 public class AutonomousTesting extends LinearOpMode {
 
     //DriveTrain DcMotors:
