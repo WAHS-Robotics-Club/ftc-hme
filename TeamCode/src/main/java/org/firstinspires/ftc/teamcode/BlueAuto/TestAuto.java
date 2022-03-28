@@ -111,15 +111,15 @@ public class TestAuto extends LinearOpMode {
         fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        if(targetHeading < gyro.getHeading() + 1.25 && targetHeading > gyro.getHeading() - 1.25){
-            isCorrectHeading = true;
-        }else{
-            isCorrectHeading = false;
-        }
-
         while(!isCorrectHeading){
             telemetry.update();
             currentHeading = gyro.getHeading();
+            
+            if(targetHeading < gyro.getHeading() + 1.25 && targetHeading > gyro.getHeading() - 1.25){
+                isCorrectHeading = true;
+            }else{
+                isCorrectHeading = false;
+            }
 
             if(currentHeading > 145 || currentHeading < -145){
                 if(currentHeading < 0){
