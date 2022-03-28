@@ -31,8 +31,10 @@ public class TestAuto extends LinearOpMode {
 
     int targetPosition;
     int i = 0;
+    int targetHeading = 90;
 
     boolean isBusy;
+    boolean isCorrectHeading;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -47,6 +49,9 @@ public class TestAuto extends LinearOpMode {
         grab = hardwareMap.dcMotor.get("grab");
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.dcMotor.get("carouselSpinner");
+
+        BananaFruit gyro = new BananaFruit();
+        gyro.runBananaFruit(hardwareMap, telemetry);
 
         telemetry.addData("FL Power: ", fl.getPower());
         telemetry.addData("BL Power: ", bl.getPower());
@@ -91,6 +96,28 @@ public class TestAuto extends LinearOpMode {
         while(isBusy == true && i < 500){
             telemetry.update();
             i++;
+            Thread.sleep(1);
+        }
+
+
+
+
+        //TURNING NOW
+
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        if(targetHeading < gyro.getHeading() + 1.25 && targetHeading > gyro.getHeading() - 1.25){
+            isCorrectHeading = true;
+        }else{
+            isCorrectHeading = false;
+        }
+
+        while(!isCorrectHeading){
+            telemetry.update();
+            turnRobotToHeading(gyro.getHeading());
             Thread.sleep(1);
         }
     }
