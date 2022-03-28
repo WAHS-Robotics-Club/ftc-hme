@@ -65,6 +65,8 @@ public class TestAuto extends LinearOpMode {
         waitForStart();
         sleep(250);
 
+
+        //DRIVING NOW
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -141,7 +143,6 @@ public class TestAuto extends LinearOpMode {
                 bl.setPower(-basePower * modifier);
                 br.setPower(-basePower * modifier);
             }
-
 
             Thread.sleep(1);
         }
