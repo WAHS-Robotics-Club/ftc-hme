@@ -13,7 +13,7 @@ YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUC
 */
 
 @Autonomous(name ="AutoThing")
-public class AutoThing extends LinearOpMode {
+public class BananaTrain extends LinearOpMode {
     //DriveTrain DcMotors:
     DcMotor fl;
     DcMotor bl;
