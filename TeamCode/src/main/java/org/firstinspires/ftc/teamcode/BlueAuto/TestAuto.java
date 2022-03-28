@@ -114,7 +114,7 @@ public class TestAuto extends LinearOpMode {
         while(!isCorrectHeading){
             telemetry.update();
             currentHeading = gyro.getHeading();
-            
+
             if(targetHeading < gyro.getHeading() + 1.25 && targetHeading > gyro.getHeading() - 1.25){
                 isCorrectHeading = true;
             }else{
