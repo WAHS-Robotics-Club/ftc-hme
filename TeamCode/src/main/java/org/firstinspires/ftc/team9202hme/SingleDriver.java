@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /*
-YOU ARE ON THE SHEP BRANCH (!) (!) (!) (!) (!) ONLY SHEP SHOULD CODE HERE (!) (!) (!)
+YOU ARE ON THE ERIN BRANCH (!) (!) (!) (!) (!) ONLY ERIN SHOULD CODE HERE (!) (!) (!)
 */
 
 @TeleOp(name ="Single Driver TeleOp")
