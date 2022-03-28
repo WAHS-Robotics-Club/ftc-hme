@@ -32,6 +32,7 @@ public class TestAuto extends LinearOpMode {
     int targetPosition;
     int i = 0;
     int targetHeading = 90;
+    int currentHeading;
 
     boolean isBusy;
     boolean isCorrectHeading;
@@ -103,7 +104,6 @@ public class TestAuto extends LinearOpMode {
 
 
         //TURNING NOW
-
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -117,7 +117,32 @@ public class TestAuto extends LinearOpMode {
 
         while(!isCorrectHeading){
             telemetry.update();
-            turnRobotToHeading(gyro.getHeading());
+            currentHeading = gyro.getHeading();
+
+            if(currentHeading > 145 || currentHeading < -145){
+                if(currentHeading < 0){
+                    currentHeading += 360;
+                }
+            }
+
+            double modifier, basePower;
+            modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
+            basePower = 0.1;
+
+            if(targetHeading < currentHeading - 1.25){
+                fl.setPower(basePower * modifier);
+                fr.setPower(basePower * modifier);
+                bl.setPower(basePower * modifier);
+                br.setPower(basePower * modifier);
+            }
+            else if(targetHeading > currentHeading + 1.25){
+                fl.setPower(-basePower * modifier);
+                fr.setPower(-basePower * modifier);
+                bl.setPower(-basePower * modifier);
+                br.setPower(-basePower * modifier);
+            }
+
+
             Thread.sleep(1);
         }
     }
