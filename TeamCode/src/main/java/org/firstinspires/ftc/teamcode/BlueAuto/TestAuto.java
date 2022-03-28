@@ -31,8 +31,11 @@ public class TestAuto extends LinearOpMode {
 
     int targetPosition;
     int i = 0;
+    int targetHeading = 90;
+    int currentHeading;
 
     boolean isBusy;
+    boolean isCorrectHeading;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -48,6 +51,9 @@ public class TestAuto extends LinearOpMode {
         spool = hardwareMap.dcMotor.get("spoolMotor");
         carousel = hardwareMap.dcMotor.get("carouselSpinner");
 
+        BananaFruit gyro = new BananaFruit();
+        gyro.runBananaFruit(hardwareMap, telemetry);
+
         telemetry.addData("FL Power: ", fl.getPower());
         telemetry.addData("BL Power: ", bl.getPower());
         telemetry.addData("FR Power", fr.getPower());
@@ -59,6 +65,8 @@ public class TestAuto extends LinearOpMode {
         waitForStart();
         sleep(250);
 
+
+        //DRIVING NOW
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -91,6 +99,51 @@ public class TestAuto extends LinearOpMode {
         while(isBusy == true && i < 500){
             telemetry.update();
             i++;
+            Thread.sleep(1);
+        }
+
+
+
+
+        //TURNING NOW
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        if(targetHeading < gyro.getHeading() + 1.25 && targetHeading > gyro.getHeading() - 1.25){
+            isCorrectHeading = true;
+        }else{
+            isCorrectHeading = false;
+        }
+
+        while(!isCorrectHeading){
+            telemetry.update();
+            currentHeading = gyro.getHeading();
+
+            if(currentHeading > 145 || currentHeading < -145){
+                if(currentHeading < 0){
+                    currentHeading += 360;
+                }
+            }
+
+            double modifier, basePower;
+            modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
+            basePower = 0.1;
+
+            if(targetHeading < currentHeading - 1.25){
+                fl.setPower(basePower * modifier);
+                fr.setPower(basePower * modifier);
+                bl.setPower(basePower * modifier);
+                br.setPower(basePower * modifier);
+            }
+            else if(targetHeading > currentHeading + 1.25){
+                fl.setPower(-basePower * modifier);
+                fr.setPower(-basePower * modifier);
+                bl.setPower(-basePower * modifier);
+                br.setPower(-basePower * modifier);
+            }
+
             Thread.sleep(1);
         }
     }
