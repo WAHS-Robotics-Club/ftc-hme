@@ -1,149 +1,180 @@
+/* Copyright (c) 2017 FIRST. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted (subject to the limitations in the disclaimer below) provided that
+ * the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list
+ * of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice, this
+ * list of conditions and the following disclaimer in the documentation and/or
+ * other materials provided with the distribution.
+ *
+ * Neither the name of FIRST nor the names of its contributors may be used to endorse or
+ * promote products derived from this software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
+ * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package org.firstinspires.ftc.team9202hme;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.BananaFruit;
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-/*
-YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
-YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
-YOU ARE ON THE MASTER BRANCH (!) (!) (!) (!) (!) DO NOT CODE HERE IF NOT INSTRUCTED (!) (!) (!)
-*/
+import java.util.Locale;
 
-@Autonomous(name ="AutoThing")
-public class BananaTrain extends LinearOpMode {
-    //DriveTrain DcMotors:
-    DcMotor fl;
-    DcMotor bl;
-    DcMotor fr;
-    DcMotor br;
+/**
+ * {@link BananaFruit} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
+ *
+ * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ *
+ * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
+ */
 
-    //Appendage DcMotors:
-    DcMotor spool;
-    DcMotor grab;
-    DcMotor carousel;
+public class BananaFruit {
+    //----------------------------------------------------------------------------------------------
+    // State
+    //----------------------------------------------------------------------------------------------
 
-    double inches = 12;
-    double rotations;
+    // The IMU sensor object
+    BNO055IMU imu;
 
-    int targetPosition;
-    int i = 0;
-    int targetHeading = 90;
-    int currentHeading;
+    // State used for updating telemetry
+    Orientation angles;
+    Acceleration gravity;
 
-    boolean isBusy;
-    boolean isCorrectHeading;
+    //----------------------------------------------------------------------------------------------
+    // Main logic
+    //----------------------------------------------------------------------------------------------
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        //INIT PHASE BUTTON PRESSED
-        //HardwareMap DcMotors:
-        fl = hardwareMap.dcMotor.get("frontLeftMotor");
-        bl = hardwareMap.dcMotor.get("backLeftMotor");
-        fr = hardwareMap.dcMotor.get("frontRightMotor");
-        br = hardwareMap.dcMotor.get("backRightMotor");
+    public void runBananaFruit(HardwareMap hardwareMap, Telemetry telemetry) {
 
-        //hello
-        grab = hardwareMap.dcMotor.get("grab");
-        spool = hardwareMap.dcMotor.get("spoolMotor");
-        carousel = hardwareMap.dcMotor.get("carouselSpinner");
+        // Set up the parameters with which we will use our IMU. Note that integration
+        // algorithm here just reports accelerations to the logcat log; it doesn't actually
+        // provide positional information.
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        BananaFruit gyro = new BananaFruit();
-        gyro.runBananaFruit(hardwareMap, telemetry);
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
 
-        telemetry.addData("FL Power: ", fl.getPower());
-        telemetry.addData("BL Power: ", bl.getPower());
-        telemetry.addData("FR Power", fr.getPower());
-        telemetry.addData("BR Power", br.getPower());
-        telemetry.update();
+        // Set up our telemetry dashboard
+        composeTelemetry(telemetry);
 
-        //PLAY PHASE BUTTON PRESSED ||| ONLY MODIFY STUFF AFTER THIS
-        //Wait for the button and subsequently wait 1/4 secs to start the program:
-        waitForStart();
-        sleep(250);
+        // Wait until we're told to go
 
+        // Start the logging of measured acceleration
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 10);
+    }
 
-        //DRIVING NOW
-        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    //----------------------------------------------------------------------------------------------
+    // Telemetry Configuration
+    //----------------------------------------------------------------------------------------------
 
-        rotations = inches / (4*Math.PI);
-        targetPosition = (int)(rotations*1120);
-        fl.setTargetPosition(-targetPosition);
-        bl.setTargetPosition(-targetPosition);
-        fr.setTargetPosition(targetPosition);
-        br.setTargetPosition(targetPosition);
+    public void composeTelemetry(Telemetry telemetry) {
 
-        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        fl.setPower(.8);
-        bl.setPower(.8);
-        fr.setPower(.8);
-        br.setPower(.8);
-        Thread.sleep(1);
-
-        if(fl.isBusy() && fr.isBusy() && bl.isBusy() && br.isBusy()){
-            isBusy = true;
-        }else{
-            isBusy = false;
+        // At the beginning of each telemetry update, grab a bunch of data
+        // from the IMU that we will then display in separate lines.
+        telemetry.addAction(new Runnable() { @Override public void run()
+        {
+            // Acquiring the angles is relatively expensive; we don't want
+            // to do that in each of the three items that need that info, as that's
+            // three times the necessary expense.
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            gravity  = imu.getGravity();
         }
+        });
 
-        while(isBusy == true && i < 500){
-            telemetry.update();
-            i++;
-            Thread.sleep(1);
-        }
+        telemetry.addLine()
+                .addData("status", new Func<String>() {
+                    @Override public String value() {
+                        return imu.getSystemStatus().toShortString();
+                    }
+                })
+                .addData("calib", new Func<String>() {
+                    @Override public String value() {
+                        return imu.getCalibrationStatus().toString();
+                    }
+                });
+
+        telemetry.addLine()
+                .addData("heading", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles.angleUnit, angles.firstAngle);
+                    }
+                })
+                .addData("roll", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles.angleUnit, angles.secondAngle);
+                    }
+                })
+                .addData("pitch", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles.angleUnit, angles.thirdAngle);
+                    }
+                });
+
+        telemetry.addLine()
+                .addData("gravity", new Func<String>() {
+                    @Override public String value() {
+                        return gravity.toString();
+                    }
+                })
+                .addData("mag", new Func<String>() {
+                    @Override public String value() {
+                        return String.format(Locale.getDefault(), "%.3f",
+                                Math.sqrt(gravity.xAccel*gravity.xAccel
+                                        + gravity.yAccel*gravity.yAccel
+                                        + gravity.zAccel*gravity.zAccel));
+                    }
+                });
+    }
 
 
+    //----------------------------------------------------------------------------------------------
+    // Formatting
+    //----------------------------------------------------------------------------------------------
 
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
 
-        //TURNING NOW
-        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    String formatDegrees(double degrees){
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
 
-        if(targetHeading < gyro.getHeading() + 1.25 && targetHeading > gyro.getHeading() - 1.25){
-            isCorrectHeading = true;
-        }else{
-            isCorrectHeading = false;
-        }
-
-        while(!isCorrectHeading){
-            telemetry.update();
-            currentHeading = gyro.getHeading();
-
-            if(currentHeading > 145 || currentHeading < -145){
-                if(currentHeading < 0){
-                    currentHeading += 360;
-                }
-            }
-
-            double modifier, basePower;
-            modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
-            basePower = 0.1;
-
-            if(targetHeading < currentHeading - 1.25){
-                fl.setPower(basePower * modifier);
-                fr.setPower(basePower * modifier);
-                bl.setPower(basePower * modifier);
-                br.setPower(basePower * modifier);
-            }
-            else if(targetHeading > currentHeading + 1.25){
-                fl.setPower(-basePower * modifier);
-                fr.setPower(-basePower * modifier);
-                bl.setPower(-basePower * modifier);
-                br.setPower(-basePower * modifier);
-            }
-
-            Thread.sleep(1);
-        }
+    public int getHeading(){
+        return (int)angles.firstAngle;
     }
 }
