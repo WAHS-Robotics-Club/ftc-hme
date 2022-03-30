@@ -18,10 +18,13 @@ public class DriveTrain {
 
     HardwareMap hardwareMap;
     Telemetry telemetry;
+    BananaFruit gyro;
 
     public DriveTrain(HardwareMap _hardwareMap, Telemetry _telemetry){
         hardwareMap = _hardwareMap;
         telemetry = _telemetry;
+        gyro = new BananaFruit();
+        gyro.runBananaFruit(hardwareMap, telemetry);
         fl = hardwareMap.dcMotor.get("frontLeftMotor");
         bl = hardwareMap.dcMotor.get("backLeftMotor");
         fr = hardwareMap.dcMotor.get("frontRightMotor");
@@ -78,6 +81,43 @@ public class DriveTrain {
         setTargetPosition(targetPosition);
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
         waitUntilDone();
+    }
+
+    //Turning
+
+    public boolean isCorrectHeading(int targetHeading){
+        if(targetHeading < gyro.getHeading() + 1.25 && targetHeading > gyro.getHeading() - 1.25){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void turnToHeading(int targetHeading){
+        while(!isCorrectHeading(targetHeading)){
+            telemetry.update();
+            int currentHeading = gyro.getHeading();
+
+            if(currentHeading > 145 || currentHeading < -145){
+                if(currentHeading < 0){
+                    currentHeading += 360;
+                }
+            }
+
+            double modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
+            double basePower = 0.1;
+
+            if(targetHeading > currentHeading - 1.25){
+                setPower(basePower * modifier);
+            }
+            else if (targetHeading < currentHeading + 1.25){
+                setPower(-basePower * modifier);
+            }
+
+            try{
+                Thread.sleep(1);
+            } catch (InterruptedException e){}
+        }
     }
 
 
