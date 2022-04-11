@@ -97,17 +97,11 @@ public class DriveTrain {
     public void turnToHeading(int targetHeading){
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         int currentHeading;
-        boolean isCurrentHeading = false;
         double modifier;
         double basePower = 0.1;
-        while(!isCurrentHeading){
+        while(!isCorrectHeading(targetHeading)){
             telemetry.update();
             currentHeading = gyro.getHeading();
-            if(targetHeading < gyro.getHeading() + 1.25 && targetHeading > gyro.getHeading() - 1.25){
-                isCurrentHeading = true;
-            } else{
-                isCurrentHeading = false;
-            }
 
             if(currentHeading > 145 || currentHeading < -145){
                 if(currentHeading < 0){
@@ -118,10 +112,10 @@ public class DriveTrain {
             modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
             basePower = 0.1;
 
-            if(targetHeading > currentHeading - 1.25){
+            if(targetHeading < currentHeading - 1.25){
                 setPower(basePower * modifier);
             }
-            else if (targetHeading < currentHeading + 1.25){
+            else if (targetHeading > currentHeading + 1.25){
                 setPower(-basePower * modifier);
             }
 
