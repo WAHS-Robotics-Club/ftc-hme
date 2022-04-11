@@ -14,8 +14,6 @@ public class AutonomousTesting extends LinearOpMode {
 
     DriveTrain driveTrain;
 
-    int inches = 12;
-
     @Override
     public void runOpMode() throws InterruptedException {
         //INIT PHASE BUTTON PRESSED
@@ -33,7 +31,8 @@ public class AutonomousTesting extends LinearOpMode {
         driveTrain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         driveTrain.setPower(0.8);
-        driveTrain.moveForwards(inches);
+        driveTrain.moveForwards(12);
+        driveTrain.turnToHeading(90);
 
     }
 }

@@ -20,6 +20,7 @@ public class DriveTrain {
     Telemetry telemetry;
     BananaFruit gyro;
 
+
     public DriveTrain(HardwareMap _hardwareMap, Telemetry _telemetry){
         hardwareMap = _hardwareMap;
         telemetry = _telemetry;
@@ -94,9 +95,12 @@ public class DriveTrain {
     }
 
     public void turnToHeading(int targetHeading){
+        int currentHeading;
+        double modifier;
+        double basePower = 0.1;
         while(!isCorrectHeading(targetHeading)){
             telemetry.update();
-            int currentHeading = gyro.getHeading();
+            currentHeading = gyro.getHeading();
 
             if(currentHeading > 145 || currentHeading < -145){
                 if(currentHeading < 0){
@@ -104,14 +108,16 @@ public class DriveTrain {
                 }
             }
 
-            double modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
-            double basePower = 0.1;
+            modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
+            basePower = 0.1;
 
             if(targetHeading > currentHeading - 1.25){
                 setPower(basePower * modifier);
+                hardwareMap.dcMotor.get("carouselSpinner").setPower(0.5);
             }
             else if (targetHeading < currentHeading + 1.25){
                 setPower(-basePower * modifier);
+                hardwareMap.dcMotor.get("carouselSpinner").setPower(0.5);
             }
 
             try{
