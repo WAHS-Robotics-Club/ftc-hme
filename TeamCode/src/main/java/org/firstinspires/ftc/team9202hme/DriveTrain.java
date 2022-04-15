@@ -97,8 +97,6 @@ public class DriveTrain {
     public void turnToHeading(int targetHeading){
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         int currentHeading;
-        double modifier;
-        double basePower = 0.1;
         while(!isCorrectHeading(targetHeading)){
             telemetry.update();
             currentHeading = gyro.getHeading();
@@ -109,20 +107,23 @@ public class DriveTrain {
                 }
             }
 
-            modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
-            basePower = 0.1;
+            double modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
+            double basePower = 0.1;
 
             if(targetHeading < currentHeading - 1.25){
                 setPower(basePower * modifier);
             }
             else if (targetHeading > currentHeading + 1.25){
                 setPower(-basePower * modifier);
+            } else{
+                setPower(0);
             }
 
             try{
                 Thread.sleep(1);
             } catch (InterruptedException e){}
         }
+        hardwareMap.dcMotor.get("carouselSpinner").setPower(0.5);
 
     }
 
