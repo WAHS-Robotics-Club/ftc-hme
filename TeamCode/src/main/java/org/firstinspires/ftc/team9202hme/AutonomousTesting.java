@@ -30,14 +30,10 @@ public class AutonomousTesting extends LinearOpMode {
 
         driveTrain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        driveTrain.setPower(0.8);
-        driveTrain.moveForwards(12);
-        driveTrain.turnToHeading(90);
-        grab.setPower(0.2);
-        sleep(500);
-        grab.setPower(-0.2);
-        sleep(500);
-        grab.setPower(0);
+        driveTrain.setPower(0.6);
+        driveTrain.moveForwards(35);
+        driveTrain.turnToHeading(45);
+
 
     }
 }

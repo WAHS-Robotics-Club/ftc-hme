@@ -76,12 +76,31 @@ public class DriveTrain {
     }
 
     public void moveForwards(int inches){
+
         inches = -inches;
         double rotations = inches / (4*Math.PI);
         int targetPosition = (int)(rotations*1120);
         setTargetPosition(targetPosition);
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        waitUntilDone();
+        double maxDist = targetPosition + bl.getCurrentPosition();
+        float currentDist;
+        int i = 0;
+        while(fl.isBusy() && bl.isBusy() && fr.isBusy() && br.isBusy() && i < 500){
+            telemetry.update();
+            currentDist = targetPosition + bl.getCurrentPosition();
+            double modifier = Math.sqrt(Math.abs(currentDist/maxDist));
+            if(modifier < 0.2){
+                modifier = 0.2;
+            }
+            else if(modifier > 1){
+                modifier = 1;
+            }
+            setPower(modifier);
+            i++;
+            try{
+                Thread.sleep(1);
+            } catch(InterruptedException exception){ }
+        }
     }
 
     //Turning
