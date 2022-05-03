@@ -142,7 +142,6 @@ public class DriveTrain {
                 Thread.sleep(1);
             } catch (InterruptedException e){}
         }
-        hardwareMap.dcMotor.get("carouselSpinner").setPower(0.5);
 
     }
 
