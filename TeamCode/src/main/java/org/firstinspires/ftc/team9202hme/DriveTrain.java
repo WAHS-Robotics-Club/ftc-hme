@@ -106,11 +106,29 @@ public class DriveTrain {
     //Turning
 
     public boolean isCorrectHeading(int targetHeading){
-        if(targetHeading < gyro.getHeading() + 1.25 && targetHeading > gyro.getHeading() - 1.25){
+        int dist = signedAngleDistance(gyro.getHeading(), targetHeading);
+        if(dist > -1.25 && dist < 1.25){
             return true;
         } else {
             return false;
         }
+    }
+
+    //Turns any angle into an angle in the range of 0 to 360
+    public int positiveAngle(int angle){
+        while(angle < 0){
+            angle += 360;
+        }
+        angle = angle%360;
+        return angle;
+    }
+
+    //Returns the shortest change needed to get from angle 1 to angle 2
+    public int signedAngleDistance(int angle1, int angle2){
+        angle1 = positiveAngle(angle1);
+        angle2 = positiveAngle(angle2);
+        int dist = (angle2 - angle1 + 180) % 360 - 180;
+        return  dist;
     }
 
     public void turnToHeading(int targetHeading){
@@ -120,19 +138,20 @@ public class DriveTrain {
             telemetry.update();
             currentHeading = gyro.getHeading();
 
+            /*
             if(currentHeading > 145 || currentHeading < -145){
                 if(currentHeading < 0){
                     currentHeading += 360;
                 }
-            }
+            }*/
 
-            double modifier = ((Math.sqrt(Math.abs(targetHeading - currentHeading)))/2);
+            double modifier = ((Math.sqrt(Math.abs(signedAngleDistance(currentHeading, targetHeading))))/2);
             double basePower = 0.1;
 
-            if(targetHeading < currentHeading - 1.25){
+            if(signedAngleDistance(currentHeading, targetHeading) > 0){
                 setPower(basePower * modifier);
             }
-            else if (targetHeading > currentHeading + 1.25){
+            else if (signedAngleDistance(currentHeading, targetHeading) < 0){
                 setPower(-basePower * modifier);
             } else{
                 setPower(0);

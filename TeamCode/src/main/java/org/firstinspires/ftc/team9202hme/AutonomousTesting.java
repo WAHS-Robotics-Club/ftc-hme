@@ -33,10 +33,17 @@ public class AutonomousTesting extends LinearOpMode {
         driveTrain.setPower(0.6);
         driveTrain.moveForwards(35);
         driveTrain.turnToHeading(60);
-
-        grab.setPower(-0.5);
         Thread.sleep(500);
-        grab.setPower(0);
+        driveTrain.turnToHeading(-90);
+        Thread.sleep(500);
+        driveTrain.turnToHeading(200);
+
+        //grab.setPower(-0.4);
+        //Thread.sleep(300);
+        //grab.setPower(0);
+
+        //driveTrain.turnToHeading(-90);
+        //driveTrain.moveForwards(30);
 
 
 
