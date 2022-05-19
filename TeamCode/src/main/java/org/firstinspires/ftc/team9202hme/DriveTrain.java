@@ -103,10 +103,13 @@ public class DriveTrain {
         }
     }
 
-    //Turning
 
+    /*-------------------------Turning-------------------------*/
+
+
+    //Returns true if a given heading is close enough to the current heading
     public boolean isCorrectHeading(int targetHeading){
-        int dist = signedAngleDistance(gyro.getHeading(), targetHeading);
+        int dist = signedAngleDistance(targetHeading, gyro.getHeading());
         if(dist > -1.25 && dist < 1.25){
             return true;
         } else {
@@ -123,14 +126,16 @@ public class DriveTrain {
         return angle;
     }
 
-    //Returns the shortest change needed to get from angle 1 to angle 2
+    //Returns the shortest change in degrees needed to get from angle 1 to angle 2.
     public int signedAngleDistance(int angle1, int angle2){
         angle1 = positiveAngle(angle1);
         angle2 = positiveAngle(angle2);
-        int dist = (angle2 - angle1 + 180) % 360 - 180;
+        int dist = (((angle1 - angle2) % 360) + 180 + 360) % 360 - 180;
+        telemetry.addData((angle2 +" to " + angle1 + ": "), dist);
         return  dist;
     }
 
+    //Turns robot to a heading, given in positive or negative degrees relative to the starting rotation
     public void turnToHeading(int targetHeading){
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         int currentHeading;
@@ -138,20 +143,13 @@ public class DriveTrain {
             telemetry.update();
             currentHeading = gyro.getHeading();
 
-            /*
-            if(currentHeading > 145 || currentHeading < -145){
-                if(currentHeading < 0){
-                    currentHeading += 360;
-                }
-            }*/
-
-            double modifier = ((Math.sqrt(Math.abs(signedAngleDistance(currentHeading, targetHeading))))/2);
+            double modifier = ((Math.sqrt(Math.abs(signedAngleDistance(targetHeading, currentHeading))))/2);
             double basePower = 0.1;
 
-            if(signedAngleDistance(currentHeading, targetHeading) > 0){
+            if(signedAngleDistance(targetHeading, currentHeading) < 0){
                 setPower(basePower * modifier);
             }
-            else if (signedAngleDistance(currentHeading, targetHeading) < 0){
+            else if (signedAngleDistance(targetHeading, currentHeading) > 0){
                 setPower(-basePower * modifier);
             } else{
                 setPower(0);
